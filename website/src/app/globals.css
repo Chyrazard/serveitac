@@ -766,25 +766,29 @@ h1 span {
   }
 
   .hero {
-    padding: 32px 18px 102px;
+    padding: 28px 18px 96px;
   }
 
   h1 {
-    font-size: clamp(2rem, 10vw, 3rem);
+    font-size: clamp(2rem, 8.8vw, 2.55rem);
     line-height: 1.05;
   }
 
   .hero-copy p {
-    font-size: 1.05rem;
+    margin-top: 16px;
+    font-size: 1rem;
+    line-height: 1.48;
   }
 
-  .hero-actions .btn,
+  .hero-actions {
+    display: none;
+  }
+
   .price-card .btn,
   .cta-actions .btn {
     width: 100%;
   }
 
-  .quick-trust,
   .price-grid,
   .service-grid,
   .steps-grid,
@@ -794,23 +798,45 @@ h1 span {
   }
 
   .quick-trust {
-    gap: 12px;
-    margin-top: 28px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .quick-trust div {
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 0.9rem;
+    line-height: 1.15;
+  }
+
+  .quick-trust svg {
+    width: 18px;
+    height: 18px;
   }
 
   .hero-media {
-    min-height: 310px;
+    min-height: 232px;
+    margin-top: 22px;
   }
 
   .hero-media img {
-    height: 330px;
+    height: 240px;
     min-height: 0;
     border-radius: 0 0 0 42px;
   }
 
+  .hero-media::before {
+    inset: -34px auto auto -28px;
+    height: 360px;
+  }
+
   .hero-card {
-    right: 14px;
-    bottom: 14px;
+    right: 12px;
+    bottom: 12px;
+    width: min(270px, calc(100% - 24px));
+    padding: 14px;
+    font-size: 0.9rem;
   }
 
   .section,
@@ -836,12 +862,46 @@ h1 span {
   }
 
   .floating-actions {
-    inset: auto 24px 24px 24px;
+    inset: auto 0 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid #dce6f2;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 -12px 30px rgba(8, 45, 82, 0.12);
+    backdrop-filter: blur(14px);
   }
 
   .floating-actions .static-action {
-    width: 60px;
-    height: 60px;
-    min-height: 60px;
+    width: 100%;
+    height: 58px;
+    min-height: 58px;
+    border-radius: 999px;
+    font-size: 0;
+  }
+
+  .floating-actions .static-action svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .floating-actions .static-action::after {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .floating-call {
+    background: linear-gradient(180deg, var(--yellow), var(--yellow-2));
+    color: var(--navy);
+    box-shadow: 0 12px 26px rgba(245, 180, 0, 0.24);
+  }
+
+  .floating-call::after {
+    content: "Llamar ahora";
+  }
+
+  .floating-whatsapp::after {
+    content: "WhatsApp";
   }
 }
