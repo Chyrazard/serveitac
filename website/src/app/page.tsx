@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import {
   BadgeEuro,
   CalendarClock,
@@ -103,6 +104,24 @@ function WhatsAppButton({ className = "" }: { className?: string }) {
   );
 }
 
+function StaticAction({
+  className = "",
+  variant,
+  children,
+  ariaLabel
+}: {
+  className?: string;
+  variant: "call" | "whatsapp";
+  children: ReactNode;
+  ariaLabel: string;
+}) {
+  return (
+    <button type="button" className={`static-action static-${variant} ${className}`} aria-label={ariaLabel}>
+      {children}
+    </button>
+  );
+}
+
 export default function Home() {
   const currentYear = new Date().getFullYear();
 
@@ -129,7 +148,14 @@ export default function Home() {
         </nav>
         <div className="header-actions">
           <span className="phone-label">24H · {site.phoneDisplay}</span>
-          <CallButton className="header-call" />
+          <StaticAction variant="call" className="header-call" ariaLabel="Boton de llamada">
+            <Phone size={17} aria-hidden="true" />
+            {site.phoneDisplay}
+          </StaticAction>
+          <StaticAction variant="whatsapp" className="header-whatsapp" ariaLabel="Boton de WhatsApp">
+            <MessageCircle size={18} aria-hidden="true" />
+            WhatsApp
+          </StaticAction>
           <details className="mobile-menu">
             <summary aria-label="Abrir menu">
               <Menu size={24} />
@@ -358,16 +384,13 @@ export default function Home() {
         <p className="copyright">© {currentYear} ServeiCat 24H. Todos los derechos reservados.</p>
       </footer>
 
-      <div className="mobile-sticky">
-        <CallButton />
-        <ConversionLink
-          href={whatsappUrl(whatsappMessage)}
-          type="whatsapp"
-          className="sticky-whatsapp"
-          ariaLabel="Abrir WhatsApp de ServeiCat 24H"
-        >
+      <div className="floating-actions" aria-label="Accesos rapidos de contacto">
+        <StaticAction variant="call" className="floating-call" ariaLabel="Boton flotante de llamada">
+          <Phone size={30} aria-hidden="true" />
+        </StaticAction>
+        <StaticAction variant="whatsapp" className="floating-whatsapp" ariaLabel="Boton flotante de WhatsApp">
           <MessageCircle size={22} />
-        </ConversionLink>
+        </StaticAction>
       </div>
 
       <script
