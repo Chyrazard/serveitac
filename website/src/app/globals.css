@@ -725,6 +725,93 @@ h1 span {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.reviews-section {
+  background: linear-gradient(180deg, #f7fbff, #ffffff);
+  border-top: 1px solid var(--line);
+}
+
+.reviews-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+  gap: 18px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.reviews-score,
+.review-proof-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: 0 14px 34px rgba(8, 45, 82, 0.08);
+}
+
+.reviews-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  min-height: 260px;
+  padding: clamp(24px, 4vw, 34px);
+}
+
+.reviews-score > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid #d8e4f0;
+  border-radius: 999px;
+  padding: 0 14px;
+  color: #24549c;
+  font-family: var(--font-heading), Poppins, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.reviews-score div {
+  display: flex;
+  gap: 6px;
+  color: var(--yellow);
+}
+
+.reviews-score svg {
+  fill: currentColor;
+}
+
+.reviews-score strong {
+  color: var(--navy);
+  font-family: var(--font-heading), Poppins, sans-serif;
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+  line-height: 1.1;
+}
+
+.review-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.review-proof-grid article {
+  min-height: 260px;
+  padding: 24px;
+}
+
+.review-proof-grid svg {
+  color: var(--water);
+}
+
+.review-proof-grid h3 {
+  margin-top: 18px;
+  font-size: 1.1rem;
+}
+
+.review-proof-grid p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
 .seo-copy {
   background: linear-gradient(180deg, #ffffff, #f7fbff);
   border-top: 1px solid var(--line);
@@ -863,6 +950,16 @@ h1 span {
 
   .trust-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reviews-panel,
+  .review-proof-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reviews-score,
+  .review-proof-grid article {
+    min-height: 0;
   }
 
   .footer {

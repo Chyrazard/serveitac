@@ -17,6 +17,7 @@ import {
   Phone,
   ShieldCheck,
   Sparkles,
+  Star,
   Toilet,
   Waves,
   Wrench
@@ -142,6 +143,19 @@ const copy = {
         ["24H / 365 días", "Atención para desatascos urgentes, noches y festivos incluidos."],
         ["Zona cercana", "Base en Vilanova para cubrir Garraf y Baix Penedès con rapidez."],
         ["Trabajo con garantía", "Diagnóstico claro, intervención limpia y explicación final."]
+      ]
+    },
+    reviews: {
+      eyebrow: "Reseñas verificadas",
+      title: "Opiniones reales de clientes, sin letra pequeña",
+      text:
+        "Estamos preparando el bloque de Google Reviews para publicar solo reseñas reales de servicios atendidos. Mientras llegan las primeras valoraciones verificadas, puedes comprobar antes de llamar las tarifas, la zona de cobertura y el proceso de trabajo.",
+      badge: "Google Reviews",
+      pending: "Primeras reseñas reales próximamente",
+      items: [
+        ["Precio visible", "Urgencia desde 180 € + IVA y cita agendada desde 90 € + IVA."],
+        ["Atención directa", "Llamada y WhatsApp visibles para pedir ayuda sin formularios largos."],
+        ["Servicio local", "Base en Vilanova para cubrir Garraf y Baix Penedès."]
       ]
     },
     seoBlock: {
@@ -290,6 +304,19 @@ const copy = {
         ["24H / 365 dies", "Atenció per a desembussos urgents, nits i festius inclosos."],
         ["Zona propera", "Base a Vilanova per cobrir Garraf i Baix Penedès amb rapidesa."],
         ["Treball amb garantia", "Diagnòstic clar, intervenció neta i explicació final."]
+      ]
+    },
+    reviews: {
+      eyebrow: "Ressenyes verificades",
+      title: "Opinions reals de clients, sense lletra petita",
+      text:
+        "Estem preparant el bloc de Google Reviews per publicar només ressenyes reals de serveis atesos. Mentre arriben les primeres valoracions verificades, pots comprovar abans de trucar les tarifes, la zona de cobertura i el procés de treball.",
+      badge: "Google Reviews",
+      pending: "Primeres ressenyes reals properament",
+      items: [
+        ["Preu visible", "Urgència des de 180 € + IVA i cita programada des de 90 € + IVA."],
+        ["Atenció directa", "Trucada i WhatsApp visibles per demanar ajuda sense formularis llargs."],
+        ["Servei local", "Base a Vilanova per cobrir Garraf i Baix Penedès."]
       ]
     },
     seoBlock: {
@@ -664,6 +691,34 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
                 <p>{text}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="reviews-section section" aria-labelledby="reviews-title">
+          <div className="section-heading">
+            <span className="eyebrow">{t.reviews.eyebrow}</span>
+            <h2 id="reviews-title">{t.reviews.title}</h2>
+            <p>{t.reviews.text}</p>
+          </div>
+          <div className="reviews-panel">
+            <div className="reviews-score">
+              <span>{t.reviews.badge}</span>
+              <div aria-hidden="true">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star key={index} size={24} />
+                ))}
+              </div>
+              <strong>{t.reviews.pending}</strong>
+            </div>
+            <div className="review-proof-grid">
+              {t.reviews.items.map(([title, text]) => (
+                <article key={title}>
+                  <CheckCircle2 size={26} aria-hidden="true" />
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
