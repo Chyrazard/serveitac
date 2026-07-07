@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
 import { GoogleAds } from "@/components/GoogleAds";
 import { site } from "@/lib/site";
@@ -40,17 +39,13 @@ export const metadata: Metadata = {
   }
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headerList = await headers();
-  const pathname = headerList.get("x-serveicat-pathname") || "/";
-  const lang = pathname.startsWith("/ca") ? "ca" : "es";
-
   return (
-    <html lang={lang} className={`${poppins.variable} ${inter.variable}`}>
+    <html lang="es" className={`${poppins.variable} ${inter.variable}`}>
       <body>
         <GoogleAds />
         {children}

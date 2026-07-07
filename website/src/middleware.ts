@@ -13,14 +13,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-serveicat-pathname", url.pathname);
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders
-    }
-  });
+  return NextResponse.next();
 }
 
 export const config = {

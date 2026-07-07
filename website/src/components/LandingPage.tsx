@@ -395,6 +395,10 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
     setShowLanguageModal(true);
   }, [initialLang]);
 
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   function chooseLanguage(nextLang: Lang) {
     window.localStorage.setItem("serveicat-lang", nextLang);
     setShowLanguageModal(false);
