@@ -445,7 +445,6 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
           <a href="#faq">{t.nav.faq}</a>
         </nav>
         <div className="header-actions">
-          <span className="phone-label">24H · {site.phoneDisplay}</span>
           <button
             type="button"
             className="language-chip"

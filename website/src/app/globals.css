@@ -130,13 +130,6 @@ textarea {
   cursor: pointer;
 }
 
-.phone-label {
-  font-family: var(--font-heading), Poppins, sans-serif;
-  font-weight: 700;
-  color: var(--navy);
-  white-space: nowrap;
-}
-
 .static-action {
   display: inline-flex;
   align-items: center;
@@ -805,10 +798,6 @@ h1 span {
     display: none;
   }
 
-  .phone-label {
-    display: none;
-  }
-
   .mobile-menu {
     display: block;
   }
@@ -863,7 +852,6 @@ h1 span {
     font-size: 0;
   }
 
-  .phone-label,
   .header-call,
   .header-whatsapp {
     display: none;
