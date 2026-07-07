@@ -5,7 +5,7 @@ const baseUrl = `https://${site.domain}`;
 
 export const seoImages = {
   og: "/images/og-desatascos-serveicat.jpg",
-  hero: "/images/desatascos-hero.jpg",
+  hero: "/images/desatascos-hero-serveicat.jpg",
   icon: "/brand/serveicat-icon.png"
 };
 

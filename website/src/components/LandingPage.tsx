@@ -56,7 +56,8 @@ const copy = {
       otherCode: "CA",
       switchLabel: "Cambiar idioma",
       modalTitle: "Elige idioma",
-      modalText: "Puedes ver la landing de desatascos en español o catalán.",
+      modalText: "¿En qué idioma deseas leer los servicios? / En quin idioma vols llegir els serveis?",
+      dontAsk: "No volver a preguntar / No tornar-ho a preguntar",
       spanish: "Español",
       catalan: "Català"
     },
@@ -203,7 +204,8 @@ const copy = {
       otherCode: "ES",
       switchLabel: "Canviar idioma",
       modalTitle: "Tria idioma",
-      modalText: "Pots veure la landing de desembussos en espanyol o català.",
+      modalText: "¿En qué idioma deseas leer los servicios? / En quin idioma vols llegir els serveis?",
+      dontAsk: "No volver a preguntar / No tornar-ho a preguntar",
       spanish: "Español",
       catalan: "Català"
     },
@@ -381,14 +383,22 @@ function StaticAction({
 export function LandingPage({ initialLang }: { initialLang: Lang }) {
   const [lang, setLang] = useState<Lang>(initialLang);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [dontAskLanguage, setDontAskLanguage] = useState(false);
   const t = copy[lang];
   const currentYear = new Date().getFullYear();
   const otherLang: Lang = lang === "es" ? "ca" : "es";
 
   useEffect(() => {
     const stored = window.localStorage.getItem("serveicat-lang") as Lang | null;
+    const shouldSkipModal = window.localStorage.getItem("serveicat-lang-skip-modal") === "true";
+    const redirectedLang = window.sessionStorage.getItem("serveicat-lang-redirected") as Lang | null;
 
-    if (stored === "es" || stored === "ca") {
+    if (redirectedLang === initialLang) {
+      window.sessionStorage.removeItem("serveicat-lang-redirected");
+      return;
+    }
+
+    if (shouldSkipModal && (stored === "es" || stored === "ca")) {
       setLang(stored);
       if (stored !== initialLang) {
         window.location.replace(stored === "ca" ? "/ca" : "/");
@@ -405,9 +415,21 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
 
   function chooseLanguage(nextLang: Lang) {
     window.localStorage.setItem("serveicat-lang", nextLang);
+
+    const shouldSkipModal = showLanguageModal
+      ? dontAskLanguage
+      : window.localStorage.getItem("serveicat-lang-skip-modal") === "true";
+
+    if (shouldSkipModal) {
+      window.localStorage.setItem("serveicat-lang-skip-modal", "true");
+    } else {
+      window.localStorage.removeItem("serveicat-lang-skip-modal");
+    }
+
     setShowLanguageModal(false);
 
     if (nextLang !== initialLang) {
+      window.sessionStorage.setItem("serveicat-lang-redirected", nextLang);
       window.location.href = nextLang === "ca" ? "/ca" : "/";
       return;
     }
@@ -423,6 +445,14 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             <Languages size={34} aria-hidden="true" />
             <h2 id="language-title">{t.language.modalTitle}</h2>
             <p>{t.language.modalText}</p>
+            <label className="language-remember">
+              <input
+                type="checkbox"
+                checked={dontAskLanguage}
+                onChange={(event) => setDontAskLanguage(event.target.checked)}
+              />
+              <span>{t.language.dontAsk}</span>
+            </label>
             <div className="language-options">
               <button type="button" onClick={() => chooseLanguage("es")}>
                 {t.language.spanish}
@@ -514,13 +544,13 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
           </div>
           <div className="hero-media">
             <Image
-              src="/images/desatascos-hero.jpg"
-              width={500}
-              height={330}
+              src="/images/desatascos-hero-serveicat.jpg"
+              width={1200}
+              height={900}
               alt={
                 lang === "es"
-                  ? "Tecnico de ServeiCat trabajando en un servicio de desatascos urgentes"
-                  : "Tècnic de ServeiCat treballant en un servei de desembussos urgents"
+                  ? "Técnico de ServeiCat realizando un desatasco urgente en una bañera con máquina profesional"
+                  : "Tècnic de ServeiCat fent un desembús urgent en una banyera amb màquina professional"
               }
               priority
             />
