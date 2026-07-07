@@ -113,6 +113,23 @@ textarea {
   gap: 14px;
 }
 
+.language-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  border: 1px solid #b7cae9;
+  border-radius: 999px;
+  padding: 0 14px;
+  background: var(--white);
+  color: var(--navy);
+  font-family: var(--font-heading), Poppins, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 .phone-label {
   font-family: var(--font-heading), Poppins, sans-serif;
   font-weight: 700;
@@ -216,14 +233,80 @@ textarea {
   box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
 }
 
-.mobile-menu a {
+.mobile-menu a,
+.mobile-menu button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
   padding: 14px 16px;
   font-family: var(--font-heading), Poppins, sans-serif;
   font-weight: 700;
+  cursor: pointer;
 }
 
-.mobile-menu a + a {
+.mobile-menu a + a,
+.mobile-menu a + button {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.language-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(5, 36, 65, 0.58);
+  backdrop-filter: blur(10px);
+}
+
+.language-panel {
+  width: min(440px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  padding: 28px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 28px 80px rgba(5, 36, 65, 0.28);
+}
+
+.language-panel svg {
+  color: var(--water);
+}
+
+.language-panel h2 {
+  margin-top: 12px;
+  font-size: 1.75rem;
+}
+
+.language-panel p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.language-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.language-options button {
+  min-height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f7fbff;
+  color: var(--navy);
+  font-family: var(--font-heading), Poppins, sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.language-options button:hover {
+  border-color: var(--water);
+  background: var(--water-soft);
 }
 
 .hero {
@@ -604,6 +687,12 @@ h1 span {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.seo-copy {
+  background: linear-gradient(180deg, #ffffff, #f7fbff);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
 .cta-strip {
   display: flex;
   align-items: center;
@@ -636,7 +725,7 @@ h1 span {
 
 .footer {
   display: grid;
-  grid-template-columns: 1.1fr 0.8fr 0.8fr;
+  grid-template-columns: 1.2fr 0.75fr 0.75fr 0.75fr;
   gap: 32px;
   padding: 48px clamp(20px, 6vw, 84px) 28px;
   background: #052441;
@@ -676,7 +765,7 @@ h1 span {
 
 .floating-actions {
   position: fixed;
-  inset: auto 28px 22px 28px;
+  inset: auto 28px 22px 18px;
   z-index: 30;
   display: flex;
   align-items: center;
@@ -686,11 +775,15 @@ h1 span {
 
 .floating-actions .static-action {
   pointer-events: auto;
-  width: 64px;
-  height: 64px;
-  min-height: 64px;
+  width: 56px;
+  height: 56px;
+  min-height: 56px;
   padding: 0;
   border-radius: 50%;
+}
+
+.floating-actions .static-action span {
+  display: none;
 }
 
 .floating-call {
@@ -737,6 +830,10 @@ h1 span {
   .trust-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .footer {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 760px) {
@@ -757,6 +854,13 @@ h1 span {
 
   .brand span {
     font-size: 1.3rem;
+  }
+
+  .language-chip {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    font-size: 0;
   }
 
   .phone-label,
@@ -878,7 +982,8 @@ h1 span {
     height: 58px;
     min-height: 58px;
     border-radius: 999px;
-    font-size: 0;
+    gap: 10px;
+    font-size: 1rem;
   }
 
   .floating-actions .static-action svg {
@@ -886,9 +991,8 @@ h1 span {
     height: 24px;
   }
 
-  .floating-actions .static-action::after {
-    font-size: 1rem;
-    line-height: 1;
+  .floating-actions .static-action span {
+    display: inline;
   }
 
   .floating-call {
@@ -897,11 +1001,48 @@ h1 span {
     box-shadow: 0 12px 26px rgba(245, 180, 0, 0.24);
   }
 
-  .floating-call::after {
-    content: "Llamar ahora";
+  .language-options {
+    grid-template-columns: 1fr;
   }
+}
 
-  .floating-whatsapp::after {
-    content: "WhatsApp";
-  }
+.legal-page {
+  min-height: 100svh;
+  padding: clamp(28px, 6vw, 64px) clamp(18px, 6vw, 84px);
+  background: linear-gradient(180deg, #f7fbff, #ffffff);
+}
+
+.legal-back {
+  display: inline-flex;
+  margin-bottom: 24px;
+  color: var(--navy);
+  font-family: var(--font-heading), Poppins, sans-serif;
+  font-weight: 800;
+}
+
+.legal-content {
+  max-width: 880px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: clamp(24px, 5vw, 48px);
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.legal-content h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+}
+
+.legal-content h2 {
+  margin-top: 32px;
+  font-size: 1.4rem;
+}
+
+.legal-content p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.legal-intro {
+  font-size: 1.08rem;
 }

@@ -5,9 +5,9 @@ export const site = {
   phoneTel: process.env.NEXT_PUBLIC_PHONE_TEL || "+34900123456",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "34900123456",
   email: process.env.NEXT_PUBLIC_EMAIL || "hola@serveicat.com",
-  baseCity: "Vilanova i la Geltru",
+  baseCity: "Vilanova i la Geltrú",
   coverage: [
-    "Vilanova i la Geltru",
+    "Vilanova i la Geltrú",
     "Sitges",
     "Sant Pere de Ribes",
     "Cubelles",
@@ -15,7 +15,7 @@ export const site = {
     "Calafell",
     "El Vendrell",
     "Garraf",
-    "Baix Penedes"
+    "Baix Penedès"
   ],
   ads: {
     id: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "",
