@@ -52,6 +52,8 @@ const copy = {
     },
     language: {
       current: "ES",
+      currentName: "Español",
+      otherCode: "CA",
       switchLabel: "Cambiar idioma",
       modalTitle: "Elige idioma",
       modalText: "Puedes ver la landing de desatascos en español o catalán.",
@@ -197,6 +199,8 @@ const copy = {
     },
     language: {
       current: "CA",
+      currentName: "Català",
+      otherCode: "ES",
       switchLabel: "Canviar idioma",
       modalTitle: "Tria idioma",
       modalText: "Pots veure la landing de desembussos en espanyol o català.",
@@ -452,7 +456,8 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             onClick={() => chooseLanguage(otherLang)}
           >
             <Languages size={17} aria-hidden="true" />
-            {t.language.current}
+            <span className="language-code">{t.language.current}</span>
+            <span className="language-name">{t.language.currentName}</span>
           </button>
           <StaticAction variant="call" className="header-call" ariaLabel="Boton de llamada">
             <Phone size={17} aria-hidden="true" />
@@ -472,6 +477,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
               <a href="#cobertura">{t.nav.coverage}</a>
               <a href="#faq">{t.nav.faq}</a>
               <button type="button" onClick={() => chooseLanguage(otherLang)}>
+                <span>{t.language.otherCode}</span>
                 {otherLang === "ca" ? "Català" : "Español"}
               </button>
             </div>
