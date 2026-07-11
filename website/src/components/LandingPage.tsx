@@ -393,17 +393,24 @@ function StaticAction({
   className = "",
   variant,
   children,
-  ariaLabel
+  ariaLabel,
+  href
 }: {
   className?: string;
   variant: "call" | "whatsapp";
   children: ReactNode;
   ariaLabel: string;
+  href: string;
 }) {
   return (
-    <button type="button" className={`static-action static-${variant} ${className}`} aria-label={ariaLabel}>
+    <ConversionLink
+      href={href}
+      type={variant}
+      className={`static-action static-${variant} ${className}`}
+      ariaLabel={ariaLabel}
+    >
       {children}
-    </button>
+    </ConversionLink>
   );
 }
 
@@ -516,11 +523,21 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             <span className="language-code">{t.language.current}</span>
             <span className="language-name">{t.language.currentName}</span>
           </button>
-          <StaticAction variant="call" className="header-call" ariaLabel="Boton de llamada">
+          <StaticAction
+            variant="call"
+            className="header-call"
+            ariaLabel={`Llamar a ServeiCat al ${site.phoneDisplay}`}
+            href={`tel:${site.phoneTel}`}
+          >
             <Phone size={17} aria-hidden="true" />
             {site.phoneDisplay}
           </StaticAction>
-          <StaticAction variant="whatsapp" className="header-whatsapp" ariaLabel="Boton de WhatsApp">
+          <StaticAction
+            variant="whatsapp"
+            className="header-whatsapp"
+            ariaLabel="Contactar con ServeiCat por WhatsApp"
+            href={whatsappUrl(whatsappMessage[lang])}
+          >
             <MessageCircle size={18} aria-hidden="true" />
             WhatsApp
           </StaticAction>
@@ -791,11 +808,21 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
       </footer>
 
       <div className="floating-actions" aria-label="Accesos rapidos de contacto">
-        <StaticAction variant="call" className="floating-call" ariaLabel="Boton flotante de llamada">
+        <StaticAction
+          variant="call"
+          className="floating-call"
+          ariaLabel={`Llamar a ServeiCat al ${site.phoneDisplay}`}
+          href={`tel:${site.phoneTel}`}
+        >
           <Phone size={30} aria-hidden="true" />
           <span>{t.actions.call}</span>
         </StaticAction>
-        <StaticAction variant="whatsapp" className="floating-whatsapp" ariaLabel="Boton flotante de WhatsApp">
+        <StaticAction
+          variant="whatsapp"
+          className="floating-whatsapp"
+          ariaLabel="Contactar con ServeiCat por WhatsApp"
+          href={whatsappUrl(whatsappMessage[lang])}
+        >
           <MessageCircle size={22} />
           <span>{t.actions.whatsapp}</span>
         </StaticAction>

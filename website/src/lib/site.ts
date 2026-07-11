@@ -1,10 +1,10 @@
 export const site = {
   name: "ServeiCat 24H",
   domain: "serveicat.com",
-  phoneDisplay: process.env.NEXT_PUBLIC_PHONE_DISPLAY || "900 123 456",
-  phoneTel: process.env.NEXT_PUBLIC_PHONE_TEL || "+34900123456",
-  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "34900123456",
-  email: process.env.NEXT_PUBLIC_EMAIL || "hola@serveicat.com",
+  phoneDisplay: process.env.NEXT_PUBLIC_PHONE_DISPLAY || "+34 668 52 53 16",
+  phoneTel: process.env.NEXT_PUBLIC_PHONE_TEL || "+34668525316",
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "34668525316",
+  email: process.env.NEXT_PUBLIC_EMAIL || "serveicat24@gmail.com",
   baseCity: "Vilanova i la Geltrú",
   coverage: [
     "Vilanova i la Geltrú",

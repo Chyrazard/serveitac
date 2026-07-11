@@ -152,7 +152,7 @@ textarea {
   line-height: 1;
   white-space: nowrap;
   user-select: none;
-  cursor: default;
+  cursor: pointer;
 }
 
 .static-call {
