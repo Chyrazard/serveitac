@@ -34,8 +34,8 @@ type Service = {
 };
 
 const whatsappMessage = {
-  es: "Hola ServeiCat 24H, necesito ayuda con un desatasco. ¿Me podeis indicar disponibilidad?",
-  ca: "Hola ServeiCat 24H, necessito ajuda amb un desembussament. Em podeu indicar disponibilitat?"
+  es: "Hola ServeiCat 24H, necesito ayuda con un desatasco.",
+  ca: "Hola ServeiCat 24H, necessito ajuda amb un desembussament."
 };
 
 const copy = {
