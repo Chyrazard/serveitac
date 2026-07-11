@@ -17,7 +17,8 @@ export const spanishMetadata: Metadata = {
     canonical: "/",
     languages: {
       "es-ES": "/",
-      "ca-ES": "/ca"
+      "ca-ES": "/ca",
+      "x-default": "/"
     }
   },
   openGraph: {
@@ -54,7 +55,8 @@ export const catalanMetadata: Metadata = {
     canonical: "/ca",
     languages: {
       "es-ES": "/",
-      "ca-ES": "/ca"
+      "ca-ES": "/ca",
+      "x-default": "/"
     }
   },
   openGraph: {
