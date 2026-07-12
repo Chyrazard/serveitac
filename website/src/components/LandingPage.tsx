@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,6 +25,14 @@ import {
   Wrench
 } from "lucide-react";
 import { ConversionLink } from "@/components/ConversionLink";
+import {
+  getGeneralLandingHref,
+  getLocalLandingContent,
+  getRelatedLandingLinks,
+  type LandingVariant,
+  type LocalLanding,
+  type LocalLandingContent
+} from "@/lib/local-landings";
 import { site, whatsappUrl } from "@/lib/site";
 
 type Lang = "es" | "ca";
@@ -145,7 +154,7 @@ const copy = {
       eyebrow: "Cobertura local",
       title: "Base en Vilanova i la Geltrú",
       text:
-        "Servicio de desatascos 24 horas para Garraf y Baix Penedès, con posibilidad de ampliar según disponibilidad y urgencia."
+        "Servicio de desatascos 24 horas desde Vilanova para Garraf, Baix Penedès y municipios del sur del Baix Llobregat, según tráfico y disponibilidad."
     },
     trust: {
       eyebrow: "Confianza",
@@ -153,7 +162,7 @@ const copy = {
       items: [
         ["Precio claro", "Tarifas visibles antes de llamar, sin esconder el coste base."],
         ["24H / 365 días", "Atención para desatascos urgentes, noches y festivos incluidos."],
-        ["Zona cercana", "Base en Vilanova para cubrir Garraf y Baix Penedès con rapidez."],
+        ["Zona cercana", "Base en Vilanova para coordinar las zonas de cobertura indicadas."],
         ["Trabajo con garantía", "Diagnóstico claro, intervención limpia y explicación final."]
       ]
     },
@@ -167,7 +176,7 @@ const copy = {
       items: [
         ["Precio visible", "Urgencia desde 180 € + IVA y cita agendada desde 90 € + IVA."],
         ["Atención directa", "Llamada y WhatsApp visibles para pedir ayuda sin formularios largos."],
-        ["Servicio local", "Base en Vilanova para cubrir Garraf y Baix Penedès."]
+        ["Servicio local", "Base en Vilanova y páginas específicas para cada ciudad cubierta."]
       ]
     },
     seoBlock: {
@@ -198,12 +207,12 @@ const copy = {
         ],
         [
           "¿En qué zonas trabajáis?",
-          "Principalmente Vilanova i la Geltrú, Sitges, Sant Pere de Ribes, Cubelles, Cunit, Calafell, El Vendrell, Garraf y Baix Penedès."
+          "Vilanova i la Geltrú, Castelldefels, Viladecans, Gavà, Sitges, Sant Pere de Ribes, Calafell y Cubelles, además de poblaciones cercanas según disponibilidad."
         ]
       ]
     },
     footer: {
-      summary: "Desatascos 24 horas en Vilanova, Garraf y Baix Penedès.",
+      summary: "Desatascos 24 horas desde Vilanova para las ciudades de cobertura.",
       contact: "Contacto",
       service: "Servicio",
       hours: "24 horas / 365 días",
@@ -306,7 +315,7 @@ const copy = {
       eyebrow: "Cobertura local",
       title: "Base a Vilanova i la Geltrú",
       text:
-        "Servei de desembussos 24 hores per al Garraf i Baix Penedès, amb possibilitat d'ampliar segons disponibilitat i urgència."
+        "Servei de desembussos 24 hores des de Vilanova per al Garraf, Baix Penedès i municipis del sud del Baix Llobregat, segons trànsit i disponibilitat."
     },
     trust: {
       eyebrow: "Confiança",
@@ -314,7 +323,7 @@ const copy = {
       items: [
         ["Preu clar", "Tarifes visibles abans de trucar, sense amagar el cost base."],
         ["24H / 365 dies", "Atenció per a desembussos urgents, nits i festius inclosos."],
-        ["Zona propera", "Base a Vilanova per cobrir Garraf i Baix Penedès amb rapidesa."],
+        ["Zona propera", "Base a Vilanova per coordinar les zones de cobertura indicades."],
         ["Treball amb garantia", "Diagnòstic clar, intervenció neta i explicació final."]
       ]
     },
@@ -328,7 +337,7 @@ const copy = {
       items: [
         ["Preu visible", "Urgència des de 180 € + IVA i cita programada des de 90 € + IVA."],
         ["Atenció directa", "Trucada i WhatsApp visibles per demanar ajuda sense formularis llargs."],
-        ["Servei local", "Base a Vilanova per cobrir Garraf i Baix Penedès."]
+        ["Servei local", "Base a Vilanova i pàgines específiques per a cada ciutat coberta."]
       ]
     },
     seoBlock: {
@@ -359,12 +368,12 @@ const copy = {
         ],
         [
           "En quines zones treballeu?",
-          "Principalment Vilanova i la Geltrú, Sitges, Sant Pere de Ribes, Cubelles, Cunit, Calafell, El Vendrell, Garraf i Baix Penedès."
+          "Vilanova i la Geltrú, Castelldefels, Viladecans, Gavà, Sitges, Sant Pere de Ribes, Calafell i Cubelles, a més de poblacions properes segons disponibilitat."
         ]
       ]
     },
     footer: {
-      summary: "Desembussos 24 hores a Vilanova, Garraf i Baix Penedès.",
+      summary: "Desembussos 24 hores des de Vilanova per a les ciutats de cobertura.",
       contact: "Contacte",
       service: "Servei",
       hours: "24 hores / 365 dies",
@@ -374,6 +383,82 @@ const copy = {
     }
   }
 };
+
+const localServiceIcons: Record<LandingVariant, Array<typeof Toilet>> = {
+  general: [Toilet, Droplets, Building2, Wrench, Waves, ShieldCheck],
+  wc: [Toilet, Droplets, ShieldCheck, Wrench, Waves, Building2],
+  urgent: [Droplets, Wrench, ShieldCheck, Phone, MapPin, Building2]
+};
+
+function buildLocalCopy(base: typeof copy.es, content: LocalLandingContent, variant: LandingVariant) {
+  return {
+    ...base,
+    hero: {
+      ...base.hero,
+      eyebrow: content.eyebrow,
+      title: content.heroTitle,
+      highlight: content.heroHighlight,
+      text: content.heroText,
+      cardTitle: content.heroCardTitle,
+      cardText: content.heroCardText
+    },
+    prices: {
+      ...base.prices,
+      title: content.pricesTitle,
+      urgentText: content.urgentText,
+      scheduledText: content.scheduledText
+    },
+    servicesIntro: {
+      eyebrow: content.servicesEyebrow,
+      title: content.servicesTitle,
+      text: content.servicesText
+    },
+    services: content.services.map((service, index) => ({
+      ...service,
+      icon: localServiceIcons[variant][index]
+    })),
+    steps: {
+      ...base.steps,
+      title: content.stepsTitle,
+      items: content.steps
+    },
+    coverage: {
+      ...base.coverage,
+      title: content.coverageTitle,
+      text: content.coverageText
+    },
+    trust: {
+      ...base.trust,
+      title: content.trustTitle,
+      items: base.trust.items.map(([title, text], index) =>
+        index === 2 ? [title, content.trustZone] : [title, text]
+      )
+    },
+    reviews: {
+      ...base.reviews,
+      items: base.reviews.items.map(([title, text], index) =>
+        index === 2 ? [title, content.reviewZone] : [title, text]
+      )
+    },
+    seoBlock: {
+      eyebrow: content.seoEyebrow,
+      title: content.seoTitle,
+      text: content.seoText
+    },
+    cta: {
+      title: content.ctaTitle,
+      text: content.ctaText
+    },
+    faq: {
+      ...base.faq,
+      items: content.faq
+    },
+    footer: {
+      ...base.footer,
+      summary: content.footerSummary
+    }
+  };
+}
 
 function CallButton({ className = "", label }: { className?: string; label: string }) {
   return (
@@ -426,11 +511,15 @@ function StaticAction({
   );
 }
 
-export function LandingPage({ initialLang }: { initialLang: Lang }) {
+export function LandingPage({ initialLang, landing }: { initialLang: Lang; landing?: LocalLanding }) {
   const [lang, setLang] = useState<Lang>(initialLang);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [dontAskLanguage, setDontAskLanguage] = useState(false);
-  const t = copy[lang];
+  const localContent = landing && lang === "es" ? getLocalLandingContent(landing) : undefined;
+  const t = localContent && landing ? buildLocalCopy(copy.es, localContent, landing.variant) : copy[lang];
+  const coveragePlaces = localContent?.coveragePlaces || site.coverage;
+  const relatedLinks = landing ? getRelatedLandingLinks(landing) : [];
+  const contactMessage = localContent?.whatsappMessage || whatsappMessage[lang];
   const currentYear = new Date().getFullYear();
   const otherLang: Lang = lang === "es" ? "ca" : "es";
 
@@ -548,7 +637,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             variant="whatsapp"
             className="header-whatsapp"
             ariaLabel="Contactar con ServeiCat por WhatsApp"
-            href={whatsappUrl(whatsappMessage[lang])}
+            href={whatsappUrl(contactMessage)}
           >
             <WhatsAppIcon />
             WhatsApp
@@ -581,7 +670,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             <p>{t.hero.text}</p>
             <div className="hero-actions">
               <CallButton label={t.actions.call} />
-              <WhatsAppButton label={t.actions.whatsapp} message={whatsappMessage[lang]} />
+              <WhatsAppButton label={t.actions.whatsapp} message={contactMessage} />
             </div>
             <div className="quick-trust" aria-label="Ventajas principales">
               <div>
@@ -604,9 +693,11 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
               width={1200}
               height={900}
               alt={
-                lang === "es"
-                  ? "Técnico de ServeiCat realizando un desatasco urgente en una bañera con máquina profesional"
-                  : "Tècnic de ServeiCat fent un desembús urgent en una banyera amb màquina professional"
+                localContent
+                  ? localContent.imageAlt
+                  : lang === "es"
+                    ? "Técnico de ServeiCat realizando un desatasco urgente en una bañera con máquina profesional"
+                    : "Tècnic de ServeiCat fent un desembús urgent en una banyera amb màquina professional"
               }
               priority
             />
@@ -645,7 +736,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
                 90 € <span>+ IVA</span>
               </p>
               <p>{t.prices.scheduledText}</p>
-              <WhatsAppButton label={t.actions.whatsapp} message={whatsappMessage[lang]} />
+              <WhatsAppButton label={t.actions.whatsapp} message={contactMessage} />
             </article>
           </div>
         </section>
@@ -696,14 +787,38 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             <span className="eyebrow">{t.coverage.eyebrow}</span>
             <h2>{t.coverage.title}</h2>
             <p>{t.coverage.text}</p>
+            {relatedLinks.length ? (
+              <nav className="local-service-links" aria-label="Servicios relacionados en la zona">
+                <strong>Servicios relacionados</strong>
+                <div>
+                  {relatedLinks.map((link) => (
+                    <Link key={link.href} href={link.href}>
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </nav>
+            ) : null}
           </div>
           <div className="coverage-list">
-            {site.coverage.map((place) => (
-              <span key={place}>
-                <MapPin size={16} />
-                {place}
-              </span>
-            ))}
+            {coveragePlaces.map((place) => {
+              const href = getGeneralLandingHref(place);
+              const isCurrentPage = landing && href === `/${landing.slug}`;
+              const placeLabel = (
+                <>
+                  <MapPin size={16} />
+                  {place}
+                </>
+              );
+
+              return href && !isCurrentPage ? (
+                <Link key={place} href={href}>
+                  {placeLabel}
+                </Link>
+              ) : (
+                <span key={place}>{placeLabel}</span>
+              );
+            })}
           </div>
         </section>
 
@@ -756,6 +871,9 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             <span className="eyebrow">{t.seoBlock.eyebrow}</span>
             <h2>{t.seoBlock.title}</h2>
             <p>{t.seoBlock.text}</p>
+            {localContent?.localParagraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </section>
 
@@ -766,7 +884,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
           </div>
           <div className="cta-actions">
             <CallButton label={t.actions.call} />
-            <WhatsAppButton label={t.actions.whatsapp} message={whatsappMessage[lang]} />
+            <WhatsAppButton label={t.actions.whatsapp} message={contactMessage} />
           </div>
         </section>
 
@@ -810,9 +928,9 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
         </div>
         <div>
           <h2>{t.footer.legal}</h2>
-          <a href="/aviso-legal">{t.footer.legalLinks[0]}</a>
-          <a href="/politica-privacidad">{t.footer.legalLinks[1]}</a>
-          <a href="/cookies">{t.footer.legalLinks[2]}</a>
+          <Link href="/aviso-legal">{t.footer.legalLinks[0]}</Link>
+          <Link href="/politica-privacidad">{t.footer.legalLinks[1]}</Link>
+          <Link href="/cookies">{t.footer.legalLinks[2]}</Link>
         </div>
         <p className="copyright">
           © {currentYear} ServeiCat 24H. {t.footer.rights}
@@ -833,7 +951,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
           variant="whatsapp"
           className="floating-whatsapp"
           ariaLabel="Contactar con ServeiCat por WhatsApp"
-          href={whatsappUrl(whatsappMessage[lang])}
+          href={whatsappUrl(contactMessage)}
         >
           <WhatsAppIcon size={24} />
           <span>{t.actions.whatsapp}</span>

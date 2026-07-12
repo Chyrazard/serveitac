@@ -1,4 +1,5 @@
 import { site } from "@/lib/site";
+import { localLandingSlugs } from "@/lib/local-landings";
 
 export const dynamic = "force-static";
 
@@ -12,12 +13,16 @@ type SitemapEntry = {
 const entries: SitemapEntry[] = [
   {
     path: "/",
-    lastModified: "2026-07-11"
+    lastModified: "2026-07-12"
   },
   {
     path: "/ca",
-    lastModified: "2026-07-11"
+    lastModified: "2026-07-12"
   },
+  ...localLandingSlugs.map((slug) => ({
+    path: `/${slug}`,
+    lastModified: "2026-07-12"
+  })),
   {
     path: "/aviso-legal",
     lastModified: "2026-07-06"

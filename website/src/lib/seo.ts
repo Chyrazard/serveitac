@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import {
+  getLocalLandingContent,
+  type LocalLanding
+} from "@/lib/local-landings";
 import { site } from "@/lib/site";
 
 const baseUrl = `https://${site.domain}`;
@@ -96,7 +100,7 @@ const faqEs = [
   ],
   [
     "¿En qué zonas trabajáis?",
-    "Principalmente Vilanova i la Geltrú, Sitges, Sant Pere de Ribes, Cubelles, Cunit, Calafell, El Vendrell, Garraf y Baix Penedès."
+    "Vilanova i la Geltrú, Castelldefels, Viladecans, Gavà, Sitges, Sant Pere de Ribes, Calafell y Cubelles, además de poblaciones cercanas según disponibilidad."
   ]
 ];
 
@@ -111,7 +115,7 @@ const faqCa = [
   ],
   [
     "En quines zones treballeu?",
-    "Principalment Vilanova i la Geltrú, Sitges, Sant Pere de Ribes, Cubelles, Cunit, Calafell, El Vendrell, Garraf i Baix Penedès."
+    "Vilanova i la Geltrú, Castelldefels, Viladecans, Gavà, Sitges, Sant Pere de Ribes, Calafell i Cubelles, a més de poblacions properes segons disponibilitat."
   ]
 ];
 
@@ -194,6 +198,148 @@ export function jsonLd(lang: "es" | "ca") {
             text
           }
         }))
+      }
+    ]
+  };
+}
+
+export function localLandingMetadata(landing: LocalLanding): Metadata {
+  const content = getLocalLandingContent(landing);
+  const path = `/${landing.slug}`;
+
+  return {
+    title: content.metaTitle,
+    description: content.metaDescription,
+    alternates: {
+      canonical: path
+    },
+    openGraph: {
+      title: content.metaTitle,
+      description: content.metaDescription,
+      url: path,
+      siteName: site.name,
+      images: [
+        {
+          url: seoImages.og,
+          width: 1200,
+          height: 630,
+          alt: `ServeiCat 24H: ${content.heroTitle}`
+        }
+      ],
+      locale: "es_ES",
+      type: "website"
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: content.metaTitle,
+      description: content.metaDescription,
+      images: [seoImages.og]
+    }
+  };
+}
+
+export function localLandingJsonLd(landing: LocalLanding) {
+  const content = getLocalLandingContent(landing);
+  const pageUrl = `${baseUrl}/${landing.slug}`;
+  const serviceName =
+    landing.variant === "wc"
+      ? `Desatascar WC en ${landing.city.name}`
+      : landing.variant === "urgent"
+        ? `Desatascos urgentes 24 horas en ${landing.city.name}`
+        : `Desatascos 24 horas en ${landing.city.name}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Plumber",
+        "@id": `${baseUrl}/#business`,
+        name: site.name,
+        url: baseUrl,
+        image: `${baseUrl}${seoImages.og}`,
+        logo: `${baseUrl}${seoImages.icon}`,
+        telephone: site.phoneTel,
+        email: site.email,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Vilanova i la Geltrú",
+          addressRegion: "Barcelona",
+          addressCountry: "ES"
+        },
+        areaServed: content.coveragePlaces.map((name) => ({
+          "@type": "Place",
+          name
+        })),
+        priceRange: "90 EUR - 180 EUR + IVA",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            opens: "00:00",
+            closes: "23:59"
+          }
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": `${pageUrl}#service`,
+        name: serviceName,
+        serviceType: serviceName,
+        url: pageUrl,
+        description: content.metaDescription,
+        provider: {
+          "@id": `${baseUrl}/#business`
+        },
+        areaServed: content.coveragePlaces.map((name) => ({
+          "@type": "Place",
+          name
+        })),
+        offers: [
+          {
+            "@type": "Offer",
+            name: "Desatasco urgente",
+            price: "180",
+            priceCurrency: "EUR",
+            description: "Incluye desplazamiento y primera hora. IVA no incluido."
+          },
+          {
+            "@type": "Offer",
+            name: "Cita agendada el mismo día",
+            price: "90",
+            priceCurrency: "EUR",
+            description: "Incluye desplazamiento y primera hora. IVA no incluido."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#faq`,
+        mainEntity: content.faq.map(([name, text]) => ({
+          "@type": "Question",
+          name,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text
+          }
+        }))
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Desatascos 24 horas",
+            item: baseUrl
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: serviceName,
+            item: pageUrl
+          }
+        ]
       }
     ]
   };

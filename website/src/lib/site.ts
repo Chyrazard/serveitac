@@ -8,14 +8,13 @@ export const site = {
   baseCity: "Vilanova i la Geltrú",
   coverage: [
     "Vilanova i la Geltrú",
+    "Castelldefels",
+    "Viladecans",
+    "Gavà",
     "Sitges",
     "Sant Pere de Ribes",
-    "Cubelles",
-    "Cunit",
     "Calafell",
-    "El Vendrell",
-    "Garraf",
-    "Baix Penedès"
+    "Cubelles"
   ],
   ads: {
     id: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "",

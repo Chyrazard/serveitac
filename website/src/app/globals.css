@@ -713,7 +713,8 @@ h1 span {
   gap: 12px;
 }
 
-.coverage-list span {
+.coverage-list span,
+.coverage-list a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -724,8 +725,42 @@ h1 span {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.coverage-list a:hover {
+  border-color: var(--yellow);
+  color: var(--white);
+}
+
 .coverage-list svg {
   color: var(--yellow);
+}
+
+.local-service-links {
+  margin-top: 24px;
+}
+
+.local-service-links strong {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-heading), Poppins, sans-serif;
+}
+
+.local-service-links div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.local-service-links a {
+  color: var(--white);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.seo-copy .section-heading > p + p {
+  margin-top: 14px;
 }
 
 .trust-grid {
