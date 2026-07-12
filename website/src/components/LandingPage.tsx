@@ -92,7 +92,7 @@ const copy = {
       urgentTitle: "Desatascos urgentes 24H",
       urgentText: "Para agua subiendo, mal olor intenso, WC inutilizable o riesgo inmediato.",
       scheduledTitle: "Cita agendada",
-      scheduledText: "Para desatascos que pueden programarse sin urgencia el mismo día o próximas horas."
+      scheduledText: "Para desatascos que pueden programarse sin urgencia el mismo día."
     },
     servicesIntro: {
       eyebrow: "Qué desatascamos",
@@ -253,7 +253,7 @@ const copy = {
       urgentTitle: "Desembussos urgents 24H",
       urgentText: "Per aigua que puja, mala olor intensa, WC inutilitzable o risc immediat.",
       scheduledTitle: "Cita programada",
-      scheduledText: "Per a desembussos que es poden programar sense urgència el mateix dia o en les properes hores."
+      scheduledText: "Per a desembussos que es poden programar sense urgència el mateix dia."
     },
     servicesIntro: {
       eyebrow: "Què desembussem",
