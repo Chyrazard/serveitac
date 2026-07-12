@@ -3,6 +3,8 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import {
   BadgeEuro,
   Building2,
@@ -13,7 +15,6 @@ import {
   Languages,
   MapPin,
   Menu,
-  MessageCircle,
   Phone,
   ShieldCheck,
   Sparkles,
@@ -32,6 +33,17 @@ type Service = {
   text: string;
   icon: typeof Toilet;
 };
+
+function WhatsAppIcon({ size = 18 }: { size?: number }) {
+  return (
+    <FontAwesomeIcon
+      icon={faWhatsapp}
+      className="whatsapp-icon"
+      style={{ width: size, height: size }}
+      aria-hidden="true"
+    />
+  );
+}
 
 const whatsappMessage = {
   es: "Hola ServeiCat 24H, necesito ayuda con un desatasco.",
@@ -383,7 +395,7 @@ function WhatsAppButton({
 }) {
   return (
     <ConversionLink href={whatsappUrl(message)} type="whatsapp" className={`btn btn-secondary ${className}`}>
-      <MessageCircle size={18} aria-hidden="true" />
+      <WhatsAppIcon />
       {label}
     </ConversionLink>
   );
@@ -538,7 +550,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
             ariaLabel="Contactar con ServeiCat por WhatsApp"
             href={whatsappUrl(whatsappMessage[lang])}
           >
-            <MessageCircle size={18} aria-hidden="true" />
+            <WhatsAppIcon />
             WhatsApp
           </StaticAction>
           <details className="mobile-menu">
@@ -823,7 +835,7 @@ export function LandingPage({ initialLang }: { initialLang: Lang }) {
           ariaLabel="Contactar con ServeiCat por WhatsApp"
           href={whatsappUrl(whatsappMessage[lang])}
         >
-          <MessageCircle size={22} />
+          <WhatsAppIcon size={24} />
           <span>{t.actions.whatsapp}</span>
         </StaticAction>
       </div>

@@ -169,6 +169,12 @@ textarea {
   box-shadow: 0 12px 28px rgba(73, 199, 102, 0.24);
 }
 
+.whatsapp-icon {
+  display: block;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -196,9 +202,10 @@ textarea {
 }
 
 .btn-secondary {
-  background: var(--white);
-  color: var(--navy);
-  border-color: #9bb2c8;
+  background: #49c766;
+  color: var(--white);
+  border-color: #49c766;
+  box-shadow: 0 10px 20px rgba(73, 199, 102, 0.22);
 }
 
 .mobile-menu {
