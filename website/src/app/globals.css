@@ -930,6 +930,39 @@ h1 span {
   text-align: center;
 }
 
+.footer a.footer-credit {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 12px;
+  color: var(--white);
+  font-family: var(--font-heading), Poppins, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.18s ease;
+}
+
+.footer-credit strong {
+  color: inherit;
+}
+
+.footer-credit .belctech-mark {
+  display: block;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  color: inherit;
+  background: currentColor;
+  -webkit-mask: url("/brand/belctech-logo.png") center / contain no-repeat;
+  mask: url("/brand/belctech-logo.png") center / contain no-repeat;
+}
+
+.footer a.footer-credit:hover,
+.footer a.footer-credit:focus-visible {
+  color: var(--yellow);
+}
+
 .floating-actions {
   position: fixed;
   inset: auto 28px 22px 18px;

@@ -935,6 +935,16 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
         <p className="copyright">
           © {currentYear} ServeiCat 24H. {t.footer.rights}
         </p>
+        <a
+          className="footer-credit"
+          href="https://belctech.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Sitio web de BelcTech"
+        >
+          <span className="belctech-mark" aria-hidden="true" />
+          By: <strong>BelcTech</strong>
+        </a>
       </footer>
 
       <div className="floating-actions" aria-label="Accesos rapidos de contacto">
