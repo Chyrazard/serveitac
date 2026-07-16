@@ -523,10 +523,10 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
   const [lang, setLang] = useState<Lang>(initialLang);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [dontAskLanguage, setDontAskLanguage] = useState(false);
-  const localContent = landing && lang === "es" ? getLocalLandingContent(landing) : undefined;
-  const t = localContent && landing ? buildLocalCopy(copy.es, localContent, landing.variant) : copy[lang];
+  const localContent = landing ? getLocalLandingContent(landing, lang) : undefined;
+  const t = localContent && landing ? buildLocalCopy(copy[lang], localContent, landing.variant) : copy[lang];
   const coveragePlaces = localContent?.coveragePlaces || site.coverage;
-  const relatedLinks = landing ? getRelatedLandingLinks(landing) : [];
+  const relatedLinks = landing ? getRelatedLandingLinks(landing, lang) : [];
   const contactMessage = localContent?.whatsappMessage || whatsappMessage[lang];
   const urgentPrice = localContent?.urgentPrice || "180 €";
   const urgentPriceSuffix = localContent?.urgentPriceSuffix || "+ IVA";
@@ -547,14 +547,14 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
 
     if (shouldSkipModal && (stored === "es" || stored === "ca")) {
       setLang(stored);
-      if (stored !== initialLang) {
+      if (!landing && stored !== initialLang) {
         window.location.replace(stored === "ca" ? "/ca" : "/");
       }
       return;
     }
 
     setShowLanguageModal(true);
-  }, [initialLang]);
+  }, [initialLang, landing]);
 
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -574,6 +574,11 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
     }
 
     setShowLanguageModal(false);
+
+    if (landing) {
+      setLang(nextLang);
+      return;
+    }
 
     if (nextLang !== initialLang) {
       window.sessionStorage.setItem("serveicat-lang-redirected", nextLang);
@@ -800,8 +805,11 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
             <h2>{t.coverage.title}</h2>
             <p>{t.coverage.text}</p>
             {relatedLinks.length ? (
-              <nav className="local-service-links" aria-label="Servicios relacionados en la zona">
-                <strong>Servicios relacionados</strong>
+              <nav
+                className="local-service-links"
+                aria-label={lang === "ca" ? "Serveis relacionats a la zona" : "Servicios relacionados en la zona"}
+              >
+                <strong>{lang === "ca" ? "Serveis relacionats" : "Servicios relacionados"}</strong>
                 <div>
                   {relatedLinks.map((link) => (
                     <Link key={link.href} href={link.href}>

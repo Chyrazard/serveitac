@@ -1,6 +1,7 @@
 export const landingVariants = ["general", "wc", "urgent", "sink", "shower", "community"] as const;
 
 export type LandingVariant = (typeof landingVariants)[number];
+export type LandingLang = "es" | "ca";
 
 export type CityDefinition = {
   slug: string;
@@ -313,6 +314,51 @@ function metaFor(landing: LocalLanding) {
   };
 }
 
+function metaForCatalan(landing: LocalLanding) {
+  const { city, variant } = landing;
+  const arrival = city.arrival.replace("minutos", "minuts");
+
+  if (variant === "wc") {
+    return {
+      title: `Desembussar WC ${city.shortName} 24h | ServeiCat 24H`,
+      description: `Servei per desembussar WC i inodors a ${city.name}. Diagnòstic del sanitari i la baixant, arribada estimada ${arrival} i preus clars.`
+    };
+  }
+
+  if (variant === "urgent") {
+    return {
+      title: `Desembussos urgents ${city.shortName} 24h | ServeiCat 24H`,
+      description: `Desembussos urgents 24h a ${city.name}. Atenció per desbordaments, retorns d'aigua i WC bloquejats. Arribada estimada ${arrival}.`
+    };
+  }
+
+  if (variant === "sink") {
+    return {
+      title: `Desembussar Aigüera ${city.shortName} 24h | ServeiCat 24H`,
+      description: `Servei per desembussar aigüeres a ${city.name}: greix, restes i retorn del rentaplats. Arribada estimada ${arrival} i preus clars.`
+    };
+  }
+
+  if (variant === "shower") {
+    return {
+      title: `Desembussar Dutxa i Banyera ${city.shortName} | ServeiCat 24H`,
+      description: `Desembussem dutxes i banyeres a ${city.name}: cabells, sabó, calç i desguassos bloquejats. Arribada estimada ${arrival}.`
+    };
+  }
+
+  if (variant === "community") {
+    return {
+      title: `Desembussos Comunitats ${city.shortName} | ServeiCat 24H`,
+      description: `Desembussos per a comunitats a ${city.name}: baixants, arquetes i zones comunes. Diagnòstic, pressupost tancat i atenció 24h.`
+    };
+  }
+
+  return {
+    title: `Desembussos ${city.shortName} 24h | ServeiCat 24H`,
+    description: `Desembussos 24h a ${city.name} per a WC, aigüeres, canonades, baixants i arquetes. Arribada estimada ${arrival} i tarifes des de 90 € + IVA.`
+  };
+}
+
 function getNewVariantContent(landing: LocalLanding): LocalLandingContent | undefined {
   const { city, variant } = landing;
   const meta = metaFor(landing);
@@ -538,7 +584,426 @@ const communityServices = (city: CityDefinition) => [
   { title: "Mantenimiento preventivo", text: "Podemos plantear revisiones periódicas de bajantes y arquetas según las necesidades reales del edificio." }
 ];
 
-export function getLocalLandingContent(landing: LocalLanding): LocalLandingContent {
+const catalanCityContext: Record<string, string> = {
+  vilanova:
+    "Vilanova i la Geltrú és la nostra base operativa, fet que facilita coordinar serveis locals i desplaçaments cap als municipis propers.",
+  castelldefels:
+    "A Castelldefels adaptem la intervenció a pisos, apartaments, xalets i propietats de la zona residencial i de platja.",
+  viladecans:
+    "A Viladecans atenem habitatges, comunitats, locals i espais comercials, valorant des del primer contacte quins punts estan afectats.",
+  gava:
+    "A Gavà donem cobertura al nucli urbà i a Gavà Mar, tenint en compte el tipus d'immoble i els desguassos connectats.",
+  sitges:
+    "A Sitges treballem en habitatges habituals, segones residències, allotjaments i negocis d'hostaleria amb necessitats diferents.",
+  "sant-pere-de-ribes":
+    "A Sant Pere de Ribes cobrim tant el nucli de Ribes com les Roquetes i coordinem també els avisos de les poblacions properes.",
+  calafell:
+    "A Calafell atenem el poble, la zona de platja, Segur de Calafell i apartaments on una incidència pot afectar altres habitatges.",
+  cubelles:
+    "La proximitat de Cubelles i Cubelles Platja a la nostra base permet coordinar amb rapidesa habitatges, apartaments i comunitats."
+};
+
+function catalanLocalParagraph(city: CityDefinition, variant: LandingVariant) {
+  const context = catalanCityContext[city.slug];
+  const details: Record<LandingVariant, string> = {
+    general:
+      "Abans de sortir confirmem quin punt està embussat, si hi ha retorn en altres desguassos i si existeix risc de desbordament.",
+    wc:
+      "Comprovem si el bloqueig es limita a l'inodor o si també reaccionen la dutxa, el lavabo o una possible baixant compartida.",
+    urgent:
+      "En una urgència prioritzem els desbordaments, el risc per a plantes inferiors i les incidències que afecten més d'un sanitari.",
+    sink:
+      "En aigüeres preguntem si el rentaplats retorna aigua i si el sifó és accessible per diferenciar un tap local d'una acumulació de greix al ramal.",
+    shower:
+      "En dutxes i banyeres revisem el desguàs, els cabells, el sabó i la calç, i descartem una conducció compartida si reaccionen altres sanitaris.",
+    community:
+      "En comunitats recollim els pisos afectats, els accessos i el punt de retorn per preparar diagnòstic, pressupost tancat i coordinació amb els veïns."
+  };
+
+  return `${context} ${details[variant]}`;
+}
+
+const generalServicesCa = (city: CityDefinition) => [
+  { title: "WC i inodors", text: `Desembús d'inodors bloquejats a ${city.shortName}, amb revisió del nivell d'aigua i la descàrrega.` },
+  { title: "Aigüeres i lavabos", text: "Neteja de sifons i conduccions interiors quan l'aigua baixa lentament o retorna." },
+  { title: "Baixants", text: "Diagnòstic d'obstruccions verticals en comunitats, habitatges i locals." },
+  { title: "Arquetes", text: "Obertura, neteja i comprovació del pas d'aigua abans de finalitzar la intervenció." },
+  { title: "Canonades generals", text: "Desbloqueig de conduccions afectades per residus, calç o acumulacions d'ús continuat." },
+  { title: "Comunitats", text: `Coordinació amb veïns i administradors davant incidències compartides a ${city.name}.` }
+];
+
+const wcServicesCa = (city: CityDefinition) => [
+  { title: "Senyals de l'embús", text: "Aigua que puja, descàrrega lenta, sorolls o retorn a la dutxa indiquen on pot estar el bloqueig." },
+  { title: "Paper i objectes", text: "L'excés de paper, tovalloletes o objectes accidentals són causes freqüents que requereixen una extracció adequada." },
+  { title: "No tornis a descarregar", text: "Estirar repetidament la cadena pot provocar el desbordament i escampar aigua contaminada pel bany." },
+  { title: "Evita productes químics", text: "No barregis desembussadors ni sosa càustica: poden causar cremades i dificultar una intervenció segura." },
+  { title: "Sonda o barrina", text: `Seleccionem l'eina segons la posició i la resistència de l'embús detectat a ${city.shortName}.` },
+  { title: "Revisió de la baixant", text: "Si reaccionen diversos sanitaris, comprovem si l'origen és en un tram compartit i no només al WC." }
+];
+
+const urgentServicesCa = (city: CityDefinition) => [
+  { title: "Deixa d'utilitzar l'aigua", text: "No utilitzis WC, aixetes, rentadora ni rentaplats connectats fins a identificar el tram afectat." },
+  { title: "Tanca la clau si és segur", text: "Si continua entrant aigua neta i hi pots accedir sense risc, tanca la clau de l'aparell o la general." },
+  { title: "Contén el desbordament", text: "Retira objectes del terra i utilitza tovalloles o recipients sense entrar en zones amb risc elèctric." },
+  { title: "Descriu l'emergència", text: `Indica què està desbordant, des de quan i quins espais estan en risc a ${city.shortName}.` },
+  { title: "Limita l'accés", text: "Mantén infants i animals allunyats de l'aigua residual i evita trepitjar la zona afectada." },
+  { title: "Avisa la comunitat", text: "Si reaccionen diversos desguassos o habitatges, redueix l'ús de la baixant comuna fins a la revisió." }
+];
+
+const sinkServicesCa = (city: CityDefinition) => [
+  { title: "Greix i oli", text: "El greix es refreda i s'adhereix a la canonada fins a reduir el pas; l'oli usat s'ha de guardar en un recipient." },
+  { title: "Restes i cafè", text: "Menjar, marro de cafè i residus petits formen acumulacions dins del sifó i el ramal de cuina." },
+  { title: "Senyals de l'embús", text: "Aigua lenta, mala olor, sorolls o retorn des del rentaplats indiquen que l'evacuació està restringida." },
+  { title: "Compte amb el PVC", text: "No hi aboquis aigua bullent: una temperatura excessiva pot deformar juntes o conduccions de PVC." },
+  { title: "Sense sosa càustica", text: "La sosa pot causar cremades, reaccionar amb altres productes i dificultar una intervenció segura." },
+  { title: "Sifó, sonda i rentaplats", text: `A ${city.shortName} revisem el sifó, sondegem el ramal i comprovem la connexió del rentaplats.` }
+];
+
+const showerServicesCa = (city: CityDefinition) => [
+  { title: "Cabells acumulats", text: "Els cabells s'enganxen a la reixeta i al desguàs, on retenen sabó fins a formar un tap compacte." },
+  { title: "Sabó i calç", text: "Les restes de sabó i la calç redueixen progressivament el diàmetre útil del primer tram de desguàs." },
+  { title: "Senyals del bloqueig", text: "L'aigua s'acumula al plat, triga a baixar, fa sorolls o deixa una olor persistent d'humitat." },
+  { title: "No utilitzis filferros", text: "Forçar objectes metàl·lics pot ratllar el plat o la banyera, danyar juntes i empènyer el tap més endins." },
+  { title: "Protegeix l'acabat", text: "Evita químics agressius que puguin afectar l'esmalt, les juntes o els cromats." },
+  { title: "Extracció i sonda", text: `A ${city.shortName} retirem els residus accessibles i utilitzem sonda si el bloqueig continua per la conducció.` }
+];
+
+const communityServicesCa = (city: CityDefinition) => [
+  { title: "Administradors i presidents", text: "Centralitzem la comunicació amb la persona responsable de la finca i recollim els accessos necessaris." },
+  { title: "Baixants comunes", text: "Diversos habitatges amb el mateix símptoma o retorns a plantes baixes solen indicar un tram compartit." },
+  { title: "Arquetes i aparcaments", text: "Revisem punts comunitaris quan hi ha males olors, aigua acumulada o risc d'inundació en zones comunes." },
+  { title: "Diagnòstic i pressupost", text: `Definim l'abast a ${city.shortName} i presentem un pressupost tancat abans del treball programat.` },
+  { title: "Coordinació i informe", text: "Organitzem la intervenció amb els veïns i deixem constància del tram revisat i del treball realitzat." },
+  { title: "Manteniment preventiu", text: "Podem plantejar revisions periòdiques de baixants i arquetes segons les necessitats reals de l'edifici." }
+];
+
+function getCatalanLocalLandingContent(landing: LocalLanding): LocalLandingContent {
+  const { city, variant } = landing;
+  const meta = metaForCatalan(landing);
+  const arrival = city.arrival.replace("minutos", "minuts");
+  const arrivalNote = `L'arribada estimada és de ${arrival}, segons el trànsit, la disponibilitat i el punt exacte del servei.`;
+  const coveragePlaces = uniquePlaces(city);
+  const coverageNames = coveragePlaces.join(", ");
+  const commonImageAlt = "Tècnic de ServeiCat utilitzant una màquina professional al desguàs d'una banyera";
+
+  if (variant === "sink") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desembussar aigüeres a ${city.name}`,
+      heroTitle: `Desembussar aigüera a ${city.name}`,
+      heroHighlight: "amb preu clar",
+      heroText: `Atenem aigüeres amb aigua lenta, males olors, sorolls o retorn des del rentaplats. ${arrivalNote}`,
+      heroCardTitle: "Aigüera embussada",
+      heroCardText: "Revisió de sifó, ramal i connexió del rentaplats.",
+      pricesTitle: `Preu clar per desembussar una aigüera a ${city.shortName}`,
+      urgentText: "Per a aigüeres inutilitzables, retorn del rentaplats o aigua amb risc de desbordament.",
+      scheduledText: "Per a desguassos lents que es poden mantenir sense ús fins a una cita del mateix dia.",
+      servicesEyebrow: "Embussos de cuina",
+      servicesTitle: `Per què s'embussa una aigüera a ${city.shortName}`,
+      servicesText: "El greix, l'oli, les restes de menjar i el marro de cafè s'adhereixen al sifó i al ramal. Identifiquem on acaba l'acumulació abans d'intervenir.",
+      services: sinkServicesCa(city),
+      stepsTitle: "Desembussem l'aigüera en 3 passos",
+      steps: [
+        ["Deixes d'utilitzar aigüera i rentaplats", "Evites afegir aigua i ens expliques si hi ha retorn, olor o sorolls."],
+        ["Revisem sifó i ramal", "Desmuntem el sifó quan és accessible i comprovem on continua el bloqueig."],
+        ["Netegem i verifiquem", "Retirem residus, sondegem si cal i provem l'aigüera i el rentaplats."]
+      ],
+      coverageTitle: `Desembussar aigüeres a ${city.name} i voltants`,
+      coverageText: `Servei per a cuines domèstiques i professionals a ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Intervenció específica per a desguassos de cuina",
+      trustZone: `Arribada orientativa a ${city.shortName} en ${arrival} des de la nostra base de Vilanova.`,
+      reviewZone: `Servei d'aigüeres a ${city.shortName} i poblacions properes.`,
+      seoEyebrow: "Aigüeres i cuines",
+      seoTitle: `Com desembussem una aigüera a ${city.shortName}`,
+      seoText: "L'aigua lenta, els sorolls, la mala olor i el retorn des del rentaplats solen indicar una restricció al sifó o al ramal de cuina. El greix solidificat atrapa restes fins a formar una capa que no desapareix afegint més aigua.",
+      localParagraphs: [
+        catalanLocalParagraph(city, variant),
+        "No aboquis oli per l'aigüera: guarda'l en un recipient i porta'l a un punt de recollida. Una reixeta redueix els sòlids i una neteja periòdica amb aigua calenta, no bullent, i sabó ajuda a limitar residus sense sotmetre el PVC a temperatures extremes."
+      ],
+      ctaTitle: "L'aigüera ja no engoleix?",
+      ctaText: "No utilitzis el rentaplats fins a comprovar la connexió. Truca o escriu indicant si l'aigua retorna.",
+      faq: [
+        ["Quant costa desembussar una aigüera?", "La urgència té una tarifa base de 180 € + IVA i la cita del mateix dia costa 90 € + IVA. Totes dues inclouen desplaçament i primera hora."],
+        ["Hi puc abocar aigua bullent?", "No recomanem aigua bullent en instal·lacions amb PVC, juntes o components sensibles. Els pot deformar o deteriorar."],
+        ["Serveix la sosa càustica?", "No recomanem utilitzar-la. Pot causar cremades, reaccionar amb altres productes i deixar un risc per a qui desmunti el sifó."],
+        ["Per què torna aigua del rentaplats?", "El rentaplats acostuma a compartir part del desguàs de l'aigüera; una obstrucció pot fer que l'aigua busqui el punt de retorn disponible."],
+        [`Quant tardeu a arribar a ${city.shortName}?`, `${arrivalNote} L'estimació s'ajusta en confirmar l'adreça.`]
+      ],
+      footerSummary: `Servei per desembussar aigüeres a ${city.name} i voltants.`,
+      imageAlt: commonImageAlt,
+      whatsappMessage: `Hola ServeiCat 24H, necessito ajuda per desembussar una aigüera a ${city.name}.`
+    };
+  }
+
+  if (variant === "shower") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desembussar dutxes i banyeres a ${city.name}`,
+      heroTitle: `Desembussar dutxa o banyera a ${city.name} 24 hores`,
+      heroHighlight: "",
+      heroText: `Retirem acumulacions de cabells, sabó i calç en desguassos i conduccions de dutxa o banyera. ${arrivalNote}`,
+      heroCardTitle: "Dutxa o banyera embussada",
+      heroCardText: "Extracció del tap i comprovació del desguàs.",
+      pricesTitle: `Preu clar per desembussar dutxa o banyera a ${city.shortName}`,
+      urgentText: "Per a plats que s'omplen, aigua que surt del bany o afectació simultània d'altres sanitaris.",
+      scheduledText: "Per a dutxes lentes que es poden deixar fora d'ús fins a una cita del mateix dia.",
+      servicesEyebrow: "Desguassos de bany",
+      servicesTitle: `Causes d'una dutxa o banyera embussada a ${city.shortName}`,
+      servicesText: "Els cabells es combinen amb sabó i calç al voltant del desguàs o dins del primer tram. Revisem si el problema és local o correspon a una conducció compartida.",
+      services: showerServicesCa(city),
+      stepsTitle: "Desembussem dutxa o banyera en 3 passos",
+      steps: [
+        ["Deixes d'utilitzar-la", "Evites omplir el plat o la banyera i ens indiques si altres sanitaris reaccionen."],
+        ["Obrim i retirem residus", "Accedim al desguàs sense forçar l'acabat i extraiem cabells i sabó acumulats."],
+        ["Sondegem i provem", "Si el tap és més endins, treballem la conducció i comprovem el buidatge final."]
+      ],
+      coverageTitle: `Desembussar dutxes i banyeres a ${city.name}`,
+      coverageText: `Atenem desguassos de bany bloquejats a ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Treball acurat sobre desguassos i acabats",
+      trustZone: `Arribada orientativa a ${city.shortName} en ${arrival} des de Vilanova.`,
+      reviewZone: `Servei de dutxes i banyeres a ${city.shortName} i voltants.`,
+      seoEyebrow: "Dutxes i banyeres",
+      seoTitle: `Cabells, sabó o calç: com localitzem l'embús a ${city.shortName}`,
+      seoText: "Quan l'aigua s'acumula al plat o triga a desaparèixer, el bloqueig acostuma a començar amb cabells atrapats a la reixeta i barrejats amb sabó. La calç pot endurir aquesta acumulació i reduir encara més el pas.",
+      localParagraphs: [
+        catalanLocalParagraph(city, variant),
+        "No introdueixis filferros ni eines que puguin ratllar la banyera, trencar una junta o empènyer el tap. Una reixeta atrapacabells i la neteja periòdica redueixen l'acumulació; si també reaccionen lavabo o WC, pot ser un ramal o una baixant compartida."
+      ],
+      ctaTitle: "L'aigua queda acumulada a la dutxa?",
+      ctaText: "Deixa d'utilitzar-la i indica'ns si el lavabo o el WC també fan sorolls per orientar la revisió.",
+      faq: [
+        ["Quant costa desembussar una dutxa o banyera?", "La urgència costa 180 € + IVA i la cita del mateix dia 90 € + IVA. Totes dues inclouen desplaçament i primera hora."],
+        ["Puc treure el tap amb un filferro?", "No és recomanable: pot ratllar l'acabat, danyar juntes i empènyer els residus cap a una zona menys accessible."],
+        ["Com sé si el problema és a la baixant?", "Si el lavabo, el WC o altres desguassos reaccionen alhora, l'embús pot ser en un tram compartit i no només a la dutxa."],
+        ["Com evito que torni a passar?", "Utilitza una reixeta atrapacabells i neteja periòdicament el desguàs sense barrejar productes químics."],
+        [`Quant tardeu a arribar a ${city.shortName}?`, `${arrivalNote} Confirmem el temps quan rebem l'adreça.`]
+      ],
+      footerSummary: `Desembussos de dutxes i banyeres a ${city.name} i voltants.`,
+      imageAlt: commonImageAlt,
+      whatsappMessage: `Hola ServeiCat 24H, necessito desembussar una dutxa o banyera a ${city.name}.`
+    };
+  }
+
+  if (variant === "community") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desembussos per a comunitats a ${city.name}`,
+      heroTitle: `Desembussos per a comunitats de veïns a ${city.name}`,
+      heroHighlight: "",
+      heroText: `Atenció per a administradors, presidents i propietaris davant baixants, arquetes o zones comunes afectades. ${arrivalNote}`,
+      heroCardTitle: "Comunitats i edificis",
+      heroCardText: "Diagnòstic, pressupost tancat i informe d'intervenció.",
+      pricesTitle: `Pressupost per a comunitats a ${city.shortName}`,
+      pricesText: "Valorem l'abast, els accessos, els habitatges afectats i els mitjans necessaris. La comunitat rep un pressupost tancat abans del treball programat, no una tarifa oberta per hores.",
+      urgentTitle: "Urgència comunitària 24H",
+      urgentPrice: "Pressupost",
+      urgentPriceSuffix: "tancat",
+      urgentText: "Per a baixants amb retorn, arquetes desbordades, plantes baixes afectades o aigua en zones comunes.",
+      scheduledTitle: "Manteniment preventiu",
+      scheduledPrice: "A mida",
+      scheduledPriceSuffix: "per edifici",
+      scheduledText: "Revisió programada de baixants i arquetes segons les instal·lacions, l'historial i les necessitats de la finca.",
+      servicesEyebrow: "Edificis i zones comunes",
+      servicesTitle: `Desembussos comunitaris a ${city.shortName}`,
+      servicesText: "Una incidència compartida exigeix identificar habitatges, baixants, arquetes i accessos abans de coordinar tècnics i veïns.",
+      services: communityServicesCa(city),
+      stepsTitle: "Intervenció comunitària en 3 passos",
+      steps: [
+        ["Recollim la incidència", "La persona responsable indica habitatges afectats, plantes, retorns, olors i zones comunes."],
+        ["Diagnostiquem i pressupostem", "Delimitem el tram i presentem un abast tancat perquè la comunitat l'aprovi."],
+        ["Coordinem i informem", "Organitzem els accessos, fem el treball i lliurem un resum de la intervenció."]
+      ],
+      coverageTitle: `Desembussos per a comunitats a ${city.name}`,
+      coverageText: `Atenció a edificis, administradors i zones comunes a ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Un únic interlocutor per a tota la comunitat",
+      trustZone: `Coordinació a ${city.shortName} amb arribada estimada de ${arrival}, segons trànsit i disponibilitat.`,
+      reviewPrice: "Pressupost per abast per a la comunitat, amb aprovació prèvia abans del treball programat.",
+      reviewZone: `Cobertura per a comunitats de ${city.shortName} i municipis propers.`,
+      seoEyebrow: "Comunitats de propietaris",
+      seoTitle: `Baixants, arquetes i zones comunes a ${city.shortName}`,
+      seoText: "Quan diversos habitatges presenten sorolls, males olors o retorns al mateix temps, l'origen pot ser una baixant comuna. Els pisos inferiors acostumen a mostrar primer el problema i una arqueta bloquejada també pot provocar aigua en patis o aparcaments.",
+      localParagraphs: [
+        catalanLocalParagraph(city, variant),
+        "Treballem amb diagnòstic previ, coordinació d'accessos i pressupost tancat per a l'abast acordat. Després de la intervenció podem documentar el tram tractat i valorar revisions periòdiques o un pla de manteniment preventiu."
+      ],
+      ctaTitle: "Hi ha diversos veïns afectats?",
+      ctaText: "Centralitza l'avís amb l'administrador o president i indica'ns plantes, habitatges i zones comunes implicades.",
+      faq: [
+        ["Com es calcula el preu per a una comunitat?", "Es prepara un pressupost tancat segons el diagnòstic, els accessos, el tram afectat i els mitjans necessaris. No es planteja com una tarifa oberta per hora."],
+        ["Com sé si la baixant està embussada?", "Diversos habitatges amb el mateix símptoma, retorns a plantes baixes i olors en zones comunes són senyals d'una possible obstrucció compartida."],
+        ["Coordineu la intervenció amb els veïns?", "Sí. Definim accessos, limitacions temporals d'ús i una persona responsable per centralitzar la comunicació."],
+        ["Oferiu manteniment preventiu?", "Podem valorar revisions periòdiques de baixants i arquetes i proposar un pla adaptat a l'edifici."],
+        ["Ateneu urgències comunitàries 24h?", "Sí, atenem incidències urgents en baixants, arquetes i zones comunes, subjectes a disponibilitat operativa."]
+      ],
+      footerSummary: `Desembussos per a comunitats i edificis a ${city.name}.`,
+      imageAlt: commonImageAlt,
+      whatsappMessage: `Hola ServeiCat 24H, necessito ajuda amb un desembús comunitari a ${city.name}.`
+    };
+  }
+
+  if (variant === "wc") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desembussar WC i inodors a ${city.name}`,
+      heroTitle: `Desembussar WC a ${city.name}`,
+      heroHighlight: "amb atenció 24 hores",
+      heroText: `L'aigua puja o l'inodor no descarrega? Revisem el WC, el ramal i la possible connexió amb la baixant. ${arrivalNote}`,
+      heroCardTitle: "WC embussat",
+      heroCardText: "No tornis a estirar la cadena si l'aigua és alta.",
+      pricesTitle: `Preu clar per desembussar un WC a ${city.shortName}`,
+      urgentText: "Per a un inodor inutilitzable, aigua a punt de desbordar o afectació d'altres sanitaris.",
+      scheduledText: "Per a un WC que desaigua lentament però es pot mantenir fora d'ús fins a la cita del mateix dia.",
+      servicesEyebrow: "Problema específic",
+      servicesTitle: `Què fer davant un WC embussat a ${city.shortName}`,
+      servicesText: "Aquestes comprovacions redueixen el risc de desbordament i ajuden a localitzar si el bloqueig és al sanitari o en una conducció compartida.",
+      services: wcServicesCa(city),
+      stepsTitle: "Desembussem el WC en 3 passos",
+      steps: [
+        ["Deixes d'utilitzar-lo", "No tornes a descarregar i ens expliques el nivell de l'aigua i els símptomes."],
+        ["Localitzem el bloqueig", "Revisem el sanitari, el ramal i els senyals que poden apuntar a la baixant."],
+        ["Desembussem i provem", "Apliquem l'eina adequada i comprovem diverses descàrregues abans d'acabar."]
+      ],
+      coverageTitle: `Desembussar WC a ${city.name} i voltants`,
+      coverageText: `Atenem avisos d'inodors bloquejats a ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Intervenció centrada en el WC i la seva conducció",
+      trustZone: `Arribada orientativa a ${city.shortName} en ${arrival} des de la nostra base de Vilanova.`,
+      reviewZone: `Servei específic de WC a ${city.shortName} i poblacions properes.`,
+      seoEyebrow: "Especialistes en inodors",
+      seoTitle: `Com desembussem un WC a ${city.shortName} sense danyar la instal·lació`,
+      seoText: "Un inodor embussat no sempre es resol empenyent el bloqueig. Primer cal observar el nivell de l'aigua, comprovar si reaccionen altres desguassos i determinar si el problema és al sifó, al ramal o en una baixant compartida.",
+      localParagraphs: [
+        catalanLocalParagraph(city, variant),
+        "No recomanem continuar estirant la cadena ni barrejar productes químics. Si l'aigua es manté alta, deixa el WC fora d'ús i indica'ns si s'hi han llençat tovalloletes, excés de paper o objectes."
+      ],
+      ctaTitle: "El WC està a punt de desbordar?",
+      ctaText: "No tornis a descarregar. Truca o escriu indicant la ciutat i si altres sanitaris també estan afectats.",
+      faq: [
+        ["Quant costa desembussar un WC?", "La urgència té una tarifa base de 180 € + IVA. La cita del mateix dia costa 90 € + IVA. Totes dues inclouen desplaçament i primera hora."],
+        ["Puc continuar estirant la cadena?", "No si el nivell és alt o puja. Cada descàrrega afegeix aigua i augmenta el risc de desbordament."],
+        ["He d'utilitzar sosa càustica?", "No recomanem sosa ni barrejar productes. Poden provocar cremades, reaccions perilloses i dificultar el treball posterior."],
+        [`Quant tardeu a arribar a ${city.shortName}?`, `${arrivalNote} Confirma l'adreça quan truquis per obtenir una estimació ajustada.`],
+        [`On ateneu prop de ${city.shortName}?`, `Donem servei a ${coverageNames}.`]
+      ],
+      footerSummary: `Servei per desembussar WC i inodors a ${city.name} i voltants.`,
+      imageAlt: commonImageAlt,
+      whatsappMessage: `Hola ServeiCat 24H, necessito ajuda per desembussar un WC a ${city.name}.`
+    };
+  }
+
+  if (variant === "urgent") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desembussos urgents 24 hores a ${city.name}`,
+      heroTitle: `Desembussos urgents a ${city.name}`,
+      heroHighlight: "atenció 24 hores",
+      heroText: `Atenem desbordaments, retorns d'aigua, WC inutilitzables i embussos amb risc immediat. ${arrivalNote}`,
+      heroCardTitle: "Urgència de desembús",
+      heroCardText: "Atenció 24 hores, nits i festius.",
+      pricesTitle: `Tarifa visible per a urgències de desembussos a ${city.shortName}`,
+      urgentText: "Per aigua desbordant, retorn per dutxa o desguàs, WC inutilitzable o risc de danys.",
+      scheduledText: "Si el problema està contingut i pot esperar, pots reservar una intervenció del mateix dia.",
+      servicesEyebrow: "Mentre arribem",
+      servicesTitle: `Què fer davant un desembús urgent a ${city.shortName}`,
+      servicesText: "Aquestes mesures ajuden a contenir el problema. No accedeixis a aigua acumulada si pot existir contacte amb endolls o aparells elèctrics.",
+      services: urgentServicesCa(city),
+      stepsTitle: "Atenem la urgència en 3 passos",
+      steps: [
+        ["Truques i descrius el risc", "Indiques què desborda, si continua entrant aigua i quines zones pot afectar."],
+        ["Coordinem la sortida", `Confirmem l'adreça a ${city.shortName} i una estimació realista segons trànsit i disponibilitat.`],
+        ["Contenim i resolem", "Localitzem el bloqueig, recuperem el flux i comprovem que no hi hagi retorn."]
+      ],
+      coverageTitle: `Desembussos urgents a ${city.name} i voltants`,
+      coverageText: `Cobertura 24 hores per a incidències urgents a ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Resposta organitzada per a urgències reals",
+      trustZone: `Temps orientatiu fins a ${city.shortName}: ${arrival}, subjecte a trànsit i disponibilitat.`,
+      reviewZone: `Atenció urgent a ${city.shortName} i municipis propers.`,
+      seoEyebrow: "Urgències 24H",
+      seoTitle: `Desembussos urgents 24 hores a ${city.shortName}: com actuar`,
+      seoText: "Si l'aigua està pujant, deixa d'utilitzar els aparells connectats al desguàs afectat. Retira objectes del terra, limita l'accés a l'aigua residual i, quan sigui segur, tanca l'entrada d'aigua de l'aparell.",
+      localParagraphs: [
+        catalanLocalParagraph(city, variant),
+        "La tarifa base d'urgència és de 180 € + IVA i inclou desplaçament i primera hora. Si després del diagnòstic cal més temps, material o maquinària especial, s'explica l'abast i el cost abans de continuar."
+      ],
+      ctaTitle: `Necessites un desembús urgent a ${city.shortName}?`,
+      ctaText: "Truca ara i explica què està desbordant. Si existeix risc elèctric o estructural, mantén-te fora de la zona afectada.",
+      faq: [
+        ["Quant costa un desembús urgent?", "La tarifa base és de 180 € + IVA i inclou desplaçament i primera hora de treball."],
+        ["Ateneu de nit i en festius?", "Sí, el servei d'urgències està disponible 24 hores, tots els dies de l'any, subjecte a disponibilitat operativa."],
+        ["Què faig mentre arriba el tècnic?", "Deixa d'utilitzar l'aigua connectada, contén el desbordament si ho pots fer sense risc i avisa la comunitat si hi ha diversos veïns afectats."],
+        [`Quant tardeu a arribar a ${city.shortName}?`, `${arrivalNote} L'estimació es confirma amb l'adreça i la situació del trànsit.`],
+        ["Quines zones properes cobriu?", `Atenem urgències a ${coverageNames}.`]
+      ],
+      footerSummary: `Desembussos urgents 24 hores a ${city.name} i voltants.`,
+      imageAlt: commonImageAlt,
+      whatsappMessage: `Hola ServeiCat 24H, tinc un desembús urgent a ${city.name}.`
+    };
+  }
+
+  return {
+    metaTitle: meta.title,
+    metaDescription: meta.description,
+    eyebrow: `Desembussos 24 hores a ${city.name}`,
+    heroTitle: `Desembussos a ${city.name}`,
+    heroHighlight: "24 hores i preu clar",
+    heroText: `Desembussem WC, aigüeres, lavabos, canonades, baixants i arquetes en habitatges, locals i comunitats. ${arrivalNote}`,
+    heroCardTitle: "Servei local de desembussos",
+    heroCardText: "Urgències 24H i cites del mateix dia.",
+    pricesTitle: `Preus de desembussos a ${city.shortName} sense amagar la tarifa base`,
+    urgentText: "Per aigua que puja, mala olor intensa, WC inutilitzable o risc immediat de danys.",
+    scheduledText: "Per a desembussos que es poden programar sense urgència el mateix dia.",
+    servicesEyebrow: "Servei complet",
+    servicesTitle: `Què desembussem a ${city.shortName}`,
+    servicesText: "Atenem els punts habituals d'una instal·lació domèstica, comercial o comunitària i comprovem el flux en acabar.",
+    services: generalServicesCa(city),
+    stepsTitle: `Desembús resolt a ${city.shortName} en 3 passos`,
+    steps: [
+      ["Truques o escrius", `Ens indiques l'adreça a ${city.shortName}, el punt embussat i si existeix risc de desbordament.`],
+      ["Coordinem l'arribada", `Confirmem disponibilitat i el temps orientatiu de ${arrival} segons el trànsit.`],
+      ["Desembussem i comprovem", "Recuperem el pas, verifiquem el flux i expliquem el treball realitzat."]
+    ],
+    coverageTitle: `Desembussos a ${city.name} i voltants`,
+    coverageText: `Servei de desembussos 24 hores a ${coverageNames}. ${arrivalNote}`,
+    coveragePlaces,
+    trustTitle: `Servei de desembussos pensat per a ${city.shortName}`,
+    trustZone: `Arribada orientativa a ${city.shortName} en ${arrival} des de la nostra base de Vilanova.`,
+    reviewZone: `Cobertura local a ${city.shortName} i poblacions properes.`,
+    seoEyebrow: "Desembussos locals",
+    seoTitle: `Servei de desembussos a ${city.shortName} per a habitatges, locals i comunitats`,
+    seoText: "Atenem embussos en WC, aigüeres, lavabos, dutxes, canonades, baixants i arquetes. Abans de desplaçar-nos preguntem què passa, des de quan i si altres desguassos estan afectats.",
+    localParagraphs: [
+      catalanLocalParagraph(city, variant),
+      "Pots sol·licitar una sortida urgent per 180 € + IVA o una cita del mateix dia per 90 € + IVA. Totes dues tarifes inclouen desplaçament i primera hora; qualsevol necessitat addicional es comunica abans de continuar."
+    ],
+    ctaTitle: `Necessites un desembús a ${city.shortName}?`,
+    ctaText: "Explica on és l'embús i si l'aigua puja. Et confirmem disponibilitat i una estimació d'arribada.",
+    faq: [
+      ["Quant costa un desembús?", "La urgència costa 180 € + IVA i la cita del mateix dia 90 € + IVA. Totes dues inclouen desplaçament i primera hora."],
+      [`Quant tardeu a arribar a ${city.shortName}?`, `${arrivalNote} Quan truquis confirmarem una estimació ajustada a l'adreça.`],
+      ["Quins tipus d'embús ateneu?", "WC, aigüeres, lavabos, dutxes, canonades, baixants, arquetes i conduccions de comunitats."],
+      ["Què passa si cal més treball?", "S'explica el diagnòstic, el temps o material addicional i el cost abans de continuar."],
+      [`En quines zones treballeu prop de ${city.shortName}?`, `Donem servei a ${coverageNames}.`]
+    ],
+    footerSummary: `Desembussos 24 hores a ${city.name} i voltants.`,
+    imageAlt: commonImageAlt,
+    whatsappMessage: `Hola ServeiCat 24H, necessito ajuda amb un desembús a ${city.name}.`
+  };
+}
+
+export function getLocalLandingContent(landing: LocalLanding, lang: LandingLang = "es"): LocalLandingContent {
+  if (lang === "ca") {
+    return getCatalanLocalLandingContent(landing);
+  }
+
   const { city, variant } = landing;
   const meta = metaFor(landing);
   const arrivalNote = `La llegada estimada es de ${city.arrival}, según tráfico, disponibilidad y punto exacto del servicio.`;
@@ -702,15 +1167,25 @@ export function getLocalLandingContent(landing: LocalLanding): LocalLandingConte
   };
 }
 
-export function getRelatedLandingLinks(landing: LocalLanding): LocalLandingLink[] {
-  const variantLabels: Record<LandingVariant, string> = {
-    general: `Desatascos en ${landing.city.shortName}`,
-    wc: `Desatascar WC en ${landing.city.shortName}`,
-    urgent: `Urgencias 24H en ${landing.city.shortName}`,
-    sink: `Desatascar fregadero en ${landing.city.shortName}`,
-    shower: `Desatascar ducha en ${landing.city.shortName}`,
-    community: `Comunidades en ${landing.city.shortName}`
-  };
+export function getRelatedLandingLinks(landing: LocalLanding, lang: LandingLang = "es"): LocalLandingLink[] {
+  const variantLabels: Record<LandingVariant, string> =
+    lang === "ca"
+      ? {
+          general: `Desembussos a ${landing.city.shortName}`,
+          wc: `Desembussar WC a ${landing.city.shortName}`,
+          urgent: `Urgències 24H a ${landing.city.shortName}`,
+          sink: `Desembussar aigüera a ${landing.city.shortName}`,
+          shower: `Desembussar dutxa a ${landing.city.shortName}`,
+          community: `Comunitats a ${landing.city.shortName}`
+        }
+      : {
+          general: `Desatascos en ${landing.city.shortName}`,
+          wc: `Desatascar WC en ${landing.city.shortName}`,
+          urgent: `Urgencias 24H en ${landing.city.shortName}`,
+          sink: `Desatascar fregadero en ${landing.city.shortName}`,
+          shower: `Desatascar ducha en ${landing.city.shortName}`,
+          community: `Comunidades en ${landing.city.shortName}`
+        };
 
   const siblingLinks = localLandings
     .filter((candidate) => candidate.city.slug === landing.city.slug && candidate.slug !== landing.slug)
@@ -722,7 +1197,9 @@ export function getRelatedLandingLinks(landing: LocalLanding): LocalLandingLink[
   const nearbyLinks = landing.city.nearby
     .map((place) => {
       const href = getGeneralLandingHref(place);
-      return href ? { href, label: `Desatascos en ${place}` } : undefined;
+      return href
+        ? { href, label: lang === "ca" ? `Desembussos a ${place}` : `Desatascos en ${place}` }
+        : undefined;
     })
     .filter((link): link is LocalLandingLink => Boolean(link))
     .slice(0, 2);
