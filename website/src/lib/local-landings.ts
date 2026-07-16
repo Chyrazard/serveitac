@@ -1,4 +1,4 @@
-export const landingVariants = ["general", "wc", "urgent"] as const;
+export const landingVariants = ["general", "wc", "urgent", "sink", "shower", "community"] as const;
 
 export type LandingVariant = (typeof landingVariants)[number];
 
@@ -27,7 +27,14 @@ export type LocalLandingContent = {
   heroCardTitle: string;
   heroCardText: string;
   pricesTitle: string;
+  pricesText?: string;
+  urgentTitle?: string;
+  urgentPrice?: string;
+  urgentPriceSuffix?: string;
   urgentText: string;
+  scheduledTitle?: string;
+  scheduledPrice?: string;
+  scheduledPriceSuffix?: string;
   scheduledText: string;
   servicesEyebrow: string;
   servicesTitle: string;
@@ -40,6 +47,7 @@ export type LocalLandingContent = {
   coveragePlaces: string[];
   trustTitle: string;
   trustZone: string;
+  reviewPrice?: string;
   reviewZone: string;
   seoEyebrow: string;
   seoTitle: string;
@@ -71,7 +79,13 @@ const cities: CityDefinition[] = [
       wc:
         "Para un WC atascado en Vilanova, la cercanía de nuestra base permite valorar con rapidez si el bloqueo está en el propio inodoro, en el ramal interior o en una bajante comunitaria. Esa diferencia determina la herramienta adecuada y evita insistir con métodos que pueden desplazar el problema a otra parte de la instalación.",
       urgent:
-        "Las urgencias de desatascos en Vilanova se coordinan desde nuestra propia base en la ciudad. Cuando hay agua rebosando o varios desagües afectados, priorizamos confirmar el tipo de inmueble y si la incidencia puede alcanzar zonas comunes antes de movilizar el equipo."
+        "Las urgencias de desatascos en Vilanova se coordinan desde nuestra propia base en la ciudad. Cuando hay agua rebosando o varios desagües afectados, priorizamos confirmar el tipo de inmueble y si la incidencia puede alcanzar zonas comunes antes de movilizar el equipo.",
+      sink:
+        "Desde nuestra base en Vilanova podemos atender fregaderos bloqueados en viviendas y cocinas de negocios locales. Antes de salir preguntamos si el lavavajillas devuelve agua y si el sifón es accesible, dos datos que ayudan a diferenciar una obstrucción inmediata de grasa acumulada más adentro del ramal.",
+      shower:
+        "En Vilanova atendemos duchas y bañeras donde el agua queda retenida por pelo, jabón o cal. Si lavabo y WC funcionan con normalidad, la intervención puede centrarse en el sumidero; si también reaccionan, revisamos la posibilidad de un tramo compartido.",
+      community:
+        "La base operativa en Vilanova facilita coordinar avisos de administradores, presidentes y vecinos cuando una bajante o arqueta afecta a varias viviendas. Recogemos los pisos implicados y el punto de retorno para preparar diagnóstico, presupuesto cerrado e intervención organizada."
     }
   },
   {
@@ -86,7 +100,13 @@ const cities: CityDefinition[] = [
       wc:
         "Un WC bloqueado en un chalet o apartamento de Castelldefels puede tener el origen junto al sanitario o más adelante en la conducción. Revisamos si también reaccionan ducha, lavabo u otros baños, una comprobación útil para elegir entre actuación localizada y revisión del tramo compartido.",
       urgent:
-        "En una urgencia en Castelldefels damos prioridad a situaciones con rebose, riesgo para plantas inferiores o afectación de más de un sanitario. En viviendas de uso estacional conviene indicar si la instalación llevaba tiempo sin utilizarse, porque esa información ayuda a preparar la intervención."
+        "En una urgencia en Castelldefels damos prioridad a situaciones con rebose, riesgo para plantas inferiores o afectación de más de un sanitario. En viviendas de uso estacional conviene indicar si la instalación llevaba tiempo sin utilizarse, porque esa información ayuda a preparar la intervención.",
+      sink:
+        "En cocinas de apartamentos, chalets y negocios de Castelldefels, un fregadero lento puede deberse al sifón o a grasa consolidada en el ramal. Preguntamos si existe retorno desde el lavavajillas para preparar la revisión de ambas conexiones.",
+      shower:
+        "Para duchas y bañeras atascadas en Castelldefels distinguimos entre un tapón accesible de pelo y jabón y una obstrucción situada después del sumidero. En viviendas con varios baños, comprobar cuál reacciona evita intervenir en el punto equivocado.",
+      community:
+        "En comunidades residenciales de Castelldefels coordinamos incidencias de bajantes, arquetas y zonas comunes con el administrador o presidente. El diagnóstico identifica qué viviendas están conectadas al tramo y permite presentar un alcance cerrado antes de organizar el acceso."
     }
   },
   {
@@ -101,7 +121,13 @@ const cities: CityDefinition[] = [
       wc:
         "Cuando un inodoro se atasca en Viladecans, comprobamos primero si se trata de un sanitario aislado o si hay señales en otros puntos del baño. En locales y comunidades esta revisión inicial es especialmente importante para saber si el uso de una bajante común debe limitarse mientras llega el técnico.",
       urgent:
-        "Para desatascos urgentes en Viladecans pedimos identificar si el agua está contenida, si afecta a un local abierto al público o si puede pasar a otra vivienda. Con esos datos se prioriza la salida y se dan indicaciones concretas para reducir daños durante el tiempo estimado de desplazamiento."
+        "Para desatascos urgentes en Viladecans pedimos identificar si el agua está contenida, si afecta a un local abierto al público o si puede pasar a otra vivienda. Con esos datos se prioriza la salida y se dan indicaciones concretas para reducir daños durante el tiempo estimado de desplazamiento.",
+      sink:
+        "La cobertura de fregaderos en Viladecans incluye cocinas domésticas y locales comerciales. Si hay grasa acumulada o retorno por el lavavajillas, revisamos primero sifón y conexiones antes de avanzar con sonda por la conducción.",
+      shower:
+        "En viviendas de Viladecans, una ducha que tarda en vaciar suele requerir retirar residuos del sumidero y comprobar el primer tramo. Cuando lavabo o WC presentan gorgoteos al mismo tiempo, la revisión se amplía porque el bloqueo puede no estar en la ducha.",
+      community:
+        "Para comunidades y edificios de Viladecans centralizamos el contacto con administrador, presidente o responsable del inmueble. Documentamos viviendas afectadas, zonas comunes y arquetas para preparar un presupuesto por alcance y coordinar la intervención sin depender de una tarifa por hora."
     }
   },
   {
@@ -116,7 +142,13 @@ const cities: CityDefinition[] = [
       wc:
         "En los avisos de WC atascado en Gavà preguntamos si el problema ocurre en el centro, Gavà Mar o una comunidad, y si existen otros baños operativos. Así se puede valorar si el bloqueo parece localizado o si hay indicios de una conducción compartida antes de intervenir.",
       urgent:
-        "Una urgencia de saneamiento en Gavà Mar o en el núcleo urbano requiere saber si el agua sigue entrando y qué estancias están en riesgo. Recomendamos detener el uso de sanitarios afectados y describir por teléfono cualquier retorno en ducha o sumidero para orientar la salida."
+        "Una urgencia de saneamiento en Gavà Mar o en el núcleo urbano requiere saber si el agua sigue entrando y qué estancias están en riesgo. Recomendamos detener el uso de sanitarios afectados y describir por teléfono cualquier retorno en ducha o sumidero para orientar la salida.",
+      sink:
+        "En Gavà centro y Gavà Mar atendemos fregaderos domésticos y cocinas donde el agua baja lentamente o vuelve desde el lavavajillas. La limpieza del sifón resuelve algunos casos; cuando la grasa está en el ramal, es necesario avanzar con una herramienta de sondeo.",
+      shower:
+        "Una ducha atascada en Gavà puede presentar un tapón visible de pelo o una acumulación de jabón y cal dentro de la conducción. Revisamos también lavabo y WC cuando hay olores o gorgoteos para descartar una afectación compartida.",
+      community:
+        "En fincas de Gavà y Gavà Mar coordinamos bajantes obstruidas, arquetas comunitarias y retornos en plantas bajas. El interlocutor de la comunidad recibe un presupuesto cerrado y un resumen del trabajo para que la incidencia quede documentada."
     }
   },
   {
@@ -131,7 +163,13 @@ const cities: CityDefinition[] = [
       wc:
         "Un WC atascado en una segunda residencia de Sitges puede aparecer tras un periodo sin uso, mientras que en hostelería la prioridad suele ser mantener operativos los demás sanitarios. Indicarnos el contexto permite separar el baño afectado y preparar una revisión proporcionada al problema.",
       urgent:
-        "En urgencias de Sitges diferenciamos entre una incidencia doméstica, una segunda residencia y un negocio de hostelería con público. Si el agua amenaza otras estancias o el atasco afecta varios sanitarios, esa información se utiliza para priorizar y preparar la intervención desde Vilanova."
+        "En urgencias de Sitges diferenciamos entre una incidencia doméstica, una segunda residencia y un negocio de hostelería con público. Si el agua amenaza otras estancias o el atasco afecta varios sanitarios, esa información se utiliza para priorizar y preparar la intervención desde Vilanova.",
+      sink:
+        "En Sitges diferenciamos el fregadero de una vivienda o segunda residencia de una cocina de hostelería con uso intensivo. En bares y restaurantes la acumulación de grasa puede extenderse más allá del sifón, por lo que preguntamos qué equipos descargan en el mismo ramal.",
+      shower:
+        "En duchas y bañeras de viviendas, alojamientos y segundas residencias de Sitges comprobamos primero sumidero, pelo y restos de jabón. Si la instalación llevaba tiempo sin uso o aparecen olores persistentes, esa información ayuda a revisar también el cierre hidráulico y la conducción.",
+      community:
+        "Las comunidades de Sitges pueden incluir viviendas habituales, segundas residencias y zonas compartidas con ocupación variable. Coordinamos el acceso con administrador o presidente, identificamos las unidades afectadas y planteamos presupuesto cerrado, informe y mantenimiento preventivo cuando resulte adecuado."
     }
   },
   {
@@ -146,7 +184,13 @@ const cities: CityDefinition[] = [
       wc:
         "Para desatascar un WC en Ribes o Les Roquetes comprobamos si el problema se limita al inodoro o coincide con gorgoteos y retornos en otros desagües. Esa información permite anticipar si debe revisarse el sanitario, un ramal de la vivienda o una bajante.",
       urgent:
-        "Las urgencias en Sant Pere de Ribes se coordinan indicando desde el primer contacto si el aviso procede de Ribes o Les Roquetes. Si hay una bajante comunitaria implicada, pedimos detener temporalmente el uso de agua en las viviendas conectadas cuando sea posible."
+        "Las urgencias en Sant Pere de Ribes se coordinan indicando desde el primer contacto si el aviso procede de Ribes o Les Roquetes. Si hay una bajante comunitaria implicada, pedimos detener temporalmente el uso de agua en las viviendas conectadas cuando sea posible.",
+      sink:
+        "Para fregaderos atascados en Ribes o Les Roquetes confirmamos si el agua queda retenida solo en la cubeta o también retorna por el lavavajillas. Esto permite preparar limpieza de sifón o sondeo del ramal según la profundidad probable de la acumulación.",
+      shower:
+        "En Sant Pere de Ribes y Les Roquetes atendemos duchas y bañeras con acumulación de pelo, jabón y cal. Si otros sanitarios reaccionan, dejamos de tratarlo como un atasco aislado y comprobamos la conducción compartida.",
+      community:
+        "En comunidades del núcleo de Ribes y Les Roquetes organizamos el diagnóstico con la persona responsable del edificio. La relación de pisos afectados y el comportamiento de las plantas bajas permite localizar la bajante, preparar presupuesto y coordinar a los vecinos."
     }
   },
   {
@@ -161,7 +205,13 @@ const cities: CityDefinition[] = [
       wc:
         "En apartamentos de Calafell Playa y Segur de Calafell, un WC atascado puede requerir comprobar si la bajante compartida presenta señales en otras viviendas. En una casa del pueblo, la revisión puede centrarse primero en el ramal interior y su conexión con el saneamiento.",
       urgent:
-        "Para una urgencia en Calafell Playa, el pueblo o Segur de Calafell, confirmamos si el rebose puede afectar apartamentos inferiores o zonas comunes. Hasta la llegada recomendamos no utilizar los puntos conectados y avisar a la comunidad si varios vecinos detectan el mismo síntoma."
+        "Para una urgencia en Calafell Playa, el pueblo o Segur de Calafell, confirmamos si el rebose puede afectar apartamentos inferiores o zonas comunes. Hasta la llegada recomendamos no utilizar los puntos conectados y avisar a la comunidad si varios vecinos detectan el mismo síntoma.",
+      sink:
+        "En Calafell pueblo, la playa y Segur de Calafell atendemos fregaderos de viviendas, apartamentos y cocinas de negocios. En inmuebles de uso estacional preguntamos cuánto tiempo llevaba el desagüe sin utilizarse y si el lavavajillas comparte la conexión.",
+      shower:
+        "Las duchas de apartamentos de Calafell Playa y Segur pueden acumular pelo, jabón y cal en el sumidero o en el primer tramo. Cuando varios baños o viviendas muestran síntomas, la prioridad pasa a descartar una bajante común.",
+      community:
+        "En comunidades y apartamentos de Calafell, Segur y la zona de playa, una bajante obstruida puede afectar primero a las plantas inferiores. Coordinamos avisos, acceso a arquetas o aparcamientos y presupuesto cerrado con el administrador o presidente."
     }
   },
   {
@@ -176,7 +226,13 @@ const cities: CityDefinition[] = [
       wc:
         "Para un WC bloqueado en Cubelles o Cubelles Platja revisamos si el agua queda alta solo en la taza o si también responde la ducha o el lavabo. En comunidades y apartamentos esa diferencia ayuda a detectar pronto una posible afectación compartida.",
       urgent:
-        "La proximidad entre Vilanova y Cubelles permite coordinar con rapidez avisos urgentes del núcleo y la playa. Si el rebose ocurre en un apartamento, pedimos confirmar la planta y si hay vecinos afectados para valorar el riesgo sobre otras viviendas."
+        "La proximidad entre Vilanova y Cubelles permite coordinar con rapidez avisos urgentes del núcleo y la playa. Si el rebose ocurre en un apartamento, pedimos confirmar la planta y si hay vecinos afectados para valorar el riesgo sobre otras viviendas.",
+      sink:
+        "En Cubelles y Cubelles Platja atendemos fregaderos lentos o bloqueados en viviendas y apartamentos. Saber si el atasco apareció de forma gradual y si el lavavajillas devuelve agua ayuda a distinguir entre sifón sucio y grasa acumulada en el ramal.",
+      shower:
+        "Para duchas y bañeras de Cubelles revisamos la rejilla, el sumidero y el primer tramo antes de utilizar sonda. En apartamentos de la zona de playa también comprobamos si otros desagües reaccionan para descartar un problema compartido.",
+      community:
+        "La cercanía de Cubelles a nuestra base facilita coordinar incidencias de comunidades en el núcleo y Cubelles Platja. Recopilamos las viviendas afectadas, revisamos bajante o arqueta y presentamos un presupuesto cerrado antes del trabajo programado."
     }
   }
 ];
@@ -184,7 +240,10 @@ const cities: CityDefinition[] = [
 const variantSlug: Record<LandingVariant, string> = {
   general: "desatascos",
   wc: "desatascar-wc",
-  urgent: "desatascos-urgentes"
+  urgent: "desatascos-urgentes",
+  sink: "desatascar-fregadero",
+  shower: "desatascar-ducha",
+  community: "desatascos-comunidades"
 };
 
 export const localLandings: LocalLanding[] = cities.flatMap((city) =>
@@ -227,10 +286,202 @@ function metaFor(landing: LocalLanding) {
     };
   }
 
+  if (variant === "sink") {
+    return {
+      title: `Desatascar Fregadero ${city.shortName} 24h | ServeiCat 24H`,
+      description: `Servicio para desatascar fregaderos en ${city.name}: grasa, restos y retorno del lavavajillas. Llegada estimada ${city.arrival} y precios claros.`
+    };
+  }
+
+  if (variant === "shower") {
+    return {
+      title: `Desatascar Ducha y Bañera ${city.shortName} | ServeiCat 24H`,
+      description: `Desatascamos duchas y bañeras en ${city.name}: pelo, jabón, cal y sumideros bloqueados. Llegada estimada ${city.arrival}.`
+    };
+  }
+
+  if (variant === "community") {
+    return {
+      title: `Desatascos Comunidades ${city.shortName} | ServeiCat 24H`,
+      description: `Desatascos para comunidades en ${city.name}: bajantes, arquetas y zonas comunes. Diagnóstico, presupuesto cerrado y atención 24h.`
+    };
+  }
+
   return {
     title: `Desatascos ${city.shortName} 24h | ServeiCat 24H`,
     description: `Desatascos 24h en ${city.name} para WC, fregaderos, tuberías, bajantes y arquetas. Llegada estimada ${city.arrival} y tarifas desde 90 € + IVA.`
   };
+}
+
+function getNewVariantContent(landing: LocalLanding): LocalLandingContent | undefined {
+  const { city, variant } = landing;
+  const meta = metaFor(landing);
+  const arrivalNote = `La llegada estimada es de ${city.arrival}, según tráfico, disponibilidad y punto exacto del servicio.`;
+  const coveragePlaces = uniquePlaces(city);
+  const coverageNames = coveragePlaces.join(", ");
+
+  if (variant === "sink") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desatascar fregaderos en ${city.name}`,
+      heroTitle: `Desatascar fregadero en ${city.name}`,
+      heroHighlight: "con precio claro",
+      heroText: `Atendemos fregaderos con agua lenta, malos olores, gorgoteos o retorno desde el lavavajillas. ${arrivalNote}`,
+      heroCardTitle: "Fregadero atascado",
+      heroCardText: "Revisión de sifón, ramal y conexión del lavavajillas.",
+      pricesTitle: `Precio claro para desatascar un fregadero en ${city.shortName}`,
+      urgentText: "Para fregaderos inutilizables, retorno del lavavajillas o agua que amenaza con desbordarse.",
+      scheduledText: "Para desagües lentos que pueden mantenerse sin uso hasta una cita del mismo día.",
+      servicesEyebrow: "Atascos de cocina",
+      servicesTitle: `Por qué se atasca un fregadero en ${city.shortName}`,
+      servicesText: "Grasa, aceite, restos de comida y posos de café se adhieren al sifón y al ramal. Identificamos dónde termina la acumulación antes de intervenir.",
+      services: sinkServices(city),
+      stepsTitle: "Desatascamos el fregadero en 3 pasos",
+      steps: [
+        ["Dejas de usar fregadero y lavavajillas", "Evitas añadir agua y nos explicas si existe retorno, olor o gorgoteo."],
+        ["Revisamos sifón y ramal", "Desmontamos el sifón cuando es accesible y comprobamos dónde continúa el bloqueo."],
+        ["Limpiamos y verificamos", "Retiramos residuos, sondeamos si hace falta y probamos fregadero y lavavajillas."]
+      ],
+      coverageTitle: `Desatascar fregaderos en ${city.name} y alrededores`,
+      coverageText: `Servicio para cocinas domésticas y profesionales en ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Intervención específica para desagües de cocina",
+      trustZone: `Llegada orientativa a ${city.shortName} en ${city.arrival} desde nuestra base de Vilanova.`,
+      reviewZone: `Servicio de fregaderos en ${city.shortName} y poblaciones próximas.`,
+      seoEyebrow: "Fregaderos y cocinas",
+      seoTitle: `Cómo desatascamos un fregadero en ${city.shortName}`,
+      seoText: "El agua lenta, los gorgoteos, el mal olor y el retorno desde el lavavajillas suelen indicar una restricción en el sifón o en el ramal de cocina. La grasa solidificada atrapa restos de comida y posos hasta formar una capa que no desaparece simplemente añadiendo más agua.",
+      localParagraphs: [
+        city.localContent.sink,
+        "No viertas aceite por el fregadero: guárdalo en un recipiente y llévalo a un punto de recogida. Una rejilla reduce los sólidos y una limpieza periódica con agua caliente no hirviendo y jabón ayuda a limitar residuos sin someter el PVC a temperaturas extremas."
+      ],
+      ctaTitle: "¿El fregadero ya no traga?",
+      ctaText: "No uses el lavavajillas hasta comprobar la conexión. Llama o escribe indicando si el agua retorna.",
+      faq: [
+        ["¿Cuánto cuesta desatascar un fregadero?", "La urgencia tiene una tarifa base de 180 € + IVA y la cita del mismo día cuesta 90 € + IVA. Ambas incluyen desplazamiento y primera hora."],
+        ["¿Puedo echar agua hirviendo?", "No recomendamos agua hirviendo en instalaciones con PVC, juntas o componentes sensibles. Puede deformarlos o deteriorarlos."],
+        ["¿Sirve la sosa cáustica?", "No recomendamos utilizarla. Puede causar quemaduras, reaccionar con otros productos y dejar un riesgo para quien desmonte el sifón."],
+        ["¿Por qué vuelve agua del lavavajillas?", "El lavavajillas suele compartir parte del desagüe del fregadero; una obstrucción puede hacer que el agua busque el punto de retorno disponible."],
+        [`¿Cuánto tardáis en llegar a ${city.shortName}?`, `${arrivalNote} La estimación se ajusta al confirmar la dirección.`]
+      ],
+      footerSummary: `Servicio para desatascar fregaderos en ${city.name} y alrededores.`,
+      imageAlt: "Técnico de ServeiCat utilizando una máquina profesional en el desagüe de una bañera",
+      whatsappMessage: `Hola ServeiCat 24H, necesito ayuda para desatascar un fregadero en ${city.name}.`
+    };
+  }
+
+  if (variant === "shower") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desatascar duchas y bañeras en ${city.name}`,
+      heroTitle: `Desatascar ducha o bañera en ${city.name} 24 horas`,
+      heroHighlight: "",
+      heroText: `Retiramos acumulaciones de pelo, jabón y cal en sumideros y conducciones de ducha o bañera. ${arrivalNote}`,
+      heroCardTitle: "Ducha o bañera atascada",
+      heroCardText: "Extracción del tapón y comprobación del desagüe.",
+      pricesTitle: `Precio claro para desatascar ducha o bañera en ${city.shortName}`,
+      urgentText: "Para platos que se llenan, agua que sale del baño o afectación simultánea de otros sanitarios.",
+      scheduledText: "Para duchas lentas que pueden dejarse fuera de uso hasta una cita del mismo día.",
+      servicesEyebrow: "Desagües de baño",
+      servicesTitle: `Causas de una ducha o bañera atascada en ${city.shortName}`,
+      servicesText: "El pelo se combina con jabón y cal alrededor del sumidero o dentro del primer tramo. Revisamos si el problema es local o pertenece a una conducción compartida.",
+      services: showerServices(city),
+      stepsTitle: "Desatascamos ducha o bañera en 3 pasos",
+      steps: [
+        ["Dejas de utilizarla", "Evitas llenar el plato o la bañera y nos indicas si otros sanitarios reaccionan."],
+        ["Abrimos y retiramos residuos", "Accedemos al sumidero sin forzar el acabado y extraemos pelo y jabón acumulados."],
+        ["Sondeamos y probamos", "Si el tapón está más adentro, trabajamos la conducción y comprobamos el vaciado final."]
+      ],
+      coverageTitle: `Desatascar duchas y bañeras en ${city.name}`,
+      coverageText: `Atendemos desagües de baño bloqueados en ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Trabajo cuidadoso sobre sumideros y acabados",
+      trustZone: `Llegada orientativa a ${city.shortName} en ${city.arrival} desde Vilanova.`,
+      reviewZone: `Servicio de duchas y bañeras en ${city.shortName} y alrededores.`,
+      seoEyebrow: "Duchas y bañeras",
+      seoTitle: `Pelo, jabón o cal: cómo localizamos el atasco en ${city.shortName}`,
+      seoText: "Cuando el agua se acumula en el plato o tarda en desaparecer, el bloqueo suele comenzar con pelo atrapado en la rejilla y mezclado con jabón. La cal puede endurecer esa acumulación y reducir todavía más el paso del desagüe.",
+      localParagraphs: [
+        city.localContent.shower,
+        "No introduzcas alambres ni herramientas que puedan rayar la bañera, romper una junta o empujar el tapón. Una rejilla atrapapelos y la limpieza periódica del sumidero reducen la acumulación; si también reaccionan lavabo o WC, puede tratarse de un ramal o bajante compartida."
+      ],
+      ctaTitle: "¿El agua queda acumulada en la ducha?",
+      ctaText: "Deja de utilizarla y dinos si lavabo o WC también gorgotean para orientar la revisión.",
+      faq: [
+        ["¿Cuánto cuesta desatascar una ducha o bañera?", "La urgencia cuesta 180 € + IVA y la cita del mismo día 90 € + IVA. Ambas incluyen desplazamiento y primera hora."],
+        ["¿Puedo sacar el tapón con un alambre?", "No es recomendable: puede rayar el acabado, dañar juntas y empujar los residuos hacia una zona menos accesible."],
+        ["¿Cómo sé si el problema está en la bajante?", "Si lavabo, WC u otros desagües reaccionan al mismo tiempo, el atasco puede estar en un tramo compartido y no solo en la ducha."],
+        ["¿Cómo evito que vuelva a ocurrir?", "Utiliza una rejilla atrapapelos y limpia periódicamente el sumidero sin mezclar productos químicos."],
+        [`¿Cuánto tardáis en llegar a ${city.shortName}?`, `${arrivalNote} Confirmamos el tiempo al recibir la dirección.`]
+      ],
+      footerSummary: `Desatascos de duchas y bañeras en ${city.name} y alrededores.`,
+      imageAlt: "Técnico de ServeiCat utilizando una máquina profesional en el desagüe de una bañera",
+      whatsappMessage: `Hola ServeiCat 24H, necesito desatascar una ducha o bañera en ${city.name}.`
+    };
+  }
+
+  if (variant === "community") {
+    return {
+      metaTitle: meta.title,
+      metaDescription: meta.description,
+      eyebrow: `Desatascos para comunidades en ${city.name}`,
+      heroTitle: `Desatascos para comunidades de vecinos en ${city.name}`,
+      heroHighlight: "",
+      heroText: `Atención para administradores, presidentes y propietarios ante bajantes, arquetas o zonas comunes afectadas. ${arrivalNote}`,
+      heroCardTitle: "Comunidades y edificios",
+      heroCardText: "Diagnóstico, presupuesto cerrado e informe de intervención.",
+      pricesTitle: `Presupuesto para comunidades en ${city.shortName}`,
+      pricesText: "Valoramos el alcance, accesos, viviendas afectadas y medios necesarios. La comunidad recibe un presupuesto cerrado antes del trabajo programado, no una tarifa abierta por horas.",
+      urgentTitle: "Urgencia comunitaria 24H",
+      urgentPrice: "Presupuesto",
+      urgentPriceSuffix: "cerrado",
+      urgentText: "Para bajantes con retorno, arquetas desbordadas, plantas bajas afectadas o agua en zonas comunes.",
+      scheduledTitle: "Mantenimiento preventivo",
+      scheduledPrice: "A medida",
+      scheduledPriceSuffix: "por edificio",
+      scheduledText: "Revisión programada de bajantes y arquetas según instalaciones, historial y necesidades de la finca.",
+      servicesEyebrow: "Edificios y zonas comunes",
+      servicesTitle: `Desatascos comunitarios en ${city.shortName}`,
+      servicesText: "Una incidencia compartida exige identificar viviendas, bajantes, arquetas y accesos antes de coordinar a técnicos y vecinos.",
+      services: communityServices(city),
+      stepsTitle: "Intervención comunitaria en 3 pasos",
+      steps: [
+        ["Recogemos la incidencia", "El responsable indica viviendas afectadas, plantas, retornos, olores y zonas comunes."],
+        ["Diagnosticamos y presupuestamos", "Delimitamos el tramo y presentamos un alcance cerrado para aprobación de la comunidad."],
+        ["Coordinamos e informamos", "Organizamos accesos, realizamos el trabajo y entregamos un resumen de la intervención."]
+      ],
+      coverageTitle: `Desatascos para comunidades en ${city.name}`,
+      coverageText: `Atención a edificios, administradores y zonas comunes en ${coverageNames}. ${arrivalNote}`,
+      coveragePlaces,
+      trustTitle: "Un único interlocutor para toda la comunidad",
+      trustZone: `Coordinación en ${city.shortName} con llegada estimada de ${city.arrival}, según tráfico y disponibilidad.`,
+      reviewPrice: "Presupuesto por alcance para la comunidad, con aprobación previa antes del trabajo programado.",
+      reviewZone: `Cobertura para comunidades de ${city.shortName} y municipios próximos.`,
+      seoEyebrow: "Comunidades de propietarios",
+      seoTitle: `Bajantes, arquetas y zonas comunes en ${city.shortName}`,
+      seoText: "Cuando varias viviendas presentan gorgoteos, malos olores o retornos al mismo tiempo, el origen puede estar en una bajante común. Los pisos inferiores suelen mostrar primero el problema y una arqueta bloqueada también puede provocar agua en patios o aparcamientos.",
+      localParagraphs: [
+        city.localContent.community,
+        "Trabajamos con diagnóstico previo, coordinación de accesos y presupuesto cerrado para el alcance acordado. Después de la intervención podemos documentar el tramo tratado y valorar revisiones periódicas o un plan de mantenimiento preventivo para bajantes y arquetas."
+      ],
+      ctaTitle: "¿Hay varios vecinos afectados?",
+      ctaText: "Centraliza el aviso con el administrador o presidente e indícanos plantas, viviendas y zonas comunes implicadas.",
+      faq: [
+        ["¿Cómo se calcula el precio para una comunidad?", "Se prepara un presupuesto cerrado según diagnóstico, accesos, tramo afectado y medios necesarios. No se plantea como una tarifa abierta por hora."],
+        ["¿Cómo sé si está atascada la bajante?", "Varias viviendas con el mismo síntoma, retornos en plantas bajas y olores en zonas comunes son señales de una posible obstrucción compartida."],
+        ["¿Coordináis la intervención con los vecinos?", "Sí. Definimos accesos, limitaciones temporales de uso y una persona responsable para centralizar la comunicación."],
+        ["¿Ofrecéis mantenimiento preventivo?", "Podemos valorar revisiones periódicas de bajantes y arquetas y proponer un plan adaptado al edificio."],
+        ["¿Atendéis urgencias comunitarias 24h?", "Sí, atendemos incidencias urgentes en bajantes, arquetas y zonas comunes, sujetas a disponibilidad operativa."]
+      ],
+      footerSummary: `Desatascos para comunidades y edificios en ${city.name}.`,
+      imageAlt: "Técnico de ServeiCat utilizando una máquina profesional en el desagüe de una bañera",
+      whatsappMessage: `Hola ServeiCat 24H, necesito ayuda con un desatasco comunitario en ${city.name}.`
+    };
+  }
+
+  return undefined;
 }
 
 const generalServices = (city: CityDefinition) => [
@@ -260,12 +511,44 @@ const urgentServices = (city: CityDefinition) => [
   { title: "Avisa a la comunidad", text: "Si reaccionan varios desagües o viviendas, reduce el uso de la bajante común hasta la revisión." }
 ];
 
+const sinkServices = (city: CityDefinition) => [
+  { title: "Grasa y aceite", text: "La grasa se enfría y se adhiere a la tubería hasta reducir el paso; el aceite usado debe guardarse en un recipiente." },
+  { title: "Restos y café", text: "Comida, posos de café y residuos pequeños forman acumulaciones dentro del sifón y el ramal de cocina." },
+  { title: "Señales del atasco", text: "Agua lenta, mal olor, gorgoteos o retorno desde el lavavajillas indican que la evacuación está restringida." },
+  { title: "Cuidado con el PVC", text: "No viertas agua hirviendo: una temperatura excesiva puede deformar juntas o conducciones de PVC." },
+  { title: "Sin sosa cáustica", text: "La sosa puede causar quemaduras, reaccionar con otros productos y dificultar una intervención segura." },
+  { title: "Sifón, sonda y lavavajillas", text: `En ${city.shortName} revisamos el sifón, sondeamos el ramal y comprobamos la conexión del lavavajillas.` }
+];
+
+const showerServices = (city: CityDefinition) => [
+  { title: "Pelo acumulado", text: "El pelo se engancha en la rejilla y el sumidero, donde atrapa jabón y termina formando un tapón compacto." },
+  { title: "Jabón y cal", text: "Los residuos de jabón y la cal reducen progresivamente el diámetro útil del primer tramo de desagüe." },
+  { title: "Señales del bloqueo", text: "El agua se acumula en el plato, tarda en bajar, gorgotea o deja un olor persistente a humedad." },
+  { title: "No uses alambres", text: "Forzar objetos metálicos puede rayar el plato o la bañera, dañar juntas y empujar el tapón más adentro." },
+  { title: "Protege el acabado", text: "Evita químicos agresivos que puedan afectar esmalte, juntas o cromados y crear riesgos al manipular el sumidero." },
+  { title: "Extracción y sonda", text: `En ${city.shortName} retiramos residuos accesibles y usamos sonda si el bloqueo continúa por la conducción.` }
+];
+
+const communityServices = (city: CityDefinition) => [
+  { title: "Administradores y presidentes", text: "Centralizamos la comunicación con la persona responsable de la finca y recogemos los accesos necesarios." },
+  { title: "Bajantes comunes", text: "Varias viviendas con el mismo síntoma o retornos en plantas bajas suelen apuntar a un tramo compartido." },
+  { title: "Arquetas y aparcamientos", text: "Revisamos puntos comunitarios cuando hay malos olores, agua acumulada o riesgo de inundación en zonas comunes." },
+  { title: "Diagnóstico y presupuesto", text: `Definimos el alcance en ${city.shortName} y presentamos presupuesto cerrado antes del trabajo programado.` },
+  { title: "Coordinación e informe", text: "Organizamos la intervención con los vecinos y dejamos constancia del tramo revisado y del trabajo realizado." },
+  { title: "Mantenimiento preventivo", text: "Podemos plantear revisiones periódicas de bajantes y arquetas según las necesidades reales del edificio." }
+];
+
 export function getLocalLandingContent(landing: LocalLanding): LocalLandingContent {
   const { city, variant } = landing;
   const meta = metaFor(landing);
   const arrivalNote = `La llegada estimada es de ${city.arrival}, según tráfico, disponibilidad y punto exacto del servicio.`;
   const coveragePlaces = uniquePlaces(city);
   const coverageNames = coveragePlaces.join(", ");
+  const newVariantContent = getNewVariantContent(landing);
+
+  if (newVariantContent) {
+    return newVariantContent;
+  }
 
   if (variant === "wc") {
     return {
@@ -423,7 +706,10 @@ export function getRelatedLandingLinks(landing: LocalLanding): LocalLandingLink[
   const variantLabels: Record<LandingVariant, string> = {
     general: `Desatascos en ${landing.city.shortName}`,
     wc: `Desatascar WC en ${landing.city.shortName}`,
-    urgent: `Urgencias 24H en ${landing.city.shortName}`
+    urgent: `Urgencias 24H en ${landing.city.shortName}`,
+    sink: `Desatascar fregadero en ${landing.city.shortName}`,
+    shower: `Desatascar ducha en ${landing.city.shortName}`,
+    community: `Comunidades en ${landing.city.shortName}`
   };
 
   const siblingLinks = localLandings

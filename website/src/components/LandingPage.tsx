@@ -387,7 +387,10 @@ const copy = {
 const localServiceIcons: Record<LandingVariant, Array<typeof Toilet>> = {
   general: [Toilet, Droplets, Building2, Wrench, Waves, ShieldCheck],
   wc: [Toilet, Droplets, ShieldCheck, Wrench, Waves, Building2],
-  urgent: [Droplets, Wrench, ShieldCheck, Phone, MapPin, Building2]
+  urgent: [Droplets, Wrench, ShieldCheck, Phone, MapPin, Building2],
+  sink: [Droplets, Waves, Wrench, ShieldCheck, Sparkles, Building2],
+  shower: [Droplets, Waves, Clock3, ShieldCheck, Sparkles, Wrench],
+  community: [Building2, Waves, Wrench, BadgeEuro, CheckCircle2, CalendarClock]
 };
 
 function buildLocalCopy(base: typeof copy.es, content: LocalLandingContent, variant: LandingVariant) {
@@ -405,7 +408,10 @@ function buildLocalCopy(base: typeof copy.es, content: LocalLandingContent, vari
     prices: {
       ...base.prices,
       title: content.pricesTitle,
+      text: content.pricesText || base.prices.text,
+      urgentTitle: content.urgentTitle || base.prices.urgentTitle,
       urgentText: content.urgentText,
+      scheduledTitle: content.scheduledTitle || base.prices.scheduledTitle,
       scheduledText: content.scheduledText
     },
     servicesIntro: {
@@ -436,9 +442,11 @@ function buildLocalCopy(base: typeof copy.es, content: LocalLandingContent, vari
     },
     reviews: {
       ...base.reviews,
-      items: base.reviews.items.map(([title, text], index) =>
-        index === 2 ? [title, content.reviewZone] : [title, text]
-      )
+      items: base.reviews.items.map(([title, text], index) => {
+        if (index === 0 && content.reviewPrice) return [title, content.reviewPrice];
+        if (index === 2) return [title, content.reviewZone];
+        return [title, text];
+      })
     },
     seoBlock: {
       eyebrow: content.seoEyebrow,
@@ -520,6 +528,10 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
   const coveragePlaces = localContent?.coveragePlaces || site.coverage;
   const relatedLinks = landing ? getRelatedLandingLinks(landing) : [];
   const contactMessage = localContent?.whatsappMessage || whatsappMessage[lang];
+  const urgentPrice = localContent?.urgentPrice || "180 €";
+  const urgentPriceSuffix = localContent?.urgentPriceSuffix || "+ IVA";
+  const scheduledPrice = localContent?.scheduledPrice || "90 €";
+  const scheduledPriceSuffix = localContent?.scheduledPriceSuffix || "+ IVA";
   const currentYear = new Date().getFullYear();
   const otherLang: Lang = lang === "es" ? "ca" : "es";
 
@@ -722,7 +734,7 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
               </div>
               <h3>{t.prices.urgentTitle}</h3>
               <p className="price">
-                180 € <span>+ IVA</span>
+                {urgentPrice} <span>{urgentPriceSuffix}</span>
               </p>
               <p>{t.prices.urgentText}</p>
               <CallButton label={t.actions.call} />
@@ -733,7 +745,7 @@ export function LandingPage({ initialLang, landing }: { initialLang: Lang; landi
               </div>
               <h3>{t.prices.scheduledTitle}</h3>
               <p className="price">
-                90 € <span>+ IVA</span>
+                {scheduledPrice} <span>{scheduledPriceSuffix}</span>
               </p>
               <p>{t.prices.scheduledText}</p>
               <WhatsAppButton label={t.actions.whatsapp} message={contactMessage} />

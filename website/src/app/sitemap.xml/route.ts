@@ -21,7 +21,7 @@ const entries: SitemapEntry[] = [
   },
   ...localLandingSlugs.map((slug) => ({
     path: `/${slug}`,
-    lastModified: "2026-07-12"
+    lastModified: "2026-07-15"
   })),
   {
     path: "/aviso-legal",

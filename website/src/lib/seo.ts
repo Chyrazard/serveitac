@@ -241,12 +241,45 @@ export function localLandingMetadata(landing: LocalLanding): Metadata {
 export function localLandingJsonLd(landing: LocalLanding) {
   const content = getLocalLandingContent(landing);
   const pageUrl = `${baseUrl}/${landing.slug}`;
-  const serviceName =
-    landing.variant === "wc"
-      ? `Desatascar WC en ${landing.city.name}`
-      : landing.variant === "urgent"
-        ? `Desatascos urgentes 24 horas en ${landing.city.name}`
-        : `Desatascos 24 horas en ${landing.city.name}`;
+  const serviceNames: Record<LocalLanding["variant"], string> = {
+    general: `Desatascos 24 horas en ${landing.city.name}`,
+    wc: `Desatascar WC en ${landing.city.name}`,
+    urgent: `Desatascos urgentes 24 horas en ${landing.city.name}`,
+    sink: `Desatascar fregadero en ${landing.city.name}`,
+    shower: `Desatascar ducha y bañera en ${landing.city.name}`,
+    community: `Desatascos para comunidades en ${landing.city.name}`
+  };
+  const serviceName = serviceNames[landing.variant];
+  const offers =
+    landing.variant === "community"
+      ? [
+          {
+            "@type": "Offer",
+            name: "Desatasco para comunidades",
+            description: "Presupuesto cerrado según diagnóstico, accesos y alcance aprobado por la comunidad."
+          },
+          {
+            "@type": "Offer",
+            name: "Mantenimiento preventivo de bajantes y arquetas",
+            description: "Plan a medida según las instalaciones y necesidades del edificio."
+          }
+        ]
+      : [
+          {
+            "@type": "Offer",
+            name: "Desatasco urgente",
+            price: "180",
+            priceCurrency: "EUR",
+            description: "Incluye desplazamiento y primera hora. IVA no incluido."
+          },
+          {
+            "@type": "Offer",
+            name: "Cita agendada el mismo día",
+            price: "90",
+            priceCurrency: "EUR",
+            description: "Incluye desplazamiento y primera hora. IVA no incluido."
+          }
+        ];
 
   return {
     "@context": "https://schema.org",
@@ -270,7 +303,7 @@ export function localLandingJsonLd(landing: LocalLanding) {
           "@type": "Place",
           name
         })),
-        priceRange: "90 EUR - 180 EUR + IVA",
+        priceRange: landing.variant === "community" ? "Presupuesto cerrado" : "90 EUR - 180 EUR + IVA",
         openingHoursSpecification: [
           {
             "@type": "OpeningHoursSpecification",
@@ -294,22 +327,7 @@ export function localLandingJsonLd(landing: LocalLanding) {
           "@type": "Place",
           name
         })),
-        offers: [
-          {
-            "@type": "Offer",
-            name: "Desatasco urgente",
-            price: "180",
-            priceCurrency: "EUR",
-            description: "Incluye desplazamiento y primera hora. IVA no incluido."
-          },
-          {
-            "@type": "Offer",
-            name: "Cita agendada el mismo día",
-            price: "90",
-            priceCurrency: "EUR",
-            description: "Incluye desplazamiento y primera hora. IVA no incluido."
-          }
-        ]
+        offers
       },
       {
         "@type": "FAQPage",
