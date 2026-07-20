@@ -66,9 +66,12 @@ textarea {
 }
 
 .brand img {
+  display: block;
+  flex: 0 0 46px;
   width: 46px;
   height: 46px;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   border-radius: 50%;
   background: var(--white);
 }
