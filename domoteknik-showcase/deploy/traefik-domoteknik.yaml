@@ -1,0 +1,28 @@
+http:
+  routers:
+    http-domoteknik-domain:
+      service: domoteknik-nginx
+      rule: "(Host(`domoteknik.belctech.com`) || Host(`www.domoteknik.belctech.com`)) && PathPrefix(`/`)"
+      priority: 100
+      middlewares:
+        - redirect-to-https
+      entryPoints:
+        - http
+    https-domoteknik-domain:
+      service: domoteknik-nginx
+      rule: "(Host(`domoteknik.belctech.com`) || Host(`www.domoteknik.belctech.com`)) && PathPrefix(`/`)"
+      priority: 100
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: domoteknik.belctech.com
+            sans:
+              - www.domoteknik.belctech.com
+      entryPoints:
+        - https
+  services:
+    domoteknik-nginx:
+      loadBalancer:
+        servers:
+          - url: "http://72.60.182.100:3020/"
+        passHostHeader: true

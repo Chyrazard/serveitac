@@ -20,9 +20,12 @@ npm run dev
 npm run build
 ```
 
-El resultado estático se genera en `out/`. El virtual host incluido en
-`deploy/nginx-domoteknik.conf` espera esos archivos en
-`/var/www/domoteknik`.
+El resultado estático se genera en `out/` y se publica en
+`/var/www/domoteknik`. En el VPS actual, PM2 sirve esos archivos internamente
+en el puerto `3020`; Traefik/Easypanel publica los dominios y gestiona HTTPS
+mediante `deploy/traefik-domoteknik.yaml`. El virtual host Nginx se conserva
+como alternativa para servidores sin las restricciones de permisos del host
+actual.
 
 ## Contacto configurado
 
