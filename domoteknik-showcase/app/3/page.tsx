@@ -15,6 +15,7 @@ import {
 import { Brand } from "@/components/Brand";
 import { ContactActions } from "@/components/ContactActions";
 import { EnergyCalculator } from "@/components/EnergyCalculator";
+import { HeaderMenu } from "@/components/HeaderMenu";
 import { Reveal } from "@/components/Reveal";
 
 const benefits = [
@@ -46,9 +47,20 @@ export default function ProposalThree() {
             <a href="#proyecto">Proyecto</a>
             <a href="#preguntas">Preguntas</a>
           </nav>
-          <a className="z-header-cta" href="tel:+34931989521">
-            Hablemos <FontAwesomeIcon icon={faArrowRight} />
-          </a>
+          <div className="site-header-actions">
+            <a className="z-header-cta" href="tel:+34931989521">
+              Hablemos <FontAwesomeIcon icon={faArrowRight} />
+            </a>
+            <HeaderMenu
+              light
+              links={[
+                { href: "#soluciones", label: "Soluciones" },
+                { href: "#ahorro", label: "Ahorro" },
+                { href: "#proyecto", label: "Proyecto" },
+                { href: "#preguntas", label: "Preguntas" },
+              ]}
+            />
+          </div>
         </header>
         <div className="z-hero-content">
           <span className="z-index">01 — DOMOTEKNIK</span>

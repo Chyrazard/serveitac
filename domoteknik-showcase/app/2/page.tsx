@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Brand } from "@/components/Brand";
 import { ContactActions } from "@/components/ContactActions";
+import { HeaderMenu } from "@/components/HeaderMenu";
 import { Reveal } from "@/components/Reveal";
 
 const services = [
@@ -55,9 +56,19 @@ export default function ProposalTwo() {
           <a href="#proceso">Cómo funciona</a>
           <a href="#preguntas">Preguntas</a>
         </nav>
-        <a className="m-header-call" href="tel:+34931989521">
-          <FontAwesomeIcon icon={faPhone} /> 931 989 521
-        </a>
+        <div className="site-header-actions">
+          <a className="m-header-call" href="tel:+34931989521">
+            <FontAwesomeIcon icon={faPhone} /> 931 989 521
+          </a>
+          <HeaderMenu
+            links={[
+              { href: "#servicios", label: "Servicios" },
+              { href: "#nosotros", label: "Domoteknik" },
+              { href: "#proceso", label: "Cómo funciona" },
+              { href: "#preguntas", label: "Preguntas" },
+            ]}
+          />
+        </div>
       </header>
 
       <section className="m-hero">

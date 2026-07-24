@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Brand } from "@/components/Brand";
 import { ContactActions } from "@/components/ContactActions";
+import { HeaderMenu } from "@/components/HeaderMenu";
 import { Reveal } from "@/components/Reveal";
 
 const services = [
@@ -82,9 +83,19 @@ export default function ProposalOne() {
           <a href="#proyecto">Proyecto</a>
           <a href="#preguntas">Preguntas</a>
         </nav>
-        <a className="r-header-cta" href="tel:+34931989521">
-          Hablemos <FontAwesomeIcon icon={faArrowRight} />
-        </a>
+        <div className="site-header-actions">
+          <a className="r-header-cta" href="tel:+34931989521">
+            Hablemos <FontAwesomeIcon icon={faArrowRight} />
+          </a>
+          <HeaderMenu
+            links={[
+              { href: "#empresa", label: "Empresa" },
+              { href: "#servicios", label: "Servicios" },
+              { href: "#proyecto", label: "Proyecto" },
+              { href: "#preguntas", label: "Preguntas" },
+            ]}
+          />
+        </div>
       </header>
 
       <section className="r-hero">
