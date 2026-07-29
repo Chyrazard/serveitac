@@ -13,10 +13,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {
   BazzoBrand,
-  BazzoContactActions,
   BazzoHeaderMenu,
   BazzoMobileConsult,
   BazzoPreloader,
+  BazzoWhatsappContact,
   bazzoPhoneHref,
 } from "@/components/BazzoChrome";
 import { Reveal } from "@/components/Reveal";
@@ -440,7 +440,7 @@ export default function BazzoZenviaProposal() {
           <span>Climatización · Luz · Gas</span>
         </div>
       </footer>
-      <BazzoContactActions />
+      <BazzoWhatsappContact />
     </main>
   );
 }

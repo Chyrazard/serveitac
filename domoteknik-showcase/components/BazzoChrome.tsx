@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
   faEye,
+  faHeadset,
   faPhone,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FloatingContactDock } from "@/components/FloatingContactDock";
@@ -113,7 +115,7 @@ export function BazzoHeaderMenu({
   return (
     <div className={`bazzo-menu bazzo-menu-${theme}`} ref={wrapperRef}>
       <button
-        className={`bazzo-menu-toggle ${open ? "is-open" : ""}`}
+        className={`bazzo-menu-toggle bazzo-menu-toggle-${theme} ${open ? "is-open" : ""}`}
         type="button"
         aria-label={open ? "Cerrar menú" : "Abrir menú"}
         aria-expanded={open}
@@ -128,7 +130,7 @@ export function BazzoHeaderMenu({
         createPortal(
           <>
             <button
-              className={`bazzo-menu-backdrop ${open ? "is-open" : ""}`}
+              className={`bazzo-menu-backdrop bazzo-menu-backdrop-${theme} ${open ? "is-open" : ""}`}
               type="button"
               aria-label="Cerrar menú"
               tabIndex={open ? 0 : -1}
@@ -136,13 +138,13 @@ export function BazzoHeaderMenu({
             />
 
             <aside
-              className={`bazzo-menu-panel ${open ? "is-open" : ""}`}
+              className={`bazzo-menu-panel bazzo-menu-panel-${theme} ${open ? "is-open" : ""}`}
               aria-hidden={!open}
             >
               <div className="bazzo-menu-top">
                 <BazzoBrand compact />
                 <button
-                  className="bazzo-menu-toggle bazzo-menu-panel-close is-open"
+                  className={`bazzo-menu-toggle bazzo-menu-toggle-${theme} bazzo-menu-panel-close is-open`}
                   type="button"
                   aria-label="Cerrar menú"
                   onClick={() => setOpen(false)}
@@ -196,6 +198,81 @@ export function BazzoContactActions() {
         </a>
       </div>
     </>
+  );
+}
+
+export function BazzoWhatsappContact() {
+  return (
+    <a
+      className="bazzo-whatsapp-sticky"
+      href={whatsappHref}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Contacto por WhatsApp"
+    >
+      <span>
+        <small>Respuesta directa</small>
+        <strong>Contacto por WhatsApp</strong>
+      </span>
+      <span className="bazzo-whatsapp-sticky-icon">
+        <FontAwesomeIcon icon={faWhatsapp} />
+      </span>
+    </a>
+  );
+}
+
+export function BazzoAdvisorContact() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const closeWithEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    window.addEventListener("keydown", closeWithEscape);
+    return () => window.removeEventListener("keydown", closeWithEscape);
+  }, []);
+
+  return (
+    <div className={`bazzo-advisor ${open ? "is-open" : ""}`}>
+      <div className="bazzo-advisor-options" aria-hidden={!open}>
+        <a href={phoneHref} tabIndex={open ? 0 : -1}>
+          <span>
+            <FontAwesomeIcon icon={faPhone} />
+          </span>
+          <strong>Llamar ahora</strong>
+        </a>
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noreferrer"
+          tabIndex={open ? 0 : -1}
+        >
+          <span>
+            <FontAwesomeIcon icon={faWhatsapp} />
+          </span>
+          <strong>WhatsApp</strong>
+        </a>
+      </div>
+
+      <button
+        className="bazzo-advisor-trigger"
+        type="button"
+        aria-label={
+          open ? "Cerrar opciones de contacto" : "Hablar con un asesor"
+        }
+        aria-expanded={open}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <span className="bazzo-advisor-copy">
+          <small>¿Te ayudamos?</small>
+          <strong>Habla con un asesor</strong>
+        </span>
+        <span className="bazzo-advisor-icon">
+          <FontAwesomeIcon icon={open ? faXmark : faHeadset} />
+        </span>
+      </button>
+    </div>
   );
 }
 

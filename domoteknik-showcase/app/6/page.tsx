@@ -14,8 +14,8 @@ import {
   faTools,
 } from "@fortawesome/free-solid-svg-icons";
 import {
+  BazzoAdvisorContact,
   BazzoBrand,
-  BazzoContactActions,
   BazzoHeaderMenu,
   BazzoMobileConsult,
   BazzoPreloader,
@@ -535,7 +535,7 @@ export default function BazzoAtlasProposal() {
           <span>Climatización · Luz · Gas</span>
         </div>
       </footer>
-      <BazzoContactActions />
+      <BazzoAdvisorContact />
     </main>
   );
 }
