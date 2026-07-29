@@ -85,11 +85,13 @@ export default function BazzoZenviaProposal() {
           </a>
         </div>
         <div className="b5-gallery" aria-label="Instalaciones Grupo Bazzo">
-          {[...gallery, ...gallery].map((src, index) => (
-            <div key={`${src}-${index}`}>
-              <Image src={src} alt="" fill sizes="260px" />
-            </div>
-          ))}
+          <div className="b5-gallery-track">
+            {[...gallery, ...gallery].map((src, index) => (
+              <div key={`${src}-${index}`}>
+                <Image src={src} alt="" fill sizes="260px" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

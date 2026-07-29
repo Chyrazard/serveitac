@@ -48,7 +48,22 @@ img {
 }
 
 .proposal {
+  width: 100%;
+  max-width: 100vw;
   overflow: clip;
+}
+
+html:has(.proposal) {
+  scrollbar-gutter: stable;
+}
+
+body:has(.proposal) {
+  overflow-x: clip;
+}
+
+.proposal section[id],
+.proposal footer[id] {
+  scroll-margin-top: 100px;
 }
 
 .brand {
@@ -3724,9 +3739,24 @@ html.bazzo-menu-is-open body {
   overflow: hidden;
 }
 
+html:has(.bazzo-proposal) {
+  scrollbar-gutter: stable;
+}
+
+body:has(.bazzo-proposal) {
+  overflow-x: clip;
+}
+
 .bazzo-proposal {
+  width: 100%;
+  max-width: 100vw;
   min-height: 100vh;
   overflow: clip;
+}
+
+.bazzo-proposal section[id],
+.bazzo-proposal footer[id] {
+  scroll-margin-top: 100px;
 }
 
 .bazzo-proposal h1,
@@ -4003,11 +4033,9 @@ html.bazzo-menu-is-open body {
 @keyframes bazzoHeaderFade {
   from {
     opacity: 0.45;
-    transform: translateY(-12px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -4832,27 +4860,47 @@ html.bazzo-menu-is-open body {
 .b5-gallery {
   position: absolute;
   z-index: 3;
-  right: -180px;
+  right: 0;
   bottom: 0;
-  left: -180px;
-  display: flex;
+  left: 0;
   height: 365px;
+  overflow: hidden;
+}
+
+.b5-gallery-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
   align-items: flex-end;
   gap: 14px;
-  transform: rotate(-1.8deg);
+  will-change: transform;
+  animation: b5GalleryScroll 32s linear infinite;
 }
-.b5-gallery > div {
+
+.b5-gallery-track > div {
   position: relative;
   min-width: 280px;
   height: 330px;
   border: 10px solid #f8f7f3;
   overflow: hidden;
+  transform: rotate(-1.8deg);
 }
-.b5-gallery > div:nth-child(even) {
+
+.b5-gallery-track > div:nth-child(even) {
   height: 375px;
 }
-.b5-gallery img {
+
+.b5-gallery-track img {
   object-fit: cover;
+}
+
+@keyframes b5GalleryScroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-50% - 7px), 0, 0);
+  }
 }
 .b5-ticker {
   padding: 22px 0;
@@ -6539,18 +6587,22 @@ html.bazzo-menu-is-open body {
     font-size: clamp(57px, 17vw, 78px);
   }
   .b5-gallery {
-    right: -80px;
+    right: 0;
     bottom: -10px;
-    left: -80px;
+    left: 0;
     height: 260px;
     gap: 6px;
   }
-  .b5-gallery > div {
+  .b5-gallery-track {
+    gap: 6px;
+    animation-duration: 24s;
+  }
+  .b5-gallery-track > div {
     min-width: 165px;
     height: 220px;
     border-width: 5px;
   }
-  .b5-gallery > div:nth-child(even) {
+  .b5-gallery-track > div:nth-child(even) {
     height: 250px;
   }
   .b5-ticker span {
