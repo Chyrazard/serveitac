@@ -427,6 +427,155 @@ export default function BazzoAtlasProposal() {
         </div>
       </section>
 
+      <section className="b6-section b6-team">
+        <div className="b6-container">
+          <div className="b6-team-head" data-reveal>
+            <span>Especialistas Grupo Bazzo</span>
+            <h2>Experiencia técnica para cada tipo de instalación.</h2>
+            <p>
+              Un equipo preparado para valorar, instalar y mantener soluciones
+              de climatización, gas y energía en Barcelona.
+            </p>
+          </div>
+          <div className="b6-team-track">
+            {[
+              [
+                "Especialistas en gas",
+                "Calderas y calentadores",
+                "/images/bazzo/gas-flame.webp",
+              ],
+              [
+                "Especialistas en climatización",
+                "Aire acondicionado",
+                "/images/bazzo/aerothermal-comfort.webp",
+              ],
+              [
+                "Especialistas en eficiencia",
+                "Aerotermia y bomba de calor",
+                "/images/bazzo/heat-pump-double.webp",
+              ],
+              [
+                "Soporte técnico",
+                "Mantenimiento y urgencias 24H",
+                "/images/bazzo/plant-room.webp",
+              ],
+            ].map(([title, role, image], index) => (
+              <article key={title} data-reveal>
+                <div className="b6-team-image">
+                  <Image src={image} alt="" fill sizes="360px" />
+                  <a href={bazzoPhoneHref} aria-label={`Consultar ${title}`}>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </a>
+                </div>
+                <div className="b6-team-card-copy">
+                  <span>0{index + 1}</span>
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{role}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="b6-testimonial-home">
+        <div className="b6-container">
+          <div className="b6-testimonial-panel" data-reveal>
+            <div className="b6-testimonial-profile">
+              <div className="b6-testimonial-image">
+                <Image
+                  src="/images/bazzo/technical-room.webp"
+                  alt="Instalación técnica de Grupo Bazzo"
+                  fill
+                  sizes="340px"
+                />
+              </div>
+              <div>
+                <strong>Compromiso Grupo Bazzo</strong>
+                <span>Servicio técnico · Barcelona</span>
+              </div>
+              <div className="b6-trust-score">
+                <b>10 años</b>
+                <small>de experiencia técnica</small>
+              </div>
+            </div>
+            <div className="b6-testimonial-quote">
+              <span aria-hidden="true">“</span>
+              <p>
+                Cada instalación empieza escuchando la necesidad, continúa con
+                un presupuesto claro y termina cuando el sistema funciona como
+                debe y el cliente entiende la solución.
+              </p>
+            </div>
+          </div>
+          <div className="b6-testimonial-cta" data-reveal>
+            <h2>Da el paso hacia un hogar más cómodo y eficiente.</h2>
+            <a href="#contacto">Contactar ahora</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="b6-section b6-insights">
+        <div className="b6-container">
+          <div className="b6-insights-title" data-reveal>
+            <span>Guía técnica</span>
+            <h2>Claves para elegir mejor.</h2>
+          </div>
+          <div className="b6-insights-layout">
+            <div className="b6-insights-list">
+              {[
+                [
+                  "01",
+                  "Aerotermia",
+                  "Cuándo conviene apostar por un sistema integral de climatización y agua caliente.",
+                  "/images/bazzo/heat-pump-garden.webp",
+                ],
+                [
+                  "02",
+                  "Aire acondicionado",
+                  "Cómo dimensionar el equipo para ganar confort sin disparar el consumo.",
+                  "/images/bazzo/inverter.webp",
+                ],
+                [
+                  "03",
+                  "Mantenimiento",
+                  "Las revisiones que ayudan a prevenir averías y alargar la vida útil del sistema.",
+                  "/images/bazzo/complete-installation.webp",
+                ],
+              ].map(([number, tag, title, image]) => (
+                <article key={number} data-reveal>
+                  <div className="b6-insight-image">
+                    <Image src={image} alt="" fill sizes="280px" />
+                  </div>
+                  <span>{number}</span>
+                  <div>
+                    <small>{tag}</small>
+                    <h3>{title}</h3>
+                  </div>
+                  <a
+                    href={bazzoPhoneHref}
+                    aria-label={`Consultar sobre ${tag}`}
+                  >
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </a>
+                </article>
+              ))}
+            </div>
+            <aside className="b6-insights-aside" data-reveal>
+              <span>Asesoramiento directo</span>
+              <h3>¿No sabes qué solución encaja contigo?</h3>
+              <p>
+                Cuéntanos tu caso y te orientamos según el espacio, el uso y la
+                instalación existente.
+              </p>
+              <a href={bazzoPhoneHref}>Hablar con un técnico</a>
+            </aside>
+          </div>
+        </div>
+      </section>
+
       <section className="b6-section b6-contact" id="contacto">
         <div className="b6-container b6-contact-grid">
           <div data-reveal>

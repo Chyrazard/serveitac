@@ -6,7 +6,6 @@ import {
   faBolt,
   faCheck,
   faFireFlameCurved,
-  faPhone,
   faPlay,
   faShieldHalved,
   faSnowflake,
@@ -43,7 +42,7 @@ const services = [
 const menu = [
   { href: "#servicios", label: "Servicios" },
   { href: "#experiencia", label: "Grupo Bazzo" },
-  { href: "#proceso", label: "Cómo trabajamos" },
+  { href: "#opiniones", label: "Experiencia" },
   { href: "#contacto", label: "Contacto" },
 ];
 
@@ -213,8 +212,8 @@ export default function BazzoUnwindProposal() {
                 <span>precio claro antes de empezar</span>
               </div>
             </div>
-            <a href="#proceso" className="b4-btn b4-btn-dark">
-              Conocer el proceso
+            <a href="#opiniones" className="b4-btn b4-btn-dark">
+              Conocer la experiencia
             </a>
           </div>
         </div>
@@ -262,7 +261,7 @@ export default function BazzoUnwindProposal() {
         </div>
       </section>
 
-      <section className="b4-video-section">
+      <section className="b4-approach">
         <video
           autoPlay
           muted
@@ -273,55 +272,80 @@ export default function BazzoUnwindProposal() {
         >
           <source src="/videos/bazzo/climatizacion-hero.mp4" type="video/mp4" />
         </video>
-        <div className="b4-video-shade" />
-        <div className="b4-container b4-video-copy" data-reveal>
-          <span>Tu confort no puede esperar</span>
-          <h2>
-            Climatización que responde.
-            <br />
-            Servicio técnico que resuelve.
-          </h2>
-          <a href={bazzoPhoneHref} className="b4-btn b4-btn-lime">
-            <FontAwesomeIcon icon={faPhone} /> 634 210 179
-          </a>
+        <div className="b4-approach-shade" />
+        <div className="b4-container b4-approach-grid">
+          <span data-reveal>Nuestro enfoque</span>
+          <div data-reveal>
+            <h2>
+              Trabajamos con criterio técnico, claridad y atención directa.
+            </h2>
+            <div className="b4-approach-items">
+              <article>
+                <strong>01</strong>
+                <p>
+                  Revisamos la instalación y explicamos qué necesita antes de
+                  intervenir. El presupuesto queda claro desde el principio.
+                </p>
+              </article>
+              <article>
+                <strong>02</strong>
+                <p>
+                  Ejecutamos cada trabajo con seguridad, cuidado y soluciones
+                  pensadas para funcionar de forma eficiente a largo plazo.
+                </p>
+              </article>
+            </div>
+            <a href={bazzoPhoneHref} className="b4-btn b4-btn-light">
+              Empezar ahora
+            </a>
+          </div>
         </div>
       </section>
 
-      <section className="b4-section b4-process" id="proceso">
-        <div className="b4-container">
-          <div className="b4-section-head" data-reveal>
-            <div>
-              <span>Cómo trabajamos</span>
-              <h2>Del aviso a la solución, sin complicaciones.</h2>
-            </div>
+      <section className="b4-section b4-testimonials" id="opiniones">
+        <div className="b4-container b4-testimonial-grid">
+          <div className="b4-testimonial-title" data-reveal>
+            <span>La experiencia Grupo Bazzo</span>
+            <h2>Un servicio pensado para que todo sea más fácil.</h2>
           </div>
-          <div className="b4-process-grid">
+          <div className="b4-testimonial-lists">
             {[
               [
-                "01",
-                "Cuéntanos qué ocurre",
-                "Déjanos tus datos o llama. Confirmamos el tipo de instalación y la urgencia.",
+                "/images/bazzo/gas-flame.webp",
+                "Atención directa",
+                "Desde el primer contacto",
+                "Escuchamos qué ocurre, aclaramos las dudas y coordinamos la visita sin pasos innecesarios.",
               ],
               [
-                "02",
-                "Acordamos la visita",
-                "Un instalador profesional contacta contigo para fijar el día y la hora.",
+                "/images/bazzo/technical-room.webp",
+                "Diagnóstico profesional",
+                "Antes de empezar",
+                "Revisamos el sistema y proponemos la solución adecuada para la instalación y el uso real.",
               ],
               [
-                "03",
-                "Recibes precio claro",
-                "Tras revisar la instalación, te entregamos un presupuesto inmediato y sin compromiso.",
+                "/images/bazzo/heat-pump-garden.webp",
+                "Presupuesto claro",
+                "Sin sorpresas",
+                "Sabes qué se hará y cuánto costará antes de aprobar cualquier intervención.",
               ],
               [
-                "04",
-                "Lo resolvemos",
-                "Con tu aprobación, ejecutamos el trabajo con seguridad y cuidado por cada detalle.",
+                "/images/bazzo/aerothermal-comfort.webp",
+                "Confort duradero",
+                "Instalación y soporte",
+                "Dejamos el equipo listo, explicamos su funcionamiento y seguimos disponibles cuando nos necesites.",
               ],
-            ].map(([n, title, text]) => (
-              <article key={n} data-reveal>
-                <span>{n}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+            ].map(([image, title, label, text]) => (
+              <article className="b4-testimonial-card" key={title} data-reveal>
+                <div className="b4-testimonial-card-top">
+                  <span>
+                    <Image src={image} alt="" fill sizes="58px" />
+                  </span>
+                  <div>
+                    <strong>{title}</strong>
+                    <small>{label}</small>
+                  </div>
+                </div>
+                <p>“{text}”</p>
               </article>
             ))}
           </div>
