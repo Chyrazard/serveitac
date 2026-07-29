@@ -7058,3 +7058,68 @@ body:has(.bazzo-proposal) {
     gap: 8px;
   }
 }
+
+/* Mobile contact actions use the same floating circular controls as desktop. */
+@media (max-width: 760px) {
+  body {
+    padding-bottom: 0;
+  }
+
+  .mobile-contact-bar,
+  .bazzo-mobile-bar {
+    display: none;
+  }
+
+  .floating-contact {
+    display: block;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .floating-contact-call {
+    left: 16px;
+  }
+
+  .floating-contact-whatsapp {
+    right: 16px;
+  }
+
+  .floating-contact > a {
+    width: 58px;
+    height: 58px;
+  }
+
+  .floating-contact-tip {
+    bottom: 72px;
+    width: max-content;
+    min-width: 0;
+    max-width: calc(50vw - 26px);
+    min-height: 44px;
+    padding: 8px 34px 8px 12px;
+    border-radius: 10px;
+    white-space: normal;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .floating-contact-call .floating-contact-tip {
+    left: 0;
+  }
+
+  .floating-contact-whatsapp .floating-contact-tip {
+    right: 0;
+  }
+
+  .floating-contact-call .floating-contact-tip::after {
+    left: 21px;
+  }
+
+  .floating-contact-whatsapp .floating-contact-tip::after {
+    right: 21px;
+  }
+
+  .floating-contact-tip button {
+    right: 6px;
+    width: 23px;
+    height: 23px;
+  }
+}
