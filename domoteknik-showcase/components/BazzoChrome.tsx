@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
@@ -82,7 +83,10 @@ export function BazzoHeaderMenu({
   theme?: "light" | "dark" | "green";
 }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const header = wrapperRef.current?.closest("header");
@@ -120,39 +124,59 @@ export function BazzoHeaderMenu({
         <span />
       </button>
 
-      <button
-        className={`bazzo-menu-backdrop ${open ? "is-open" : ""}`}
-        type="button"
-        aria-label="Cerrar menú"
-        tabIndex={open ? 0 : -1}
-        onClick={() => setOpen(false)}
-      />
+      {mounted &&
+        createPortal(
+          <>
+            <button
+              className={`bazzo-menu-backdrop ${open ? "is-open" : ""}`}
+              type="button"
+              aria-label="Cerrar menú"
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+            />
 
-      <aside
-        className={`bazzo-menu-panel ${open ? "is-open" : ""}`}
-        aria-hidden={!open}
-      >
-        <div className="bazzo-menu-top">
-          <BazzoBrand compact />
-        </div>
-        <nav aria-label="Menú desplegable">
-          {links.map((link, index) => (
-            <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{link.label}</strong>
-              <FontAwesomeIcon icon={faArrowRight} />
-            </a>
-          ))}
-        </nav>
-        <div className="bazzo-menu-contact">
-          <span>Respuesta directa</span>
-          <a href={phoneHref}>
-            <FontAwesomeIcon icon={faPhone} /> 634 210 179
-          </a>
-          <a href="mailto:info@grupobazzo.es">info@grupobazzo.es</a>
-          <small>Hospitalet de Llobregat · Barcelona</small>
-        </div>
-      </aside>
+            <aside
+              className={`bazzo-menu-panel ${open ? "is-open" : ""}`}
+              aria-hidden={!open}
+            >
+              <div className="bazzo-menu-top">
+                <BazzoBrand compact />
+                <button
+                  className="bazzo-menu-toggle bazzo-menu-panel-close is-open"
+                  type="button"
+                  aria-label="Cerrar menú"
+                  onClick={() => setOpen(false)}
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
+              </div>
+              <nav aria-label="Menú desplegable">
+                {links.map((link, index) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                  >
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <strong>{link.label}</strong>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </a>
+                ))}
+              </nav>
+              <div className="bazzo-menu-contact">
+                <span>Respuesta directa</span>
+                <a href={phoneHref}>
+                  <FontAwesomeIcon icon={faPhone} /> 634 210 179
+                </a>
+                <a href="mailto:info@grupobazzo.es">info@grupobazzo.es</a>
+                <small>Hospitalet de Llobregat · Barcelona</small>
+              </div>
+            </aside>
+          </>,
+          document.body,
+        )}
     </div>
   );
 }

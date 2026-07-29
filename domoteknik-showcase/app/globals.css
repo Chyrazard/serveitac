@@ -4252,7 +4252,7 @@ body:has(.bazzo-proposal) {
 .bazzo-menu-top {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding-bottom: 28px;
   border-bottom: 1px solid rgba(17, 43, 82, 0.17);
 }
@@ -4260,6 +4260,10 @@ body:has(.bazzo-proposal) {
 .bazzo-menu-top .bazzo-brand {
   width: 170px;
   height: 52px;
+}
+
+.bazzo-menu-panel-close {
+  flex: 0 0 auto;
 }
 .bazzo-mobile-consult {
   display: none;
