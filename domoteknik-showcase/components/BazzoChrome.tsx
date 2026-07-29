@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
+  faEye,
   faPhone,
-  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FloatingContactDock } from "@/components/FloatingContactDock";
@@ -25,12 +25,51 @@ export function BazzoBrand({ compact = false }: { compact?: boolean }) {
       aria-label="Grupo Bazzo, volver al inicio"
     >
       <Image
-        src="/images/bazzo/logo.jpg"
+        src="/images/bazzo/logo-transparent.png"
         alt="Grupo Bazzo — servicios en climatización, luz y gas"
-        width={800}
-        height={240}
+        width={2168}
+        height={725}
         priority
       />
+    </a>
+  );
+}
+
+export function BazzoPreloader() {
+  const [leaving, setLeaving] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const leaveTimer = window.setTimeout(() => setLeaving(true), 520);
+    const hideTimer = window.setTimeout(() => setHidden(true), 860);
+
+    return () => {
+      window.clearTimeout(leaveTimer);
+      window.clearTimeout(hideTimer);
+    };
+  }, []);
+
+  if (hidden) return null;
+
+  return (
+    <div
+      className={`bazzo-preloader ${leaving ? "is-leaving" : ""}`}
+      role="status"
+      aria-label="Cargando Grupo Bazzo"
+    >
+      <div className="bazzo-preloader-eye" aria-hidden="true">
+        <FontAwesomeIcon icon={faEye} />
+        <span />
+      </div>
+    </div>
+  );
+}
+
+export function BazzoMobileConsult() {
+  return (
+    <a className="bazzo-mobile-consult" href="#contacto">
+      <span>Consultar ya</span>
+      <FontAwesomeIcon icon={faArrowRight} />
     </a>
   );
 }
@@ -70,11 +109,11 @@ export function BazzoHeaderMenu({
   return (
     <div className={`bazzo-menu bazzo-menu-${theme}`} ref={wrapperRef}>
       <button
-        className="bazzo-menu-toggle"
+        className={`bazzo-menu-toggle ${open ? "is-open" : ""}`}
         type="button"
-        aria-label="Abrir menú"
+        aria-label={open ? "Cerrar menú" : "Abrir menú"}
         aria-expanded={open}
-        onClick={() => setOpen(true)}
+        onClick={() => setOpen((current) => !current)}
       >
         <span />
         <span />
@@ -95,13 +134,6 @@ export function BazzoHeaderMenu({
       >
         <div className="bazzo-menu-top">
           <BazzoBrand compact />
-          <button
-            type="button"
-            aria-label="Cerrar menú"
-            onClick={() => setOpen(false)}
-          >
-            <FontAwesomeIcon icon={faXmark} />
-          </button>
         </div>
         <nav aria-label="Menú desplegable">
           {links.map((link, index) => (

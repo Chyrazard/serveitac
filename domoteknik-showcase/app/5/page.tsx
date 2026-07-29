@@ -15,6 +15,8 @@ import {
   BazzoBrand,
   BazzoContactActions,
   BazzoHeaderMenu,
+  BazzoMobileConsult,
+  BazzoPreloader,
   bazzoPhoneHref,
 } from "@/components/BazzoChrome";
 import { Reveal } from "@/components/Reveal";
@@ -44,9 +46,11 @@ export const metadata: Metadata = {
 export default function BazzoZenviaProposal() {
   return (
     <main className="bazzo-proposal bazzo-five" id="inicio">
+      <BazzoPreloader />
       <Reveal />
       <header className="b5-header">
         <BazzoBrand compact />
+        <BazzoMobileConsult />
         <nav aria-label="Navegación principal">
           {menu.slice(0, 4).map((item) => (
             <a key={item.href} href={item.href}>
