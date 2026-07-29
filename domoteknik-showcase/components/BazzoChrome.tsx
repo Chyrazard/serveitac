@@ -62,7 +62,16 @@ export function BazzoPreloader() {
     >
       <div className="bazzo-preloader-eye" aria-hidden="true">
         <FontAwesomeIcon icon={faEye} />
-        <span />
+        <span className="bazzo-preloader-iris">
+          <Image
+            src="/images/bazzo/logo-transparent.png"
+            alt=""
+            width={2168}
+            height={725}
+            priority
+          />
+        </span>
+        <span className="bazzo-preloader-streak" />
       </div>
     </div>
   );
