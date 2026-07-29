@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
-  faEye,
   faHeadset,
   faPhone,
   faXmark,
@@ -61,7 +60,6 @@ export function BazzoPreloader() {
       aria-label="Cargando Grupo Bazzo"
     >
       <div className="bazzo-preloader-eye" aria-hidden="true">
-        <FontAwesomeIcon icon={faEye} />
         <span className="bazzo-preloader-iris">
           <Image
             src="/images/bazzo/logo-transparent.png"
@@ -71,7 +69,6 @@ export function BazzoPreloader() {
             priority
           />
         </span>
-        <span className="bazzo-preloader-streak" />
       </div>
     </div>
   );
