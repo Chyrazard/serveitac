@@ -4169,7 +4169,7 @@ body:has(.bazzo-proposal) {
 }
 
 .bazzo-menu-toggle.is-open {
-  color: #fff !important;
+  color: #167fb8 !important;
 }
 
 .bazzo-menu-toggle.is-open span:first-child {
@@ -4205,7 +4205,7 @@ body:has(.bazzo-proposal) {
   inset: 0;
   visibility: hidden;
   padding: 0;
-  background: rgba(2, 14, 11, 0.56);
+  background: rgba(7, 24, 51, 0.48);
   border: 0;
   opacity: 0;
   backdrop-filter: blur(5px);
@@ -4226,21 +4226,26 @@ body:has(.bazzo-proposal) {
   right: 0;
   bottom: 0;
   display: flex;
-  width: min(470px, 94vw);
+  width: min(460px, 92vw);
   padding: 28px 34px 34px;
   flex-direction: column;
+  overflow-y: auto;
   visibility: hidden;
-  color: #f7f5ed;
-  background: #0d3f36;
-  box-shadow: -24px 0 70px rgba(0, 0, 0, 0.24);
+  color: #112b52;
+  background: #fff;
+  border-left: 1px solid rgba(23, 127, 184, 0.16);
+  box-shadow: -30px 0 70px rgba(10, 40, 73, 0.2);
+  opacity: 0;
   transform: translateX(105%);
   transition:
-    transform 0.5s cubic-bezier(0.7, 0, 0.2, 1),
-    visibility 0.5s ease;
+    transform 0.55s cubic-bezier(0.2, 0.75, 0.2, 1),
+    opacity 0.4s ease,
+    visibility 0.55s ease;
 }
 
 .bazzo-menu-panel.is-open {
   visibility: visible;
+  opacity: 1;
   transform: translateX(0);
 }
 
@@ -4249,7 +4254,7 @@ body:has(.bazzo-proposal) {
   align-items: center;
   justify-content: flex-start;
   padding-bottom: 28px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(17, 43, 82, 0.17);
 }
 
 .bazzo-menu-top .bazzo-brand {
@@ -4270,42 +4275,58 @@ body:has(.bazzo-proposal) {
   min-height: 66px;
   grid-template-columns: 38px 1fr 22px;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(17, 43, 82, 0.14);
   transition:
     padding-left 0.25s ease,
+    background-color 0.25s ease,
     color 0.25s ease;
 }
 
 .bazzo-menu-panel nav a:hover {
   padding-left: 9px;
-  color: #d9ff9d;
+  color: #167fb8;
+  background: rgba(23, 127, 184, 0.055);
 }
 .bazzo-menu-panel nav span {
+  color: #167fb8;
   font-size: 11px;
-  opacity: 0.6;
+  font-weight: 700;
 }
 .bazzo-menu-panel nav strong {
-  font-size: 22px;
+  color: #112b52;
+  font-size: 27px;
   font-weight: 500;
+  letter-spacing: -0.025em;
 }
 .bazzo-menu-panel nav svg {
   width: 15px;
+  color: #f49b22;
+  transition: transform 0.2s ease;
+}
+.bazzo-menu-panel nav a:hover svg {
+  transform: translateX(4px);
 }
 .bazzo-menu-contact {
   display: flex;
   margin-top: auto;
+  padding-top: 26px;
   flex-direction: column;
   gap: 7px;
+  border-top: 1px solid rgba(17, 43, 82, 0.17);
 }
 .bazzo-menu-contact > span {
-  color: #d9ff9d;
+  color: #167fb8;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
 .bazzo-menu-contact a:first-of-type {
+  color: #112b52;
   font-size: 24px;
   font-weight: 700;
+}
+.bazzo-menu-contact a:not(:first-of-type) {
+  color: #315376;
 }
 .bazzo-menu-contact a svg {
   width: 17px;
@@ -4313,6 +4334,7 @@ body:has(.bazzo-proposal) {
 }
 .bazzo-menu-contact small {
   margin-top: 6px;
+  color: #5f7287;
   opacity: 0.65;
 }
 
@@ -6704,7 +6726,9 @@ body:has(.bazzo-proposal) {
     height: 18px;
   }
   .bazzo-menu-panel {
+    width: 100vw;
     padding: 20px 22px 26px;
+    border-left: 0;
   }
   .bazzo-menu-panel nav a {
     min-height: 61px;
