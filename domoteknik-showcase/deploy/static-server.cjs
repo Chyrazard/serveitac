@@ -14,17 +14,21 @@ const contentTypes = {
   ".jpg": "image/jpeg",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".mp4": "video/mp4",
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".txt": "text/plain; charset=utf-8",
   ".webp": "image/webp",
+  ".webm": "video/webm",
   ".woff": "font/woff",
   ".woff2": "font/woff2",
 };
 
 function sendFile(request, response, filePath, statusCode = 200) {
   const extension = path.extname(filePath).toLowerCase();
-  const immutable = filePath.includes(`${path.sep}_next${path.sep}static${path.sep}`);
+  const immutable = filePath.includes(
+    `${path.sep}_next${path.sep}static${path.sep}`,
+  );
 
   response.writeHead(statusCode, {
     "Content-Type": contentTypes[extension] || "application/octet-stream",
