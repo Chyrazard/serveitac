@@ -93,11 +93,30 @@ export function BazzoHeaderMenu({
   useEffect(() => {
     const header = wrapperRef.current?.closest("header");
     if (!header) return;
-    const update = () =>
-      header.classList.toggle("is-scrolled", window.scrollY > 38);
-    update();
+
+    let scrolled = window.scrollY > 48;
+    let frame = 0;
+
+    const commit = () => {
+      const nextY = window.scrollY;
+
+      if (!scrolled && nextY > 72) scrolled = true;
+      if (scrolled && nextY < 24) scrolled = false;
+
+      header.classList.toggle("is-scrolled", scrolled);
+      frame = 0;
+    };
+
+    const update = () => {
+      if (!frame) frame = window.requestAnimationFrame(commit);
+    };
+
+    commit();
     window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
