@@ -109,9 +109,13 @@ export default function BazzoUnwindProposal() {
                 muted
                 loop
                 playsInline
-                aria-label="Vídeo demostrativo de la propuesta"
+                poster="/images/bazzo/aerothermal-comfort.webp"
+                aria-label="Sistema de aire acondicionado en una vivienda"
               >
-                <source src="/videos/bazzo/unwind-demo.mp4" type="video/mp4" />
+                <source
+                  src="/videos/bazzo/climatizacion-hero.mp4"
+                  type="video/mp4"
+                />
               </video>
               <span className="b4-play">
                 <FontAwesomeIcon icon={faPlay} />
@@ -264,9 +268,10 @@ export default function BazzoUnwindProposal() {
           muted
           loop
           playsInline
-          aria-label="Vídeo demostrativo de la propuesta Grupo Bazzo"
+          poster="/images/bazzo/aerothermal-comfort.webp"
+          aria-label="Climatización residencial instalada por especialistas"
         >
-          <source src="/videos/bazzo/unwind-demo.mp4" type="video/mp4" />
+          <source src="/videos/bazzo/climatizacion-hero.mp4" type="video/mp4" />
         </video>
         <div className="b4-video-shade" />
         <div className="b4-container b4-video-copy" data-reveal>

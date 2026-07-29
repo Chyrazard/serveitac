@@ -73,9 +73,10 @@ export default function BazzoAtlasProposal() {
           muted
           loop
           playsInline
-          aria-label="Vídeo demostrativo de la propuesta"
+          poster="/images/bazzo/aerothermal-comfort.webp"
+          aria-label="Sistema de aire acondicionado en una vivienda"
         >
-          <source src="/videos/bazzo/atlas-demo.mp4" type="video/mp4" />
+          <source src="/videos/bazzo/climatizacion-hero.mp4" type="video/mp4" />
         </video>
         <div className="b6-grid-overlay" />
         <div className="b6-hero-shade" />
