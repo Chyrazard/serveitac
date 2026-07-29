@@ -5167,30 +5167,31 @@ body:has(.bazzo-proposal) {
   overflow: hidden;
 }
 
-.b5-hero > video {
+.b5-hero-media {
   position: absolute;
   z-index: 0;
-  top: 0;
+  top: 112px;
   left: 50%;
+  display: flex;
+  width: min(401px, 92vw);
+  aspect-ratio: 401 / 419;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  filter: blur(30px);
+  opacity: 0.82;
+  transform: translateX(-50%);
+}
+
+.b5-hero-media video {
   width: 100%;
-  height: 770px;
+  height: 100%;
   object-fit: cover;
-  filter: saturate(1.15) blur(1px);
-  opacity: 0.72;
-  transform: translateX(-50%) scale(1.08);
+  transform: scale(1.1);
 }
 
 .b5-hero-glow {
-  position: absolute;
-  z-index: 1;
-  inset: 0 0 auto;
-  height: 780px;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.14),
-    rgba(248, 247, 243, 0.3) 40%,
-    #f8f7f3 76%
-  );
+  display: none;
 }
 .b5-hero-copy {
   position: relative;
@@ -7020,11 +7021,10 @@ body:has(.bazzo-proposal) {
     min-height: 820px;
     padding-top: 160px;
   }
-  .b5-hero > video {
-    height: 610px;
-  }
-  .b5-hero-glow {
-    height: 620px;
+  .b5-hero-media {
+    top: 118px;
+    width: min(370px, 96vw);
+    filter: blur(26px);
   }
   .b5-hero-copy {
     padding: 0 16px;

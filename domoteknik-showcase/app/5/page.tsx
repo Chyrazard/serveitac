@@ -67,15 +67,18 @@ export default function BazzoZenviaProposal() {
       </header>
 
       <section className="b5-hero">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-label="Vídeo demostrativo de la propuesta"
-        >
-          <source src="/videos/bazzo/zenvia-demo.mp4" type="video/mp4" />
-        </video>
+        <div className="b5-hero-media" aria-hidden="true">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/bazzo/zenvia-hero-poster.jpg"
+          >
+            <source src="/videos/bazzo/zenvia-demo.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div className="b5-hero-glow" />
         <div className="b5-hero-copy" data-reveal>
           <span>GAS / CLIMATIZACIÓN / AEROTERMIA / SERVICIO 24H</span>
