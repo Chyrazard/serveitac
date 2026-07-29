@@ -59,16 +59,14 @@ export function BazzoPreloader() {
       role="status"
       aria-label="Cargando Grupo Bazzo"
     >
-      <div className="bazzo-preloader-eye" aria-hidden="true">
-        <span className="bazzo-preloader-iris">
-          <Image
-            src="/images/bazzo/logo-transparent.png"
-            alt=""
-            width={2168}
-            height={725}
-            priority
-          />
-        </span>
+      <div className="bazzo-preloader-logo" aria-hidden="true">
+        <Image
+          src="/images/bazzo/logo-transparent.png"
+          alt=""
+          width={2168}
+          height={725}
+          priority
+        />
       </div>
     </div>
   );
