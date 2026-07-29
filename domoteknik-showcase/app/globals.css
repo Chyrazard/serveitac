@@ -156,6 +156,171 @@ body:has(.proposal) {
   width: 13px;
 }
 
+.floating-contact {
+  --contact-pulse: 22, 119, 210;
+  position: fixed;
+  z-index: 120;
+  bottom: 25px;
+}
+
+.floating-contact-call {
+  left: 24px;
+}
+
+.floating-contact-whatsapp {
+  --contact-pulse: 32, 184, 88;
+  right: 24px;
+}
+
+.floating-contact > a {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  color: #fff;
+  background: #1677d2;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  box-shadow: 0 13px 34px rgba(7, 61, 112, 0.32);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.floating-contact-whatsapp > a {
+  background: #20b858;
+  box-shadow: 0 13px 34px rgba(6, 96, 42, 0.3);
+}
+
+.floating-contact > a::before,
+.floating-contact > a::after {
+  position: absolute;
+  z-index: -1;
+  inset: -2px;
+  content: "";
+  border: 2px solid rgba(var(--contact-pulse), 0.58);
+  border-radius: inherit;
+  pointer-events: none;
+  animation: floatingContactPulse 2.2s ease-out infinite;
+}
+
+.floating-contact > a::after {
+  animation-delay: 1.1s;
+}
+
+.floating-contact > a:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 17px 42px rgba(var(--contact-pulse), 0.4);
+}
+
+.floating-contact > a > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.floating-contact-tip {
+  position: absolute;
+  bottom: 76px;
+  display: flex;
+  min-width: max-content;
+  max-width: min(280px, calc(100vw - 48px));
+  min-height: 46px;
+  padding: 0 42px 0 16px;
+  align-items: center;
+  color: #17202a;
+  background: #fff;
+  border: 1px solid rgba(18, 33, 48, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 16px 42px rgba(12, 30, 47, 0.2);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+  animation: floatingContactTipIn 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.floating-contact-tip::after {
+  position: absolute;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  content: "";
+  background: #fff;
+  border-right: 1px solid rgba(18, 33, 48, 0.1);
+  border-bottom: 1px solid rgba(18, 33, 48, 0.1);
+  transform: rotate(45deg);
+}
+
+.floating-contact-call .floating-contact-tip {
+  left: 0;
+}
+
+.floating-contact-call .floating-contact-tip::after {
+  left: 23px;
+}
+
+.floating-contact-whatsapp .floating-contact-tip {
+  right: 0;
+}
+
+.floating-contact-whatsapp .floating-contact-tip::after {
+  right: 23px;
+}
+
+.floating-contact-tip button {
+  position: absolute;
+  top: 50%;
+  right: 9px;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  place-items: center;
+  color: #6c747c;
+  background: #f0f2f3;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.floating-contact-tip button:hover {
+  color: #fff;
+  background: #17202a;
+}
+
+.floating-contact-tip button svg {
+  width: 11px;
+  height: 11px;
+}
+
+@keyframes floatingContactPulse {
+  0% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  75%,
+  100% {
+    opacity: 0;
+    transform: scale(1.48);
+  }
+}
+
+@keyframes floatingContactTipIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .mobile-contact-bar {
   display: none;
 }
@@ -3127,7 +3292,8 @@ body:has(.proposal) {
   }
 
   .floating-whatsapp,
-  .back-to-top {
+  .back-to-top,
+  .floating-contact {
     display: none;
   }
 
@@ -3154,6 +3320,10 @@ body:has(.proposal) {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+  }
+
+  .mobile-contact-bar a:first-child {
+    background: #1677d2;
   }
 
   .mobile-contact-bar a + a {
@@ -6330,7 +6500,8 @@ body:has(.bazzo-proposal) {
     padding-bottom: 66px;
   }
   .bazzo-floating-whatsapp,
-  .bazzo-back-top {
+  .bazzo-back-top,
+  .floating-contact {
     display: none;
   }
 
@@ -6359,7 +6530,7 @@ body:has(.bazzo-proposal) {
     letter-spacing: 0.03em;
   }
   .bazzo-mobile-bar a:first-child {
-    background: #0b473b;
+    background: #1677d2;
   }
   .bazzo-mobile-bar a:last-child {
     background: #20b858;

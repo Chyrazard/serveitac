@@ -5,11 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
-  faArrowUp,
   faPhone,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FloatingContactDock } from "@/components/FloatingContactDock";
 
 const phoneHref = "tel:+34634210179";
 const whatsappHref =
@@ -128,19 +128,7 @@ export function BazzoHeaderMenu({
 export function BazzoContactActions() {
   return (
     <>
-      <a
-        className="bazzo-floating-whatsapp"
-        href={whatsappHref}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Contactar con Grupo Bazzo por WhatsApp"
-      >
-        <FontAwesomeIcon icon={faWhatsapp} />
-        <span>WhatsApp</span>
-      </a>
-      <a className="bazzo-back-top" href="#inicio" aria-label="Volver arriba">
-        <FontAwesomeIcon icon={faArrowUp} />
-      </a>
+      <FloatingContactDock phoneHref={phoneHref} whatsappHref={whatsappHref} />
       <div className="bazzo-mobile-bar" aria-label="Contacto rápido">
         <a href={phoneHref}>
           <FontAwesomeIcon icon={faPhone} />

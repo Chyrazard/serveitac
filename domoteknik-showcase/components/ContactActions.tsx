@@ -1,11 +1,9 @@
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPhone,
-  faArrowUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { FloatingContactDock } from "@/components/FloatingContactDock";
 
 const phoneHref = "tel:+34931989521";
 const whatsappHref =
@@ -14,20 +12,7 @@ const whatsappHref =
 export function ContactActions() {
   return (
     <>
-      <a
-        className="floating-whatsapp"
-        href={whatsappHref}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Hablar con ventas por WhatsApp"
-      >
-        <FontAwesomeIcon icon={faWhatsapp} />
-        <span>WhatsApp</span>
-      </a>
-
-      <a className="back-to-top" href="#inicio" aria-label="Volver arriba">
-        <FontAwesomeIcon icon={faArrowUp} />
-      </a>
+      <FloatingContactDock phoneHref={phoneHref} whatsappHref={whatsappHref} />
 
       <div className="mobile-contact-bar" aria-label="Contacto rápido">
         <a href={phoneHref}>
