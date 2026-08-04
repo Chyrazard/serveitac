@@ -99,7 +99,7 @@ $body = implode("\n", [
 
 $safeReplyTo = str_replace(["\r", "\n"], '', (string) $email);
 $headers = [
-    'From: Formulario Domoteknik <no-reply@vps-c2f4d7c7.vps.ovh.net>',
+    'From: Formulario Domoteknik <no-reply@nueva.domoteknik.com>',
     'Reply-To: ' . $safeReplyTo,
     'Content-Type: text/plain; charset=UTF-8',
     'Content-Transfer-Encoding: 8bit',
@@ -111,7 +111,7 @@ $sent = mail(
     $subject,
     $body,
     implode("\r\n", $headers),
-    '-fno-reply@vps-c2f4d7c7.vps.ovh.net'
+    '-fno-reply@nueva.domoteknik.com'
 );
 
 if (!$sent) {
