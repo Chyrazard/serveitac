@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
@@ -16,6 +17,40 @@ import { Brand } from "@/components/Brand";
 import { ContactActions } from "@/components/ContactActions";
 import { HeaderMenu } from "@/components/HeaderMenu";
 import { Reveal } from "@/components/Reveal";
+
+const socialTitle = "Domoteknik | La energía que cuida de lo que más importa";
+const socialDescription =
+  "Fotovoltaica, aerotermia, domótica, recarga eléctrica y soluciones de eficiencia energética para transformar tu hogar.";
+
+export const metadata: Metadata = {
+  title: socialTitle,
+  description: socialDescription,
+  alternates: {
+    canonical: "https://nueva.domoteknik.com/",
+  },
+  openGraph: {
+    title: socialTitle,
+    description: socialDescription,
+    url: "https://nueva.domoteknik.com/",
+    siteName: "Domoteknik",
+    locale: "es_ES",
+    type: "website",
+    images: [
+      {
+        url: "https://nueva.domoteknik.com/og-home-v2.png",
+        width: 1200,
+        height: 630,
+        alt: "Domoteknik: eficiencia energética para tu hogar",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: socialTitle,
+    description: socialDescription,
+    images: ["https://nueva.domoteknik.com/og-home-v2.png"],
+  },
+};
 
 const services = [
   {
