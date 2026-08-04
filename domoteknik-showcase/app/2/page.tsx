@@ -17,6 +17,7 @@ import { Brand } from "@/components/Brand";
 import { ContactActions } from "@/components/ContactActions";
 import { HeaderMenu } from "@/components/HeaderMenu";
 import { Reveal } from "@/components/Reveal";
+import { StudyRequestButton } from "@/components/StudyRequestButton";
 
 const socialTitle = "Domoteknik | La energía que cuida de lo que más importa";
 const socialDescription =
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://nueva.domoteknik.com/og-home-v2.png",
+        url: "https://nueva.domoteknik.com/og-home-v3.png",
         width: 1200,
         height: 630,
         alt: "Domoteknik: eficiencia energética para tu hogar",
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: socialTitle,
     description: socialDescription,
-    images: ["https://nueva.domoteknik.com/og-home-v2.png"],
+    images: ["https://nueva.domoteknik.com/og-home-v3.png"],
   },
 };
 
@@ -115,16 +116,14 @@ export default function ProposalTwo() {
             energía solar, climatización eficiente y control inteligente.
           </p>
           <div className="m-actions">
-            <a href="tel:+34931989521" className="m-button">
-              Solicitar estudio <FontAwesomeIcon icon={faArrowRight} />
-            </a>
+            <StudyRequestButton />
             <span>Gratuito · Personalizado · Sin compromiso</span>
           </div>
         </div>
         <div className="m-hero-image">
           <Image
-            src="/images/aerotermia.jpg"
-            alt="Técnico de aerotermia en una vivienda"
+            src="/images/domoteknik-local.webp"
+            alt="Sede de Domoteknik Energía y Domótica en Barcelona"
             fill
             priority
             sizes="(max-width: 900px) 100vw, 48vw"
@@ -314,9 +313,7 @@ export default function ProposalTwo() {
           <p>
             Habla directamente con Domoteknik y recibe tu estudio gratuito.
           </p>
-          <a className="m-button" href="tel:+34931989521">
-            Llamar al 931 989 521 <FontAwesomeIcon icon={faArrowRight} />
-          </a>
+          <StudyRequestButton />
         </div>
       </section>
 
