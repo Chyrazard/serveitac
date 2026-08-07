@@ -6,17 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faArrowRight,
+  faBatteryFull,
   faCheck,
   faHouseSignal,
   faLayerGroup,
+  faPlug,
   faRotateRight,
   faSolarPanel,
   faTemperatureHalf,
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
-type SolutionId = "solar" | "aerotermia" | "loxone" | "integral";
-type CoreSolutionId = Exclude<SolutionId, "integral">;
+type SolutionId = "solar" | "battery" | "aerotermia" | "charger" | "loxone";
 
 type Solution = {
   id: SolutionId;
@@ -32,8 +33,8 @@ type Solution = {
 const solutions: Solution[] = [
   {
     id: "solar",
-    short: "Energía solar",
-    title: "Solo Fotovoltaica",
+    short: "Generación fotovoltaica",
+    title: "Solar",
     description: "Convierte el sol en ahorro diario y reduce tu dependencia de la red.",
     savingMin: 0.5,
     savingMax: 0.6,
@@ -41,9 +42,19 @@ const solutions: Solution[] = [
     accent: "sun",
   },
   {
+    id: "battery",
+    short: "Almacenamiento inteligente",
+    title: "Baterías",
+    description: "Guarda tus excedentes solares para utilizarlos cuando realmente los necesitas.",
+    savingMin: 0.2,
+    savingMax: 0.25,
+    icon: faBatteryFull,
+    accent: "battery",
+  },
+  {
     id: "aerotermia",
-    short: "Clima eficiente",
-    title: "Solo Aerotermia",
+    short: "Clima invisible",
+    title: "Aerotermia",
     description: "Calefacción, refrigeración y agua caliente con mucha menos energía.",
     savingMin: 0.6,
     savingMax: 0.7,
@@ -51,29 +62,28 @@ const solutions: Solution[] = [
     accent: "air",
   },
   {
+    id: "charger",
+    short: "Movilidad eléctrica",
+    title: "Cargador",
+    description: "Carga tu vehículo con energía propia y gestión dinámica de potencia.",
+    savingMin: 0.05,
+    savingMax: 0.1,
+    icon: faPlug,
+    accent: "charger",
+  },
+  {
     id: "loxone",
-    short: "Gestión inteligente",
-    title: "Domótica Loxone",
+    short: "Control total",
+    title: "Domótica",
     description: "Tu vivienda decide cuándo y cómo consumir para evitar desperdicios.",
     savingMin: 0.1,
     savingMax: 0.15,
     icon: faHouseSignal,
     accent: "smart",
   },
-  {
-    id: "integral",
-    short: "Máximo potencial",
-    title: "Pack Smart Home Integral",
-    description: "Fotovoltaica, aerotermia y Loxone trabajando como un solo sistema.",
-    savingMin: 0.75,
-    savingMax: 0.85,
-    icon: faLayerGroup,
-    accent: "pack",
-  },
 ];
 
 const expensePresets = [100, 150, 200, 300, 450];
-const coreSolutionIds: CoreSolutionId[] = ["solar", "aerotermia", "loxone"];
 
 function formatEuro(value: number) {
   return Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -81,44 +91,69 @@ function formatEuro(value: number) {
 
 export function EnergySavingsSimulator() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [solutionIds, setSolutionIds] = useState<CoreSolutionId[]>([]);
+  const [solutionIds, setSolutionIds] = useState<SolutionId[]>([]);
   const [monthlyExpense, setMonthlyExpense] = useState(200);
 
-  const selectedSolutions = solutions.filter(
-    (item): item is Solution & { id: CoreSolutionId } =>
-      item.id !== "integral" && solutionIds.includes(item.id),
+  const selectedSolutions = solutions.filter((item) => solutionIds.includes(item.id));
+  const hasIntegralCore = ["solar", "aerotermia", "loxone"].every((item) =>
+    solutionIds.includes(item as SolutionId),
   );
-  const isIntegral = solutionIds.length === coreSolutionIds.length;
 
   const savingRange = useMemo(() => {
     const hasSolar = solutionIds.includes("solar");
+    const hasBattery = solutionIds.includes("battery");
     const hasAerotermia = solutionIds.includes("aerotermia");
+    const hasCharger = solutionIds.includes("charger");
     const hasLoxone = solutionIds.includes("loxone");
 
-    if (hasSolar && hasAerotermia && hasLoxone) return { min: 0.75, max: 0.85 };
-    if (hasSolar && hasAerotermia) return { min: 0.7, max: 0.8 };
-    if (hasSolar && hasLoxone) return { min: 0.6, max: 0.75 };
-    if (hasAerotermia && hasLoxone) return { min: 0.7, max: 0.85 };
-    if (hasSolar) return { min: 0.5, max: 0.6 };
-    if (hasAerotermia) return { min: 0.6, max: 0.7 };
-    if (hasLoxone) return { min: 0.1, max: 0.15 };
-    return null;
+    let min = 0;
+    let max = 0;
+
+    if (hasSolar && hasAerotermia && hasLoxone) {
+      min = 0.75;
+      max = 0.85;
+    } else if (hasSolar && hasAerotermia) {
+      min = 0.65;
+      max = 0.75;
+    } else if (hasSolar) {
+      min = 0.5;
+      max = 0.6;
+    } else if (hasAerotermia) {
+      min = 0.6;
+      max = 0.7;
+    }
+
+    if (hasBattery) {
+      min += hasSolar ? 0.08 : 0.2;
+      max += hasSolar ? 0.1 : 0.25;
+    }
+
+    if (hasCharger) {
+      min += 0.05;
+      max += 0.1;
+    }
+
+    if (hasLoxone && !(hasSolar && hasAerotermia)) {
+      min += 0.1;
+      max += 0.15;
+    }
+
+    if (!min && !max) return null;
+    return { min: Math.min(min, 0.9), max: Math.min(max, 0.95) };
   }, [solutionIds]);
 
-  const selectionTitle = isIntegral
-    ? "Pack Smart Home Integral"
-    : selectedSolutions.map((item) => item.title.replace("Solo ", "")).join(" + ");
+  const extraSolutions = selectedSolutions.filter(
+    (item) => item.id === "battery" || item.id === "charger",
+  );
+  const selectionTitle = hasIntegralCore
+    ? ["Pack Smart Home Integral", ...extraSolutions.map((item) => item.title)].join(" + ")
+    : selectedSolutions.map((item) => item.title).join(" + ");
 
-  const selectionIcon = isIntegral
+  const selectionIcon = hasIntegralCore
     ? faLayerGroup
     : selectedSolutions[0]?.icon ?? faHouseSignal;
 
   const toggleSolution = (solutionId: SolutionId) => {
-    if (solutionId === "integral") {
-      setSolutionIds(isIntegral ? [] : [...coreSolutionIds]);
-      return;
-    }
-
     setSolutionIds((current) =>
       current.includes(solutionId)
         ? current.filter((item) => item !== solutionId)
@@ -190,9 +225,7 @@ export function EnergySavingsSimulator() {
 
               <div className="energy-sim-solutions" role="group" aria-label="Soluciones energéticas">
                 {solutions.map((item) => {
-                  const selected = item.id === "integral"
-                    ? isIntegral
-                    : solutionIds.includes(item.id);
+                  const selected = solutionIds.includes(item.id);
                   return (
                     <button
                       className={`energy-sim-solution is-${item.accent} ${selected ? "is-selected" : ""}`}

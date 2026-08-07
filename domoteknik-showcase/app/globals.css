@@ -427,8 +427,20 @@
 
 .energy-sim-solutions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
   gap: 13px;
+}
+
+.energy-sim-solution {
+  grid-column: span 2;
+}
+
+.energy-sim-solution:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.energy-sim-solution:nth-child(5) {
+  grid-column: 4 / span 2;
 }
 
 .energy-sim-solution {
@@ -462,7 +474,9 @@
 }
 
 .energy-sim-solution.is-sun { --solution-color: #e3b92f; }
+.energy-sim-solution.is-battery { --solution-color: #3f9a70; }
 .energy-sim-solution.is-air { --solution-color: #4f9dbc; }
+.energy-sim-solution.is-charger { --solution-color: #315f9b; }
 .energy-sim-solution.is-smart { --solution-color: #5d9d32; }
 .energy-sim-solution.is-pack { --solution-color: #1e3d30; }
 
@@ -1088,7 +1102,17 @@
   }
 
   .energy-sim-solution {
+    grid-column: auto;
     grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .energy-sim-solutions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .energy-sim-solution:nth-child(4),
+  .energy-sim-solution:nth-child(5) {
+    grid-column: auto;
   }
 
   .energy-sim-solution-range {
