@@ -181,7 +181,7 @@ export function EnergySavingsSimulator() {
   const selectedProperty = propertyTypes.find((item) => item.id === propertyType);
   const sliderMax = Math.max(3000, Math.ceil(monthlyExpense / 1000) * 1000);
   const whatsappMessage = result && selectedProperty
-    ? `Hola, he simulado un gasto de ${monthlyExpense}€/mes para una ${selectedProperty.label.toLowerCase()} con interés en ${selectionTitle} y quiero mi propuesta detallada. El ahorro estimado mostrado es de ${formatEuro(result.annualSaving)}€ al año.`
+    ? `Hola, quiero recibir mi propuesta personalizada de Domoteknik.\n\n🏠 Propiedad: ${selectedProperty.label}\n⚡ Soluciones elegidas: ${selectionTitle}\n💶 Gasto mensual actual: ${formatEuro(monthlyExpense)} €\n📅 Gasto anual actual: ${formatEuro(result.annualExpense)} €\n📉 Ahorro anual estimado: ${formatEuro(result.annualSaving)} € (${Math.round(savingRate * 100)}%)\n✅ Gasto anual estimado después: ${formatEuro(result.futureExpense)} €\n\nQuiero solicitar mi estudio técnico gratuito.`
     : "Hola, quiero realizar un estudio energético gratuito con Domoteknik.";
 
   const whatsappHref = `https://wa.me/34623974748?text=${encodeURIComponent(whatsappMessage)}`;

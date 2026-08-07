@@ -8,7 +8,6 @@ import {
   faCheck,
   faChevronDown,
   faHouseSignal,
-  faLeaf,
   faPhone,
   faSnowflake,
   faSolarPanel,
@@ -19,9 +18,9 @@ import { HeaderMenu } from "@/components/HeaderMenu";
 import { Reveal } from "@/components/Reveal";
 import { StudyRequestButton } from "@/components/StudyRequestButton";
 
-const socialTitle = "Domoteknik | La energía que cuida de lo que más importa";
+const socialTitle = "Domoteknik | Domótica Loxone y eficiencia energética";
 const socialDescription =
-  "Fotovoltaica, aerotermia, domótica, recarga eléctrica y soluciones de eficiencia energética para transformar tu hogar.";
+  "Domótica Loxone para controlar iluminación, clima, seguridad y energía, integrada con fotovoltaica, aerotermia y recarga eléctrica.";
 
 export const metadata: Metadata = {
   title: socialTitle,
@@ -55,6 +54,13 @@ export const metadata: Metadata = {
 
 const services = [
   {
+    title: "Domótica Loxone",
+    subtitle: "El cerebro de tu hogar",
+    icon: faHouseSignal,
+    image: "/images/domotica.jpg",
+    featured: true,
+  },
+  {
     title: "Fotovoltaica",
     subtitle: "Tu propia energía",
     icon: faSolarPanel,
@@ -65,12 +71,6 @@ const services = [
     subtitle: "Confort todo el año",
     icon: faSnowflake,
     image: "/images/aerotermia.jpg",
-  },
-  {
-    title: "Domótica",
-    subtitle: "Tu hogar, conectado",
-    icon: faHouseSignal,
-    image: "/images/domotica.jpg",
   },
   {
     title: "Recarga",
@@ -86,7 +86,7 @@ export default function ProposalTwo() {
       <Reveal />
       <header className="m-header has-simulator-cta">
         <Brand compact />
-        <a className="m-header-simulator" href="/simulador/">Simular ahora</a>
+        <a className="m-header-simulator" href="/simulador/">Simular tu ahorro</a>
         <nav aria-label="Navegación principal">
           <a href="#servicios">Servicios</a>
           <a href="#nosotros">Domoteknik</a>
@@ -117,12 +117,17 @@ export default function ProposalTwo() {
 
       <section className="m-hero">
         <div className="m-hero-copy">
-          <span className="m-kicker">Eficiencia energética, en tu hogar</span>
-          <h1>La energía que cuida de lo que más importa.</h1>
+          <span className="m-kicker">Domótica Loxone · Instalación especializada</span>
+          <h1>Tu hogar piensa contigo.</h1>
           <p>
-            Un equipo técnico de confianza para transformar tu vivienda con
-            energía solar, climatización eficiente y control inteligente.
+            Integramos iluminación, persianas, climatización, seguridad y
+            energía en un único sistema que anticipa tus necesidades.
           </p>
+          <div className="m-domotics-proof" aria-label="Funciones principales de la domótica">
+            <span><FontAwesomeIcon icon={faCheck} /> Iluminación y persianas</span>
+            <span><FontAwesomeIcon icon={faCheck} /> Clima inteligente</span>
+            <span><FontAwesomeIcon icon={faCheck} /> Seguridad y energía</span>
+          </div>
           <div className="m-actions">
             <StudyRequestButton />
             <span>Gratuito · Personalizado · Sin compromiso</span>
@@ -137,24 +142,24 @@ export default function ProposalTwo() {
             sizes="(max-width: 900px) 100vw, 48vw"
           />
           <div className="m-hero-note">
-            <FontAwesomeIcon icon={faLeaf} />
-            <div><strong>Hasta un 75%</strong><span>de ahorro frente a sistemas tradicionales</span></div>
+            <FontAwesomeIcon icon={faHouseSignal} />
+            <div><strong>Control inteligente 24/7</strong><span>Local, seguro y preparado para crecer contigo</span></div>
           </div>
         </div>
       </section>
 
       <section className="m-intro" id="servicios" data-reveal>
-        <span>Soluciones integrales</span>
-        <h2>Todo lo que tu hogar necesita para consumir menos y sentirse mejor.</h2>
+        <span>Domótica como centro de todo</span>
+        <h2>Una vivienda que coordina confort, seguridad y ahorro.</h2>
         <p>
-          Estudiamos el conjunto de la vivienda para que cada tecnología
-          funcione en armonía, sin sobredimensionar ni complicar.
+          Loxone conecta cada tecnología para que tu hogar actúe por sí solo,
+          consuma en el momento adecuado y siga siendo fácil de usar.
         </p>
       </section>
 
       <section className="m-services">
         {services.map((service, index) => (
-          <article className="m-service" key={service.title} data-reveal>
+          <article className={`m-service ${service.featured ? "is-featured" : ""}`} key={service.title} data-reveal>
             <div className="m-service-image">
               <Image
                 src={service.image}
@@ -163,6 +168,7 @@ export default function ProposalTwo() {
                 sizes="(max-width: 700px) 100vw, 25vw"
               />
               <span>0{index + 1}</span>
+              {service.featured && <strong>Servicio principal</strong>}
             </div>
             <div className="m-service-copy">
               <FontAwesomeIcon icon={service.icon} />
@@ -206,18 +212,17 @@ export default function ProposalTwo() {
 
       <section className="m-comfort">
         <div className="m-comfort-copy" data-reveal>
-          <span className="m-kicker">Tu confort, tu control</span>
-          <h2>Una casa que se adapta a ti.</h2>
+          <span className="m-kicker">Domótica Loxone · Control total</span>
+          <h2>La tecnología desaparece. El confort se queda.</h2>
           <p>
-            Climatiza, ilumina, protege y monitoriza el consumo desde el móvil o
-            con la voz. Si internet falla, tus controles físicos siguen
-            funcionando con normalidad.
+            El sistema aprende tus rutinas y automatiza lo cotidiano sin depender
+            de la nube. Tú conservas el control desde pulsadores, móvil o voz.
           </p>
           <ul>
-            <li><FontAwesomeIcon icon={faCheck} /> Iluminación y persianas</li>
-            <li><FontAwesomeIcon icon={faCheck} /> Climatización inteligente</li>
-            <li><FontAwesomeIcon icon={faCheck} /> Seguridad y alertas</li>
-            <li><FontAwesomeIcon icon={faCheck} /> Consumos en tiempo real</li>
+            <li><FontAwesomeIcon icon={faCheck} /> Iluminación, escenas y persianas</li>
+            <li><FontAwesomeIcon icon={faCheck} /> Climatización por zonas</li>
+            <li><FontAwesomeIcon icon={faCheck} /> Alarmas técnicas y presencia</li>
+            <li><FontAwesomeIcon icon={faCheck} /> Gestión solar y de consumos</li>
           </ul>
         </div>
         <div className="m-comfort-image">

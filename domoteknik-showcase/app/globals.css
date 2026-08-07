@@ -8,6 +8,370 @@
   --ink: #17231f;
 }
 
+/* Domoteknik — prioridad de domótica y experiencia móvil compacta */
+
+.m-domotics-proof {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -12px 0 28px;
+  gap: 9px;
+}
+
+.m-domotics-proof span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(40, 77, 59, 0.18);
+  color: #355746;
+  background: rgba(255, 255, 255, 0.42);
+  font-size: 10px;
+  font-weight: 600;
+  gap: 7px;
+}
+
+.m-domotics-proof svg {
+  width: 10px;
+  color: #5d9d32;
+}
+
+.m-service.is-featured {
+  color: #fff;
+  background: #1d4836;
+  box-shadow: 0 24px 55px rgba(29, 72, 54, 0.18);
+}
+
+.m-service.is-featured .m-service-copy > svg,
+.m-service.is-featured .m-service-copy > span {
+  color: #b9ec68;
+}
+
+.m-service.is-featured .m-service-copy > a {
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.m-service-image > strong {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  color: #173329;
+  background: #b9ec68;
+  box-shadow: 0 8px 20px rgba(23, 51, 41, 0.18);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .m-header-simulator {
+    width: auto;
+    max-width: none;
+    min-height: 42px;
+    padding: 0 16px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .m-header.has-simulator-cta {
+    grid-template-columns: 88px minmax(126px, 1fr) auto;
+    min-height: 70px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .m-header.has-simulator-cta > .brand {
+    width: 88px;
+  }
+
+  .m-header-simulator {
+    width: 100%;
+    min-height: 40px;
+    padding: 0 9px;
+    font-size: 9px;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+  }
+
+  .m-header .site-header-actions {
+    gap: 4px;
+  }
+
+  .m-header .header-menu-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .m-hero {
+    min-height: auto;
+  }
+
+  .m-hero-copy {
+    padding: 44px 20px 38px;
+  }
+
+  .m-hero .m-kicker {
+    font-size: 9px;
+  }
+
+  .m-hero h1 {
+    margin-top: 18px;
+    font-size: 43px;
+  }
+
+  .m-hero-copy > p {
+    margin: 18px 0 22px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .m-domotics-proof {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin: 0 0 22px;
+    gap: 7px;
+  }
+
+  .m-domotics-proof span {
+    min-height: 32px;
+    padding: 0 9px;
+    font-size: 8px;
+  }
+
+  .m-domotics-proof span:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .m-actions {
+    width: 100%;
+  }
+
+  .m-actions > span {
+    display: none;
+  }
+
+  .m-study-button {
+    min-height: 56px;
+    padding: 0 20px;
+    font-size: 12px;
+  }
+
+  .m-hero-image {
+    min-height: 310px;
+    margin: 8px;
+  }
+
+  .m-hero-note {
+    padding: 12px 14px;
+  }
+
+  .m-hero-note strong {
+    font-size: 17px;
+  }
+
+  .m-intro {
+    padding: 62px 20px 34px;
+  }
+
+  .m-intro h2 {
+    margin: 15px 0 17px;
+    font-size: 38px;
+  }
+
+  .m-intro p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .m-services {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(272px, 82vw);
+    padding: 0 16px 60px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .m-services::-webkit-scrollbar {
+    display: none;
+  }
+
+  .m-service {
+    scroll-snap-align: start;
+  }
+
+  .m-service-image {
+    height: 220px;
+  }
+
+  .m-service-copy {
+    padding: 20px;
+  }
+
+  .m-service-copy > svg {
+    margin-bottom: 16px;
+  }
+
+  .m-service h3 {
+    margin: 7px 0 18px;
+    font-size: 29px;
+  }
+
+  .m-quality,
+  .m-comfort {
+    min-height: auto;
+  }
+
+  .m-quality-image,
+  .m-comfort-image {
+    min-height: 290px;
+  }
+
+  .m-quality-copy,
+  .m-comfort-copy {
+    padding: 48px 20px;
+  }
+
+  .m-quality h2,
+  .m-comfort h2 {
+    margin: 18px 0;
+    font-size: 40px;
+  }
+
+  .m-quality-copy > p,
+  .m-comfort-copy > p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .m-quality-list {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 28px 0 24px;
+  }
+
+  .m-quality-list div,
+  .m-quality-list div:not(:first-child) {
+    min-height: 68px;
+    padding: 0 8px;
+    border-right: 1px solid #c7c1b6;
+    border-bottom: 0;
+  }
+
+  .m-quality-list div:first-child {
+    padding-left: 0;
+  }
+
+  .m-quality-list div:last-child {
+    border-right: 0;
+  }
+
+  .m-quality-list strong {
+    font-size: 19px;
+  }
+
+  .m-quality-list span {
+    font-size: 8px;
+  }
+
+  .m-comfort {
+    margin-top: 55px;
+    margin-bottom: 55px;
+  }
+
+  .m-comfort ul {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 24px;
+    gap: 12px;
+  }
+
+  .m-comfort li {
+    align-items: flex-start;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .m-electric {
+    padding-bottom: 58px;
+  }
+
+  .m-electric-card {
+    padding: 24px;
+  }
+
+  .m-electric-image {
+    display: none;
+  }
+
+  .m-process {
+    padding: 62px 16px;
+  }
+
+  .m-process-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .m-process-grid article,
+  .m-process-grid article:nth-child(3) {
+    min-height: 180px;
+    padding: 20px;
+    border: 1px solid #afc2b6;
+  }
+
+  .m-process-grid h3 {
+    margin-top: 28px;
+    font-size: 24px;
+  }
+
+  .m-process-grid p {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .m-project {
+    min-height: 520px;
+  }
+
+  .m-project-card {
+    padding: 26px 22px;
+  }
+
+  .m-faq {
+    padding: 62px 20px;
+  }
+
+  .m-faq h2 {
+    font-size: 40px;
+  }
+
+  .m-cta {
+    min-height: auto;
+  }
+
+  .m-cta-image {
+    display: none;
+  }
+
+  .m-cta-copy {
+    padding: 52px 22px;
+  }
+
+  .m-cta h2 {
+    font-size: 42px;
+  }
+
+  .m-footer {
+    padding-top: 52px;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* Domoteknik — simulador de ahorro                                           */
 /* -------------------------------------------------------------------------- */
@@ -10603,5 +10967,313 @@ body:has(.bazzo-proposal) {
 
   .b5-project-meta {
     font-size: 11px;
+  }
+}
+
+@media (max-width: 900px) {
+  .proposal-two .m-header-simulator {
+    width: auto;
+    max-width: none;
+    min-height: 42px;
+    padding: 0 16px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .proposal-two .m-header.has-simulator-cta {
+    grid-template-columns: 88px minmax(126px, 1fr) auto;
+    min-height: 70px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .proposal-two .m-header.has-simulator-cta > .brand {
+    width: 88px;
+  }
+
+  .proposal-two .m-header-simulator {
+    width: 100%;
+    max-width: none;
+    min-height: 40px;
+    padding: 0 9px;
+    font-size: 9px;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+  }
+
+  .proposal-two .m-header .site-header-actions {
+    gap: 4px;
+  }
+
+  .proposal-two .m-header .header-menu-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .proposal-two .m-hero {
+    min-height: auto;
+  }
+
+  .proposal-two .m-hero-copy {
+    padding: 44px 20px 38px;
+  }
+
+  .proposal-two .m-hero .m-kicker {
+    font-size: 9px;
+  }
+
+  .proposal-two .m-hero h1 {
+    margin-top: 18px;
+    font-size: 43px;
+  }
+
+  .proposal-two .m-hero-copy > p {
+    margin: 18px 0 22px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .proposal-two .m-domotics-proof {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin: 0 0 22px;
+    gap: 7px;
+  }
+
+  .proposal-two .m-domotics-proof span {
+    min-height: 32px;
+    padding: 0 9px;
+    font-size: 8px;
+  }
+
+  .proposal-two .m-domotics-proof span:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .proposal-two .m-actions {
+    width: 100%;
+  }
+
+  .proposal-two .m-actions > span {
+    display: none;
+  }
+
+  .proposal-two .m-study-button {
+    min-height: 56px;
+    padding: 0 20px;
+    font-size: 12px;
+  }
+
+  .proposal-two .m-hero-image {
+    min-height: 310px;
+    margin: 8px;
+  }
+
+  .proposal-two .m-hero-note {
+    padding: 12px 14px;
+  }
+
+  .proposal-two .m-hero-note strong {
+    font-size: 17px;
+  }
+
+  .proposal-two .m-intro {
+    padding: 62px 20px 34px;
+  }
+
+  .proposal-two .m-intro h2 {
+    margin: 15px 0 17px;
+    font-size: 38px;
+  }
+
+  .proposal-two .m-intro p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .proposal-two .m-services {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(272px, 82vw);
+    padding: 0 16px 60px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .proposal-two .m-services::-webkit-scrollbar {
+    display: none;
+  }
+
+  .proposal-two .m-service {
+    scroll-snap-align: start;
+  }
+
+  .proposal-two .m-service-image {
+    height: 220px;
+  }
+
+  .proposal-two .m-service-copy {
+    padding: 20px;
+  }
+
+  .proposal-two .m-service-copy > svg {
+    margin-bottom: 16px;
+  }
+
+  .proposal-two .m-service h3 {
+    margin: 7px 0 18px;
+    font-size: 29px;
+  }
+
+  .proposal-two .m-quality,
+  .proposal-two .m-comfort {
+    min-height: auto;
+  }
+
+  .proposal-two .m-quality-image,
+  .proposal-two .m-comfort-image {
+    min-height: 290px;
+  }
+
+  .proposal-two .m-quality-copy,
+  .proposal-two .m-comfort-copy {
+    padding: 48px 20px;
+  }
+
+  .proposal-two .m-quality h2,
+  .proposal-two .m-comfort h2 {
+    margin: 18px 0;
+    font-size: 40px;
+  }
+
+  .proposal-two .m-quality-copy > p,
+  .proposal-two .m-comfort-copy > p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .proposal-two .m-quality-list {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 28px 0 24px;
+  }
+
+  .proposal-two .m-quality-list div,
+  .proposal-two .m-quality-list div:not(:first-child) {
+    min-height: 68px;
+    padding: 0 8px;
+    border-right: 1px solid #c7c1b6;
+    border-bottom: 0;
+  }
+
+  .proposal-two .m-quality-list div:first-child {
+    padding-left: 0;
+  }
+
+  .proposal-two .m-quality-list div:last-child {
+    border-right: 0;
+  }
+
+  .proposal-two .m-quality-list strong {
+    font-size: 19px;
+  }
+
+  .proposal-two .m-quality-list span {
+    font-size: 8px;
+  }
+
+  .proposal-two .m-comfort {
+    margin-top: 55px;
+    margin-bottom: 55px;
+  }
+
+  .proposal-two .m-comfort ul {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 24px;
+    gap: 12px;
+  }
+
+  .proposal-two .m-comfort li {
+    align-items: flex-start;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .proposal-two .m-electric {
+    padding-bottom: 58px;
+  }
+
+  .proposal-two .m-electric-card {
+    padding: 24px;
+  }
+
+  .proposal-two .m-electric-image {
+    display: none;
+  }
+
+  .proposal-two .m-process {
+    padding: 62px 16px;
+  }
+
+  .proposal-two .m-process-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .proposal-two .m-process-grid article,
+  .proposal-two .m-process-grid article:nth-child(3) {
+    min-height: 180px;
+    padding: 20px;
+    border: 1px solid #afc2b6;
+  }
+
+  .proposal-two .m-process-grid h3 {
+    margin-top: 28px;
+    font-size: 24px;
+  }
+
+  .proposal-two .m-process-grid p {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .proposal-two .m-project {
+    min-height: 520px;
+  }
+
+  .proposal-two .m-project-card {
+    padding: 26px 22px;
+  }
+
+  .proposal-two .m-faq {
+    padding: 62px 20px;
+  }
+
+  .proposal-two .m-faq h2 {
+    font-size: 40px;
+  }
+
+  .proposal-two .m-cta {
+    min-height: auto;
+  }
+
+  .proposal-two .m-cta-image {
+    display: none;
+  }
+
+  .proposal-two .m-cta-copy {
+    padding: 52px 22px;
+  }
+
+  .proposal-two .m-cta h2 {
+    font-size: 42px;
+  }
+
+  .proposal-two .m-footer {
+    padding-top: 52px;
   }
 }
