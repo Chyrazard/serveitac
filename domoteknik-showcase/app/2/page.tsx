@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Brand } from "@/components/Brand";
 import { ContactActions } from "@/components/ContactActions";
+import { DomoticsPromoPopup } from "@/components/DomoticsPromoPopup";
 import { HeaderMenu } from "@/components/HeaderMenu";
 import { Reveal } from "@/components/Reveal";
 import { StudyRequestButton } from "@/components/StudyRequestButton";
@@ -347,6 +348,7 @@ export default function ProposalTwo() {
         </div>
         <div className="m-footer-legal">© 2026 Domoteknik S.L.U.</div>
       </footer>
+      <DomoticsPromoPopup />
       <ContactActions />
     </main>
   );
