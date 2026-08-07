@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -102,6 +102,23 @@ export function EnergySavingsSimulator() {
   const [solutionIds, setSolutionIds] = useState<SolutionId[]>([]);
   const [propertyType, setPropertyType] = useState<PropertyType | null>(null);
   const [monthlyExpense, setMonthlyExpense] = useState(150);
+
+  useEffect(() => {
+    if (!window.matchMedia("(max-width: 900px)").matches) return;
+
+    let secondFrame = 0;
+    const firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        document.scrollingElement?.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+    };
+  }, [step]);
 
   const selectedSolutions = solutions.filter((item) => solutionIds.includes(item.id));
   const hasIntegralCore = ["solar", "aerotermia", "loxone"].every((item) =>
