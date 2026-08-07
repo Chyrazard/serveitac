@@ -1,14 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faArrowRight,
   faBatteryFull,
+  faBuilding,
   faCheck,
+  faHouse,
   faHouseSignal,
+  faIndustry,
   faLayerGroup,
   faPlug,
   faRotateRight,
@@ -18,6 +20,7 @@ import {
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 type SolutionId = "solar" | "battery" | "aerotermia" | "charger" | "loxone";
+type PropertyType = "house" | "apartment" | "industrial";
 
 type Solution = {
   id: SolutionId;
@@ -37,7 +40,7 @@ const solutions: Solution[] = [
     title: "Solar",
     description: "Convierte el sol en ahorro diario y reduce tu dependencia de la red.",
     savingMin: 0.5,
-    savingMax: 0.6,
+    savingMax: 0.5,
     icon: faSolarPanel,
     accent: "sun",
   },
@@ -46,7 +49,7 @@ const solutions: Solution[] = [
     short: "Almacenamiento inteligente",
     title: "Baterías",
     description: "Guarda tus excedentes solares para utilizarlos cuando realmente los necesitas.",
-    savingMin: 0.2,
+    savingMin: 0.25,
     savingMax: 0.25,
     icon: faBatteryFull,
     accent: "battery",
@@ -56,8 +59,8 @@ const solutions: Solution[] = [
     short: "Clima invisible",
     title: "Aerotermia",
     description: "Calefacción, refrigeración y agua caliente con mucha menos energía.",
-    savingMin: 0.6,
-    savingMax: 0.7,
+    savingMin: 0.15,
+    savingMax: 0.15,
     icon: faTemperatureHalf,
     accent: "air",
   },
@@ -67,7 +70,7 @@ const solutions: Solution[] = [
     title: "Cargador",
     description: "Carga tu vehículo con energía propia y gestión dinámica de potencia.",
     savingMin: 0.05,
-    savingMax: 0.1,
+    savingMax: 0.05,
     icon: faPlug,
     accent: "charger",
   },
@@ -77,13 +80,18 @@ const solutions: Solution[] = [
     title: "Domótica",
     description: "Tu vivienda decide cuándo y cómo consumir para evitar desperdicios.",
     savingMin: 0.1,
-    savingMax: 0.15,
+    savingMax: 0.1,
     icon: faHouseSignal,
     accent: "smart",
   },
 ];
 
-const expensePresets = [100, 150, 200, 300, 450];
+const expensePresets = [100, 150, 200, 300, 600, 1000, 2000, 3000];
+const propertyTypes = [
+  { id: "house" as const, label: "Casa", icon: faHouse },
+  { id: "apartment" as const, label: "Piso", icon: faBuilding },
+  { id: "industrial" as const, label: "Nave", icon: faIndustry },
+];
 
 function formatEuro(value: number) {
   return Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -92,55 +100,24 @@ function formatEuro(value: number) {
 export function EnergySavingsSimulator() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [solutionIds, setSolutionIds] = useState<SolutionId[]>([]);
-  const [monthlyExpense, setMonthlyExpense] = useState(200);
+  const [propertyType, setPropertyType] = useState<PropertyType | null>(null);
+  const [monthlyExpense, setMonthlyExpense] = useState(150);
 
   const selectedSolutions = solutions.filter((item) => solutionIds.includes(item.id));
   const hasIntegralCore = ["solar", "aerotermia", "loxone"].every((item) =>
     solutionIds.includes(item as SolutionId),
   );
 
-  const savingRange = useMemo(() => {
-    const hasSolar = solutionIds.includes("solar");
-    const hasBattery = solutionIds.includes("battery");
-    const hasAerotermia = solutionIds.includes("aerotermia");
-    const hasCharger = solutionIds.includes("charger");
-    const hasLoxone = solutionIds.includes("loxone");
-
-    let min = 0;
-    let max = 0;
-
-    if (hasSolar && hasAerotermia && hasLoxone) {
-      min = 0.75;
-      max = 0.85;
-    } else if (hasSolar && hasAerotermia) {
-      min = 0.65;
-      max = 0.75;
-    } else if (hasSolar) {
-      min = 0.5;
-      max = 0.6;
-    } else if (hasAerotermia) {
-      min = 0.6;
-      max = 0.7;
-    }
-
-    if (hasBattery) {
-      min += hasSolar ? 0.08 : 0.2;
-      max += hasSolar ? 0.1 : 0.25;
-    }
-
-    if (hasCharger) {
-      min += 0.05;
-      max += 0.1;
-    }
-
-    if (hasLoxone && !(hasSolar && hasAerotermia)) {
-      min += 0.1;
-      max += 0.15;
-    }
-
-    if (!min && !max) return null;
-    return { min: Math.min(min, 0.9), max: Math.min(max, 0.95) };
-  }, [solutionIds]);
+  const savingRate = useMemo(() => {
+    let rate = 0;
+    if (solutionIds.includes("solar")) rate += 0.5;
+    if (solutionIds.includes("battery")) rate += 0.25;
+    if (solutionIds.includes("aerotermia")) rate += 0.15;
+    if (solutionIds.includes("charger")) rate += 0.05;
+    if (solutionIds.includes("loxone") && solutionIds.length > 1) rate *= 1.1;
+    if (propertyType === "industrial" && solutionIds.includes("solar")) rate += 0.05;
+    return Math.min(0.98, rate);
+  }, [propertyType, solutionIds]);
 
   const extraSolutions = selectedSolutions.filter(
     (item) => item.id === "battery" || item.id === "charger",
@@ -162,31 +139,29 @@ export function EnergySavingsSimulator() {
   };
 
   const result = useMemo(() => {
-    if (!savingRange) return null;
+    if (!solutionIds.length) return null;
 
     const annualExpense = monthlyExpense * 12;
-    const savingMin = annualExpense * savingRange.min;
-    const savingMax = annualExpense * savingRange.max;
-    const futureExpenseMin = annualExpense - savingMax;
-    const futureExpenseMax = annualExpense - savingMin;
+    const annualSaving = annualExpense * savingRate;
+    const futureExpense = annualExpense - annualSaving;
 
     return {
       annualExpense,
-      savingMin,
-      savingMax,
-      futureExpenseMin,
-      futureExpenseMax,
+      annualSaving,
+      futureExpense,
     };
-  }, [monthlyExpense, savingRange]);
+  }, [monthlyExpense, savingRate, solutionIds.length]);
 
   const reset = () => {
     setSolutionIds([]);
-    setMonthlyExpense(200);
+    setPropertyType(null);
+    setMonthlyExpense(150);
     setStep(1);
   };
 
-  const whatsappMessage = savingRange && result
-    ? `Hola, he simulado un gasto de ${monthlyExpense}€/mes con interés en ${selectionTitle} y quiero mi propuesta detallada. El ahorro estimado mostrado es de ${formatEuro(result.savingMin)}€ a ${formatEuro(result.savingMax)}€ al año.`
+  const selectedProperty = propertyTypes.find((item) => item.id === propertyType);
+  const whatsappMessage = result && selectedProperty
+    ? `Hola, he simulado un gasto de ${monthlyExpense}€/mes para una ${selectedProperty.label.toLowerCase()} con interés en ${selectionTitle} y quiero mi propuesta detallada. El ahorro estimado mostrado es de ${formatEuro(result.annualSaving)}€ al año.`
     : "Hola, quiero realizar un estudio energético gratuito con Domoteknik.";
 
   const whatsappHref = `https://wa.me/34623974748?text=${encodeURIComponent(whatsappMessage)}`;
@@ -241,7 +216,7 @@ export function EnergySavingsSimulator() {
                         <em>{item.description}</em>
                       </span>
                       <span className="energy-sim-solution-range">
-                        {Math.round(item.savingMin * 100)}–{Math.round(item.savingMax * 100)}%
+                        {item.id === "loxone" ? "+" : ""}{Math.round(item.savingMin * 100)}%
                         <small>ahorro estimado</small>
                       </span>
                       <span className="energy-sim-solution-check"><FontAwesomeIcon icon={faCheck} /></span>
@@ -261,7 +236,7 @@ export function EnergySavingsSimulator() {
             </div>
           )}
 
-          {step === 2 && savingRange && (
+          {step === 2 && solutionIds.length > 0 && (
             <div className="energy-sim-step energy-sim-step-expense">
               <button className="energy-sim-back" type="button" onClick={() => setStep(1)}>
                 <FontAwesomeIcon icon={faArrowLeft} /> Cambiar solución
@@ -269,35 +244,50 @@ export function EnergySavingsSimulator() {
 
               <div className="energy-sim-step-heading">
                 <span>02 · Tu punto de partida</span>
-                <h2>¿Cuánto gastas al mes?</h2>
-                <p>Incluye tu consumo habitual de luz, energía o climatización.</p>
+                <h2>¿Qué tipo de propiedad tienes?</h2>
+              </div>
+
+              <div className="energy-sim-properties" role="radiogroup" aria-label="Tipo de propiedad">
+                {propertyTypes.map((property) => (
+                  <button
+                    className={propertyType === property.id ? "is-selected" : ""}
+                    type="button"
+                    role="radio"
+                    aria-checked={propertyType === property.id}
+                    onClick={() => setPropertyType(property.id)}
+                    key={property.id}
+                  >
+                    <FontAwesomeIcon icon={property.icon} />
+                    <strong>{property.label}</strong>
+                    <span><FontAwesomeIcon icon={faCheck} /></span>
+                  </button>
+                ))}
               </div>
 
               <div className="energy-sim-selected-chip">
                 <span><FontAwesomeIcon icon={selectionIcon} /></span>
                 <div><small>Has elegido</small><strong>{selectionTitle}</strong></div>
-                <em>{Math.round(savingRange.min * 100)}–{Math.round(savingRange.max * 100)}%</em>
+                <em>{Math.round(savingRate * 100)}%</em>
               </div>
 
               <div className="energy-sim-expense-card">
                 <div className="energy-sim-expense-value">
                   <span>Gasto medio mensual</span>
-                  <strong>{monthlyExpense}<small>€ / mes</small></strong>
+                  <label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="10"
+                      inputMode="numeric"
+                      value={monthlyExpense}
+                      aria-label="Gasto medio mensual en euros sin límite máximo"
+                      onChange={(event) => setMonthlyExpense(Math.max(0, Number(event.target.value) || 0))}
+                    />
+                    <small>€ / mes</small>
+                  </label>
                 </div>
 
-                <input
-                  className="energy-sim-range"
-                  type="range"
-                  min="50"
-                  max="600"
-                  step="10"
-                  value={monthlyExpense}
-                  aria-label="Gasto medio mensual en euros"
-                  style={{ "--range-progress": `${((monthlyExpense - 50) / 550) * 100}%` } as CSSProperties}
-                  onChange={(event) => setMonthlyExpense(Number(event.target.value))}
-                />
-
-                <div className="energy-sim-range-labels"><span>50 €</span><span>600 € o más</span></div>
+                <p className="energy-sim-no-limit">Escribe cualquier importe · sin límite máximo</p>
 
                 <div className="energy-sim-presets" aria-label="Gastos frecuentes">
                   {expensePresets.map((value) => (
@@ -318,13 +308,18 @@ export function EnergySavingsSimulator() {
                 <strong>{formatEuro(monthlyExpense * 12)} €</strong>
               </div>
 
-              <button className="energy-sim-primary" type="button" onClick={() => setStep(3)}>
+              <button
+                className="energy-sim-primary"
+                type="button"
+                disabled={!propertyType || monthlyExpense <= 0}
+                onClick={() => setStep(3)}
+              >
                 Calcular mi ahorro <FontAwesomeIcon icon={faArrowRight} />
               </button>
             </div>
           )}
 
-          {step === 3 && savingRange && result && (
+          {step === 3 && result && selectedProperty && (
             <div className="energy-sim-step energy-sim-step-result">
               <div className="energy-sim-result-top">
                 <button className="energy-sim-back" type="button" onClick={() => setStep(2)}>
@@ -337,13 +332,11 @@ export function EnergySavingsSimulator() {
                 <div>
                   <span>Tu ahorro anual estimado</span>
                   <h2>
-                    {formatEuro(result.savingMin)} €
-                    <small>—</small>
-                    {formatEuro(result.savingMax)} €
+                    {formatEuro(result.annualSaving)} €
                   </h2>
                   <p>al año con {selectionTitle}</p>
                 </div>
-                <strong>{Math.round(savingRange.min * 100)}–{Math.round(savingRange.max * 100)}<small>%</small></strong>
+                <strong>{Math.round(savingRate * 100)}<small>%</small></strong>
               </div>
 
               <div className="energy-sim-comparison">
@@ -358,13 +351,14 @@ export function EnergySavingsSimulator() {
                 </div>
                 <div className="energy-sim-meter-row is-future">
                   <span>Después</span>
-                  <div><i style={{ width: `${Math.max(15, (1 - savingRange.max) * 100)}%` }} /></div>
-                  <strong>{formatEuro(result.futureExpenseMin)}–{formatEuro(result.futureExpenseMax)} €</strong>
+                  <div><i style={{ width: `${Math.max(4, (1 - savingRate) * 100)}%` }} /></div>
+                  <strong>{formatEuro(result.futureExpense)} €</strong>
                 </div>
               </div>
 
-              <div className="energy-sim-result-facts">
+              <div className="energy-sim-result-facts has-property">
                 <div><span>Gasto indicado</span><strong>{monthlyExpense} € / mes</strong></div>
+                <div><span>Tipo de propiedad</span><strong>{selectedProperty.label}</strong></div>
                 <div><span>Soluciones elegidas</span><strong>{selectionTitle}</strong></div>
               </div>
 
