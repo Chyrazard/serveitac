@@ -84,8 +84,9 @@ export default function ProposalTwo() {
   return (
     <main className="proposal proposal-two" id="inicio">
       <Reveal />
-      <header className="m-header">
+      <header className="m-header has-simulator-cta">
         <Brand compact />
+        <a className="m-header-simulator" href="/simulador/">Simula tus gastos ya</a>
         <nav aria-label="Navegación principal">
           <a href="#servicios">Servicios</a>
           <a href="#nosotros">Domoteknik</a>
@@ -102,10 +103,18 @@ export default function ProposalTwo() {
               { href: "#nosotros", label: "Domoteknik" },
               { href: "#proceso", label: "Cómo funciona" },
               { href: "#preguntas", label: "Preguntas" },
+              { href: "/simulador/", label: "Simulador de ahorro" },
             ]}
           />
         </div>
       </header>
+
+      <a className="m-simulator-bar" href="/simulador/">
+        <span><FontAwesomeIcon icon={faBolt} /></span>
+        <small>Descubre tu potencial de ahorro</small>
+        <strong>Realiza tu simulación ahora</strong>
+        <FontAwesomeIcon icon={faArrowRight} />
+      </a>
 
       <section className="m-hero">
         <div className="m-hero-copy">

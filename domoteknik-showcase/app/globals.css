@@ -8,6 +8,1335 @@
   --ink: #17231f;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Domoteknik — simulador de ahorro                                           */
+/* -------------------------------------------------------------------------- */
+
+.m-header-simulator {
+  display: none;
+}
+
+.m-simulator-bar {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto;
+  align-items: center;
+  min-height: 58px;
+  padding: 0 5vw;
+  overflow: hidden;
+  color: #fdfdf9;
+  background: #1e3d30;
+  column-gap: 14px;
+}
+
+.m-simulator-bar::after {
+  position: absolute;
+  right: 10%;
+  width: 260px;
+  height: 100%;
+  background: radial-gradient(circle, rgba(185, 236, 104, 0.24), transparent 68%);
+  content: "";
+}
+
+.m-simulator-bar > span {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #1e3d30;
+  background: #b9ec68;
+  place-items: center;
+}
+
+.m-simulator-bar > span svg,
+.m-simulator-bar > svg {
+  width: 13px;
+}
+
+.m-simulator-bar > small {
+  color: #b9c8c0;
+  font-size: 11px;
+}
+
+.m-simulator-bar > strong {
+  color: #fff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.m-simulator-bar > svg {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  transition: transform 0.25s ease;
+}
+
+.m-simulator-bar:hover > svg {
+  transform: translateX(5px);
+}
+
+.simulator-page {
+  min-height: 100vh;
+  background: #f6f3e9;
+}
+
+.energy-sim-shell {
+  --sim-ink: #173329;
+  --sim-green: #5d9d32;
+  --sim-lime: #b9ec68;
+  --sim-cream: #f6f3e9;
+  --sim-line: rgba(23, 51, 41, 0.13);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(360px, 0.76fr) minmax(620px, 1.24fr);
+  min-height: calc(100vh - 98px);
+  overflow: hidden;
+  color: var(--sim-ink);
+  background:
+    linear-gradient(rgba(23, 51, 41, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 51, 41, 0.035) 1px, transparent 1px),
+    var(--sim-cream);
+  background-size: 42px 42px;
+}
+
+.energy-sim-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.energy-sim-glow-one {
+  top: -220px;
+  left: -180px;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, rgba(185, 236, 104, 0.24), transparent 69%);
+}
+
+.energy-sim-glow-two {
+  right: -240px;
+  bottom: -280px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(73, 142, 183, 0.16), transparent 68%);
+}
+
+.energy-sim-story,
+.energy-sim-workspace {
+  position: relative;
+  z-index: 1;
+}
+
+.energy-sim-story {
+  display: flex;
+  min-height: calc(100vh - 98px);
+  padding: 44px clamp(40px, 5vw, 88px) 52px;
+  border-right: 1px solid var(--sim-line);
+  flex-direction: column;
+}
+
+.energy-sim-back-home,
+.energy-sim-back {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 9px;
+  border: 0;
+  color: #577066;
+  background: transparent;
+  cursor: pointer;
+  font: 600 12px/1 "DM Sans", sans-serif;
+}
+
+.energy-sim-back-home svg,
+.energy-sim-back svg {
+  width: 13px;
+}
+
+.energy-sim-story-copy {
+  max-width: 540px;
+  margin-top: auto;
+}
+
+.energy-sim-eyebrow,
+.energy-sim-step-heading > span {
+  color: #64816f;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.energy-sim-story-copy h1 {
+  margin: 22px 0 26px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(50px, 4.6vw, 80px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.96;
+}
+
+.energy-sim-story-copy h1 em {
+  display: block;
+  color: var(--sim-green);
+  font-style: normal;
+}
+
+.energy-sim-story-copy p {
+  max-width: 470px;
+  margin: 0;
+  color: #5c6e66;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.energy-sim-orbit {
+  position: relative;
+  width: min(340px, 26vw);
+  aspect-ratio: 1;
+  margin: 38px auto 24px;
+}
+
+.energy-sim-orbit-ring {
+  position: absolute;
+  border: 1px solid rgba(93, 157, 50, 0.28);
+  border-radius: 50%;
+  inset: 12%;
+}
+
+.energy-sim-orbit-ring-two {
+  border-color: rgba(73, 142, 183, 0.22);
+  inset: 27%;
+}
+
+.energy-sim-orbit-core,
+.energy-sim-orbit-node {
+  position: absolute;
+  display: grid;
+  border-radius: 50%;
+  box-shadow: 0 18px 46px rgba(23, 51, 41, 0.16);
+  place-items: center;
+}
+
+.energy-sim-orbit-core {
+  top: 50%;
+  left: 50%;
+  width: 82px;
+  height: 82px;
+  color: #173329;
+  background: var(--sim-lime);
+  transform: translate(-50%, -50%);
+}
+
+.energy-sim-orbit-core svg {
+  width: 22px;
+}
+
+.energy-sim-orbit-node {
+  width: 54px;
+  height: 54px;
+  color: #fdfdf9;
+  background: #1e3d30;
+  animation: sim-node-float 4.2s ease-in-out infinite;
+}
+
+.energy-sim-orbit-node svg {
+  width: 17px;
+}
+
+.energy-sim-orbit-node.node-solar {
+  top: 2%;
+  left: 43%;
+  color: #f1c84a;
+}
+
+.energy-sim-orbit-node.node-air {
+  right: 3%;
+  bottom: 18%;
+  color: #8bd1e4;
+  animation-delay: -1.4s;
+}
+
+.energy-sim-orbit-node.node-home {
+  bottom: 16%;
+  left: 2%;
+  color: var(--sim-lime);
+  animation-delay: -2.8s;
+}
+
+.energy-sim-promise {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--sim-line);
+  color: #6c7d75;
+  font-size: 11px;
+}
+
+.energy-sim-promise > svg {
+  width: 12px;
+  color: var(--sim-green);
+}
+
+.energy-sim-promise strong {
+  color: var(--sim-ink);
+}
+
+.energy-sim-workspace {
+  display: flex;
+  min-width: 0;
+  padding: 46px clamp(34px, 5vw, 78px) 70px;
+  flex-direction: column;
+}
+
+.energy-sim-progress {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 660px;
+  margin: 0 auto 34px;
+  width: 100%;
+}
+
+.energy-sim-progress > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #9aa7a0;
+  gap: 9px;
+}
+
+.energy-sim-progress > div:not(:last-child)::after {
+  position: absolute;
+  top: 15px;
+  right: 12px;
+  left: 42px;
+  height: 1px;
+  background: #cdd5d0;
+  content: "";
+}
+
+.energy-sim-progress > div.is-complete:not(:last-child)::after {
+  background: var(--sim-green);
+}
+
+.energy-sim-progress span {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #cdd5d0;
+  border-radius: 50%;
+  background: var(--sim-cream);
+  font-size: 10px;
+  font-weight: 800;
+  place-items: center;
+}
+
+.energy-sim-progress span svg {
+  width: 10px;
+}
+
+.energy-sim-progress small {
+  position: relative;
+  z-index: 1;
+  padding-right: 10px;
+  background: var(--sim-cream);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.energy-sim-progress .is-complete {
+  color: var(--sim-green);
+}
+
+.energy-sim-progress .is-complete span {
+  border-color: var(--sim-green);
+  color: #fff;
+  background: var(--sim-green);
+}
+
+.energy-sim-panel {
+  width: 100%;
+  max-width: 820px;
+  margin: auto;
+  animation: sim-panel-enter 0.42s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.energy-sim-step-heading {
+  margin-bottom: 28px;
+}
+
+.energy-sim-step-heading h2 {
+  margin: 10px 0 8px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.energy-sim-step-heading p {
+  margin: 0;
+  color: #6b7a73;
+  font-size: 13px;
+}
+
+.energy-sim-solutions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.energy-sim-solution {
+  position: relative;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 142px;
+  padding: 20px 18px;
+  overflow: hidden;
+  border: 1px solid rgba(23, 51, 41, 0.14);
+  color: var(--sim-ink);
+  background: rgba(255, 255, 252, 0.76);
+  cursor: pointer;
+  font-family: inherit;
+  gap: 14px;
+  text-align: left;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.energy-sim-solution::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: var(--solution-color, var(--sim-green));
+  content: "";
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.energy-sim-solution.is-sun { --solution-color: #e3b92f; }
+.energy-sim-solution.is-air { --solution-color: #4f9dbc; }
+.energy-sim-solution.is-smart { --solution-color: #5d9d32; }
+.energy-sim-solution.is-pack { --solution-color: #1e3d30; }
+
+.energy-sim-solution:hover,
+.energy-sim-solution.is-selected {
+  border-color: var(--solution-color);
+  box-shadow: 0 18px 46px rgba(23, 51, 41, 0.11);
+  transform: translateY(-3px);
+}
+
+.energy-sim-solution.is-selected::before {
+  opacity: 1;
+}
+
+.energy-sim-solution-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--solution-color);
+  background: color-mix(in srgb, var(--solution-color) 12%, white);
+  place-items: center;
+}
+
+.energy-sim-solution-icon svg {
+  width: 17px;
+}
+
+.energy-sim-solution-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.energy-sim-solution-copy small {
+  color: var(--solution-color);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.energy-sim-solution-copy strong {
+  margin-top: 4px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.energy-sim-solution-copy em {
+  margin-top: 5px;
+  color: #75827b;
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.energy-sim-solution-range {
+  display: flex;
+  align-items: flex-end;
+  color: var(--solution-color);
+  font-size: 18px;
+  font-weight: 800;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.energy-sim-solution-range small {
+  margin-top: 3px;
+  color: #8a968f;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.energy-sim-solution-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--solution-color);
+  opacity: 0;
+  place-items: center;
+  transform: scale(0.5);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.energy-sim-solution-check svg {
+  width: 8px;
+}
+
+.energy-sim-solution.is-selected .energy-sim-solution-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.energy-sim-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 66px;
+  margin-top: 24px;
+  padding: 0 26px;
+  border: 0;
+  color: #fff;
+  background: var(--sim-ink);
+  box-shadow: 0 18px 38px rgba(23, 51, 41, 0.18);
+  cursor: pointer;
+  font: 700 13px/1 "DM Sans", sans-serif;
+  transition: background-color 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+}
+
+.energy-sim-primary:hover:not(:disabled) {
+  background: var(--sim-green);
+  transform: translateY(-2px);
+}
+
+.energy-sim-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.32;
+}
+
+.energy-sim-primary svg {
+  width: 14px;
+}
+
+.energy-sim-back {
+  margin-bottom: 24px;
+}
+
+.energy-sim-selected-chip {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--sim-line);
+  background: rgba(255, 255, 252, 0.66);
+  gap: 12px;
+}
+
+.energy-sim-selected-chip > span {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--sim-green);
+  background: rgba(93, 157, 50, 0.12);
+  place-items: center;
+}
+
+.energy-sim-selected-chip > span svg {
+  width: 14px;
+}
+
+.energy-sim-selected-chip div {
+  display: flex;
+  flex-direction: column;
+}
+
+.energy-sim-selected-chip small {
+  color: #829088;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.energy-sim-selected-chip strong {
+  margin-top: 3px;
+  font-size: 13px;
+}
+
+.energy-sim-selected-chip em {
+  color: var(--sim-green);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.energy-sim-expense-card {
+  padding: clamp(28px, 4vw, 48px);
+  color: #fff;
+  background: var(--sim-ink);
+  box-shadow: 0 24px 64px rgba(23, 51, 41, 0.2);
+}
+
+.energy-sim-expense-value {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 34px;
+  gap: 20px;
+}
+
+.energy-sim-expense-value > span {
+  color: #a8bab0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.energy-sim-expense-value strong {
+  display: flex;
+  align-items: baseline;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(52px, 6vw, 76px);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.8;
+  gap: 8px;
+}
+
+.energy-sim-expense-value strong small {
+  color: var(--sim-lime);
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.energy-sim-range {
+  --range-progress: 27%;
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  outline: none;
+  background: linear-gradient(90deg, var(--sim-lime) var(--range-progress), rgba(255, 255, 255, 0.16) var(--range-progress));
+  cursor: pointer;
+  appearance: none;
+}
+
+.energy-sim-range::-webkit-slider-thumb {
+  width: 24px;
+  height: 24px;
+  border: 5px solid var(--sim-ink);
+  border-radius: 50%;
+  background: var(--sim-lime);
+  box-shadow: 0 0 0 2px var(--sim-lime);
+  appearance: none;
+}
+
+.energy-sim-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 4px solid var(--sim-ink);
+  border-radius: 50%;
+  background: var(--sim-lime);
+  box-shadow: 0 0 0 2px var(--sim-lime);
+}
+
+.energy-sim-range-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  color: #8fa399;
+  font-size: 9px;
+}
+
+.energy-sim-presets {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: 30px;
+  gap: 8px;
+}
+
+.energy-sim-presets button {
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #b8c7c0;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font: 700 10px/1 "DM Sans", sans-serif;
+}
+
+.energy-sim-presets button:hover,
+.energy-sim-presets button.is-active {
+  border-color: var(--sim-lime);
+  color: var(--sim-ink);
+  background: var(--sim-lime);
+}
+
+.energy-sim-current-year {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 2px 0;
+  color: #718078;
+  font-size: 11px;
+}
+
+.energy-sim-current-year strong {
+  color: var(--sim-ink);
+  font-size: 16px;
+}
+
+.energy-sim-result-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.energy-sim-result-top .energy-sim-back {
+  margin: 0;
+}
+
+.energy-sim-result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--sim-green);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.energy-sim-result-badge svg {
+  width: 10px;
+}
+
+.energy-sim-result-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  min-height: 230px;
+  padding: clamp(30px, 4vw, 48px);
+  overflow: hidden;
+  color: #fff;
+  background: var(--sim-ink);
+  gap: 30px;
+}
+
+.energy-sim-result-hero::before {
+  position: absolute;
+  top: -90px;
+  right: -70px;
+  width: 300px;
+  height: 300px;
+  border: 1px solid rgba(185, 236, 104, 0.25);
+  border-radius: 50%;
+  box-shadow: 0 0 0 45px rgba(185, 236, 104, 0.04), 0 0 0 90px rgba(185, 236, 104, 0.025);
+  content: "";
+}
+
+.energy-sim-result-hero > div,
+.energy-sim-result-hero > strong {
+  position: relative;
+  z-index: 1;
+}
+
+.energy-sim-result-hero > div > span {
+  color: #a8bab0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.energy-sim-result-hero h2 {
+  display: flex;
+  align-items: center;
+  margin: 14px 0 8px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(40px, 5vw, 66px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+  gap: 10px;
+}
+
+.energy-sim-result-hero h2 small {
+  color: var(--sim-lime);
+  font-size: 22px;
+}
+
+.energy-sim-result-hero p {
+  margin: 0;
+  color: #adc0b6;
+  font-size: 11px;
+}
+
+.energy-sim-result-hero > strong {
+  display: flex;
+  align-items: flex-end;
+  color: var(--sim-lime);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 50px;
+  font-weight: 500;
+}
+
+.energy-sim-result-hero > strong small {
+  margin-bottom: 5px;
+  font: 700 13px/1 "DM Sans", sans-serif;
+}
+
+.energy-sim-comparison {
+  padding: 24px 26px;
+  border: 1px solid var(--sim-line);
+  border-top: 0;
+  background: rgba(255, 255, 252, 0.7);
+}
+
+.energy-sim-comparison-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.energy-sim-comparison-head small {
+  color: #8b9790;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.energy-sim-meter-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 110px;
+  align-items: center;
+  gap: 13px;
+}
+
+.energy-sim-meter-row + .energy-sim-meter-row {
+  margin-top: 13px;
+}
+
+.energy-sim-meter-row > span {
+  color: #7c8982;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.energy-sim-meter-row > div {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e1e6e2;
+}
+
+.energy-sim-meter-row i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #9eaaa4;
+}
+
+.energy-sim-meter-row.is-future i {
+  background: var(--sim-green);
+}
+
+.energy-sim-meter-row strong {
+  color: var(--sim-ink);
+  font-size: 11px;
+  text-align: right;
+}
+
+.energy-sim-result-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 14px;
+  border: 1px solid var(--sim-line);
+  background: rgba(255, 255, 252, 0.7);
+}
+
+.energy-sim-result-facts > div {
+  display: flex;
+  min-height: 70px;
+  justify-content: center;
+  padding: 15px 20px;
+  flex-direction: column;
+}
+
+.energy-sim-result-facts > div + div {
+  border-left: 1px solid var(--sim-line);
+}
+
+.energy-sim-result-facts span {
+  color: #8a968f;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.energy-sim-result-facts strong {
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.energy-sim-disclaimer {
+  margin: 14px 0;
+  color: #77857e;
+  font-size: 10px;
+  text-align: center;
+}
+
+.energy-sim-whatsapp {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  min-height: 78px;
+  padding: 12px 20px;
+  color: #fff;
+  background: #1ead5b;
+  box-shadow: 0 18px 40px rgba(30, 173, 91, 0.22);
+  gap: 14px;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.energy-sim-whatsapp:hover {
+  background: #178f4b;
+  transform: translateY(-2px);
+}
+
+.energy-sim-whatsapp > span {
+  display: grid;
+  width: 45px;
+  height: 45px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  place-items: center;
+}
+
+.energy-sim-whatsapp > span svg {
+  width: 20px;
+}
+
+.energy-sim-whatsapp > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.energy-sim-whatsapp small {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 9px;
+}
+
+.energy-sim-whatsapp strong {
+  margin-top: 3px;
+  font-size: 13px;
+}
+
+.energy-sim-whatsapp > svg {
+  width: 14px;
+}
+
+.energy-sim-reset {
+  display: flex;
+  align-items: center;
+  margin: 16px auto 0;
+  border: 0;
+  color: #6e7d75;
+  background: transparent;
+  cursor: pointer;
+  font: 600 10px/1 "DM Sans", sans-serif;
+  gap: 8px;
+}
+
+.energy-sim-reset svg {
+  width: 11px;
+}
+
+.energy-sim-footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 150px;
+  padding: 34px 5vw 82px;
+  color: #c4d0ca;
+  background: #173329;
+  gap: 30px;
+}
+
+.energy-sim-footer .brand {
+  width: 190px;
+  filter: brightness(0) invert(1);
+}
+
+.energy-sim-footer p {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 17px;
+}
+
+.energy-sim-footer > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  font-size: 11px;
+}
+
+@keyframes sim-panel-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sim-node-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (max-width: 1180px) {
+  .energy-sim-shell {
+    grid-template-columns: 0.72fr 1.28fr;
+  }
+
+  .energy-sim-story {
+    padding-right: 38px;
+    padding-left: 38px;
+  }
+
+  .energy-sim-orbit {
+    width: 270px;
+  }
+
+  .energy-sim-solution {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .energy-sim-solution-range {
+    align-items: flex-start;
+    grid-column: 2;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 900px) {
+  .m-header.has-simulator-cta {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .m-header-simulator {
+    display: inline-flex;
+    align-items: center;
+    justify-self: center;
+    min-height: 37px;
+    max-width: 145px;
+    padding: 0 12px;
+    border: 1px solid rgba(40, 77, 59, 0.23);
+    color: #284d3b;
+    background: rgba(220, 235, 225, 0.64);
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+  }
+
+  .m-simulator-bar {
+    display: none;
+  }
+
+  .energy-sim-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .energy-sim-story {
+    min-height: auto;
+    padding: 42px 6vw 34px;
+    border-right: 0;
+    border-bottom: 1px solid var(--sim-line);
+  }
+
+  .energy-sim-story-copy {
+    margin-top: 60px;
+  }
+
+  .energy-sim-story-copy h1 {
+    font-size: clamp(52px, 9vw, 76px);
+  }
+
+  .energy-sim-orbit {
+    position: absolute;
+    right: -85px;
+    bottom: -70px;
+    width: 310px;
+    opacity: 0.24;
+  }
+
+  .energy-sim-promise {
+    margin-top: 48px;
+  }
+
+  .energy-sim-workspace {
+    padding: 34px 6vw 110px;
+  }
+
+  .energy-sim-panel {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 620px) {
+  .m-header.has-simulator-cta {
+    min-height: 72px;
+    padding: 0 12px;
+  }
+
+  .m-header.has-simulator-cta > .brand {
+    width: 104px;
+  }
+
+  .m-header-simulator {
+    max-width: 112px;
+    min-height: 34px;
+    padding: 0 8px;
+    font-size: 8px;
+  }
+
+  .simulator-site-header .m-header-call {
+    display: none;
+  }
+
+  .energy-sim-story {
+    padding: 30px 20px 28px;
+  }
+
+  .energy-sim-story-copy {
+    margin-top: 46px;
+  }
+
+  .energy-sim-story-copy h1 {
+    margin-top: 16px;
+    font-size: 48px;
+  }
+
+  .energy-sim-story-copy p {
+    font-size: 14px;
+  }
+
+  .energy-sim-orbit {
+    right: -120px;
+    bottom: -90px;
+  }
+
+  .energy-sim-workspace {
+    padding: 26px 16px 110px;
+  }
+
+  .energy-sim-progress {
+    margin-bottom: 28px;
+  }
+
+  .energy-sim-progress small {
+    display: none;
+  }
+
+  .energy-sim-progress > div:not(:last-child)::after {
+    right: 8px;
+    left: 38px;
+  }
+
+  .energy-sim-step-heading h2 {
+    font-size: 43px;
+  }
+
+  .energy-sim-solutions {
+    grid-template-columns: 1fr;
+  }
+
+  .energy-sim-solution {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    min-height: 126px;
+  }
+
+  .energy-sim-solution-range {
+    align-items: flex-end;
+    grid-column: auto;
+  }
+
+  .energy-sim-primary {
+    padding: 0 20px;
+    font-size: 11px;
+  }
+
+  .energy-sim-selected-chip {
+    grid-template-columns: auto 1fr;
+  }
+
+  .energy-sim-selected-chip > em {
+    display: none;
+  }
+
+  .energy-sim-expense-card {
+    padding: 30px 20px;
+  }
+
+  .energy-sim-expense-value {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .energy-sim-expense-value strong {
+    font-size: 62px;
+  }
+
+  .energy-sim-presets {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .energy-sim-current-year {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .energy-sim-result-top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .energy-sim-result-hero {
+    grid-template-columns: 1fr;
+    min-height: 280px;
+  }
+
+  .energy-sim-result-hero h2 {
+    align-items: flex-start;
+    font-size: 47px;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .energy-sim-result-hero h2 small {
+    font-size: 17px;
+  }
+
+  .energy-sim-result-hero > strong {
+    font-size: 38px;
+  }
+
+  .energy-sim-comparison {
+    padding: 22px 16px;
+  }
+
+  .energy-sim-comparison-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .energy-sim-meter-row {
+    grid-template-columns: 52px 1fr;
+  }
+
+  .energy-sim-meter-row > strong {
+    grid-column: 2;
+  }
+
+  .energy-sim-result-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .energy-sim-result-facts > div + div {
+    border-top: 1px solid var(--sim-line);
+    border-left: 0;
+  }
+
+  .energy-sim-whatsapp {
+    grid-template-columns: auto 1fr;
+    min-height: 88px;
+    padding: 13px 14px;
+  }
+
+  .energy-sim-whatsapp > svg {
+    display: none;
+  }
+
+  .energy-sim-whatsapp strong {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .energy-sim-footer {
+    grid-template-columns: 1fr;
+    padding: 48px 22px 100px;
+  }
+
+  .energy-sim-footer p {
+    font-size: 15px;
+  }
+
+  .energy-sim-footer > div {
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .energy-sim-panel,
+  .energy-sim-orbit-node {
+    animation: none;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

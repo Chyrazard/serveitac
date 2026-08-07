@@ -3,13 +3,15 @@ import Image from "next/image";
 export function Brand({
   dark = false,
   compact = false,
+  href = "#inicio",
 }: {
   dark?: boolean;
   compact?: boolean;
+  href?: string;
 }) {
   return (
     <a
-      href="#inicio"
+      href={href}
       className={`brand ${dark ? "brand-dark" : ""} ${
         compact ? "brand-compact" : ""
       }`}
