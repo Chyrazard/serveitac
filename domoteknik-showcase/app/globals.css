@@ -381,8 +381,9 @@
 }
 
 .m-simulator-bar {
-  position: relative;
-  z-index: 4;
+  position: sticky;
+  z-index: 85;
+  top: 98px;
   display: grid;
   grid-template-columns: auto auto 1fr;
   align-items: center;
@@ -391,7 +392,14 @@
   overflow: hidden;
   color: #fdfdf9;
   background: #1e3d30;
+  box-shadow: 0 10px 28px rgba(23, 51, 41, 0.12);
   column-gap: 14px;
+  transition: top 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.m-header.is-scrolled + .m-simulator-bar {
+  top: 72px;
+  box-shadow: 0 14px 34px rgba(23, 51, 41, 0.2);
 }
 
 .m-simulator-bar::after {
