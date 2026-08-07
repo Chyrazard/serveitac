@@ -31,7 +31,7 @@ export default function SimulatorPage() {
     <main className="proposal proposal-two simulator-page" id="inicio">
       <header className="m-header has-simulator-cta simulator-site-header">
         <Brand compact href="/" />
-        <a className="m-header-simulator" href="/simulador/">Simula tus gastos ya</a>
+        <a className="m-header-simulator" href="#simulator-title">Simular ahora</a>
         <nav aria-label="Navegación principal">
           <a href="/">Inicio</a>
           <a href="/#servicios">Servicios</a>
