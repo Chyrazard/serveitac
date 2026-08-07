@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
@@ -86,7 +87,6 @@ const solutions: Solution[] = [
   },
 ];
 
-const expensePresets = [100, 150, 200, 300, 600, 1000, 2000, 3000];
 const propertyTypes = [
   { id: "house" as const, label: "Casa", icon: faHouse },
   { id: "apartment" as const, label: "Piso", icon: faBuilding },
@@ -98,7 +98,7 @@ function formatEuro(value: number) {
 }
 
 export function EnergySavingsSimulator() {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [solutionIds, setSolutionIds] = useState<SolutionId[]>([]);
   const [propertyType, setPropertyType] = useState<PropertyType | null>(null);
   const [monthlyExpense, setMonthlyExpense] = useState(150);
@@ -160,6 +160,7 @@ export function EnergySavingsSimulator() {
   };
 
   const selectedProperty = propertyTypes.find((item) => item.id === propertyType);
+  const sliderMax = Math.max(3000, Math.ceil(monthlyExpense / 1000) * 1000);
   const whatsappMessage = result && selectedProperty
     ? `Hola, he simulado un gasto de ${monthlyExpense}€/mes para una ${selectedProperty.label.toLowerCase()} con interés en ${selectionTitle} y quiero mi propuesta detallada. El ahorro estimado mostrado es de ${formatEuro(result.annualSaving)}€ al año.`
     : "Hola, quiero realizar un estudio energético gratuito con Domoteknik.";
@@ -182,11 +183,11 @@ export function EnergySavingsSimulator() {
           </div>
         </div>
 
-        <div className="energy-sim-progress" aria-label={`Paso ${step} de 3`}>
-          {[1, 2, 3].map((item) => (
+        <div className="energy-sim-progress" aria-label={`Paso ${step} de 4`}>
+          {[1, 2, 3, 4].map((item) => (
             <div className={item <= step ? "is-complete" : ""} key={item}>
               <span>{item < step ? <FontAwesomeIcon icon={faCheck} /> : item}</span>
-              <small>{item === 1 ? "Solución" : item === 2 ? "Consumo" : "Tu ahorro"}</small>
+              <small>{item === 1 ? "Soluciones" : item === 2 ? "Propiedad" : item === 3 ? "Consumo" : "Tu ahorro"}</small>
             </div>
           ))}
         </div>
@@ -231,13 +232,13 @@ export function EnergySavingsSimulator() {
                 disabled={!solutionIds.length}
                 onClick={() => setStep(2)}
               >
-                Continuar con mi consumo <FontAwesomeIcon icon={faArrowRight} />
+                Siguiente: tipo de propiedad <FontAwesomeIcon icon={faArrowRight} />
               </button>
             </div>
           )}
 
           {step === 2 && solutionIds.length > 0 && (
-            <div className="energy-sim-step energy-sim-step-expense">
+            <div className="energy-sim-step energy-sim-step-property">
               <button className="energy-sim-back" type="button" onClick={() => setStep(1)}>
                 <FontAwesomeIcon icon={faArrowLeft} /> Cambiar solución
               </button>
@@ -270,6 +271,34 @@ export function EnergySavingsSimulator() {
                 <em>{Math.round(savingRate * 100)}%</em>
               </div>
 
+              <button
+                className="energy-sim-primary"
+                type="button"
+                disabled={!propertyType}
+                onClick={() => setStep(3)}
+              >
+                Siguiente: indicar gasto <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+            </div>
+          )}
+
+          {step === 3 && selectedProperty && (
+            <div className="energy-sim-step energy-sim-step-expense">
+              <button className="energy-sim-back" type="button" onClick={() => setStep(2)}>
+                <FontAwesomeIcon icon={faArrowLeft} /> Cambiar propiedad
+              </button>
+
+              <div className="energy-sim-step-heading">
+                <span>03 · Tu consumo</span>
+                <h2>¿Cuánto gastas al mes?</h2>
+              </div>
+
+              <div className="energy-sim-selected-chip">
+                <span><FontAwesomeIcon icon={selectedProperty.icon} /></span>
+                <div><small>{selectedProperty.label}</small><strong>{selectionTitle}</strong></div>
+                <em>{Math.round(savingRate * 100)}%</em>
+              </div>
+
               <div className="energy-sim-expense-card">
                 <div className="energy-sim-expense-value">
                   <span>Gasto medio mensual</span>
@@ -289,17 +318,21 @@ export function EnergySavingsSimulator() {
 
                 <p className="energy-sim-no-limit">Escribe cualquier importe · sin límite máximo</p>
 
-                <div className="energy-sim-presets" aria-label="Gastos frecuentes">
-                  {expensePresets.map((value) => (
-                    <button
-                      className={monthlyExpense === value ? "is-active" : ""}
-                      type="button"
-                      onClick={() => setMonthlyExpense(value)}
-                      key={value}
-                    >
-                      {value} €
-                    </button>
-                  ))}
+                <input
+                  className="energy-sim-range"
+                  type="range"
+                  min="0"
+                  max={sliderMax}
+                  step="10"
+                  value={monthlyExpense}
+                  aria-label="Ajustar gasto mensual"
+                  style={{ "--range-progress": `${(monthlyExpense / sliderMax) * 100}%` } as CSSProperties}
+                  onChange={(event) => setMonthlyExpense(Number(event.target.value))}
+                />
+
+                <div className="energy-sim-range-labels">
+                  <span>0 €</span>
+                  <span>{formatEuro(sliderMax)} €</span>
                 </div>
               </div>
 
@@ -311,18 +344,18 @@ export function EnergySavingsSimulator() {
               <button
                 className="energy-sim-primary"
                 type="button"
-                disabled={!propertyType || monthlyExpense <= 0}
-                onClick={() => setStep(3)}
+                disabled={monthlyExpense <= 0}
+                onClick={() => setStep(4)}
               >
                 Calcular mi ahorro <FontAwesomeIcon icon={faArrowRight} />
               </button>
             </div>
           )}
 
-          {step === 3 && result && selectedProperty && (
+          {step === 4 && result && selectedProperty && (
             <div className="energy-sim-step energy-sim-step-result">
               <div className="energy-sim-result-top">
-                <button className="energy-sim-back" type="button" onClick={() => setStep(2)}>
+                <button className="energy-sim-back" type="button" onClick={() => setStep(3)}>
                   <FontAwesomeIcon icon={faArrowLeft} /> Ajustar consumo
                 </button>
                 <span className="energy-sim-result-badge"><FontAwesomeIcon icon={faCheck} /> Simulación completada</span>
