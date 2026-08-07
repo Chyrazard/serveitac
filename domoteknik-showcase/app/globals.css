@@ -480,6 +480,31 @@
 .energy-sim-solution.is-smart { --solution-color: #5d9d32; }
 .energy-sim-solution.is-pack { --solution-color: #1e3d30; }
 
+.energy-sim-solution.is-recommended {
+  border-color: rgba(93, 157, 50, 0.5);
+  background: linear-gradient(135deg, rgba(185, 236, 104, 0.16), rgba(255, 255, 252, 0.88));
+  box-shadow: 0 16px 38px rgba(93, 157, 50, 0.12);
+}
+
+.energy-sim-recommended {
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--sim-green);
+  box-shadow: 0 6px 18px rgba(93, 157, 50, 0.24);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .energy-sim-solution:hover,
 .energy-sim-solution.is-selected {
   border-color: var(--solution-color);

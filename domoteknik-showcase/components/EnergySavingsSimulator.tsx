@@ -32,9 +32,21 @@ type Solution = {
   savingMax: number;
   icon: typeof faSolarPanel;
   accent: string;
+  recommended?: boolean;
 };
 
 const solutions: Solution[] = [
+  {
+    id: "loxone",
+    short: "Control total",
+    title: "Domótica",
+    description: "Tu vivienda decide cuándo y cómo consumir para evitar desperdicios.",
+    savingMin: 0.1,
+    savingMax: 0.1,
+    icon: faHouseSignal,
+    accent: "smart",
+    recommended: true,
+  },
   {
     id: "solar",
     short: "Generación fotovoltaica",
@@ -75,20 +87,10 @@ const solutions: Solution[] = [
     icon: faPlug,
     accent: "charger",
   },
-  {
-    id: "loxone",
-    short: "Control total",
-    title: "Domótica",
-    description: "Tu vivienda decide cuándo y cómo consumir para evitar desperdicios.",
-    savingMin: 0.1,
-    savingMax: 0.1,
-    icon: faHouseSignal,
-    accent: "smart",
-  },
 ];
 
 const propertyTypes = [
-  { id: "house" as const, label: "Casa", icon: faHouse },
+  { id: "house" as const, label: "Chalet", icon: faHouse },
   { id: "apartment" as const, label: "Piso", icon: faBuilding },
   { id: "industrial" as const, label: "Nave", icon: faIndustry },
 ];
@@ -221,12 +223,13 @@ export function EnergySavingsSimulator() {
                   const selected = solutionIds.includes(item.id);
                   return (
                     <button
-                      className={`energy-sim-solution is-${item.accent} ${selected ? "is-selected" : ""}`}
+                      className={`energy-sim-solution is-${item.accent} ${item.recommended ? "is-recommended" : ""} ${selected ? "is-selected" : ""}`}
                       type="button"
                       aria-pressed={selected}
                       onClick={() => toggleSolution(item.id)}
                       key={item.id}
                     >
+                      {item.recommended && <span className="energy-sim-recommended">Recomendado</span>}
                       <span className="energy-sim-solution-icon"><FontAwesomeIcon icon={item.icon} /></span>
                       <span className="energy-sim-solution-copy">
                         <small>{item.short}</small>
